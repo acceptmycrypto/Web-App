@@ -1,0 +1,1 @@
+INSERT INTO questions (question) VALUES ("1+1");

@@ -1,0 +1,9 @@
+CREATE DATABASE q_db;
+
+USE q_db;
+
+CREATE TABLE questions(
+	id INT NOT NULL AUTO_INCREMENT,
+	question TEXT NOT NULL,
+	PRIMARY KEY (id)
+);
