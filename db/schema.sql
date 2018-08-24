@@ -1,9 +1,4 @@
-CREATE DATABASE q_db;
+DROP DATABASE IF EXISTS crypto_db;
+CREATE DATABASE crypto_db;
 
-USE q_db;
-
-CREATE TABLE questions(
-	id INT NOT NULL AUTO_INCREMENT,
-	question TEXT NOT NULL,
-	PRIMARY KEY (id)
-);
+USE crypto_db;
