@@ -20,3 +20,11 @@ CREATE TABLE business (
 	PRIMARY KEY (id),
     FOREIGN KEY business(id) REFERENCES crypto(id)
 );
+
+CREATE TABLE userInput (
+	id INT NOT NULL AUTO_INCREMENT,
+	user_email TEXT NOT NULL,
+	cryptoCurrency VARCHAR(255) NOT NULL, 
+	merchant VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+);
