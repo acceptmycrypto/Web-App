@@ -11,3 +11,12 @@ CREATE TABLE crypto(
 	currency_link VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id)
 );
+
+CREATE TABLE business (
+	id INT NOT NULL AUTO_INCREMENT,
+	business_name VARCHAR(255) NOT NULL,
+	business_discription TEXT NOT NULL, 
+	business_link VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id),
+    FOREIGN KEY business(id) REFERENCES crypto(id)
+);
