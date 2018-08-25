@@ -1,7 +1,22 @@
 var express = require('express');
 var app = express();
+var mysql = require('mysql');
 var request = require('request');
 var async = require('async');
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+
+  // Your port; if not 3306
+  port: 3306,
+
+  // Your username
+  user: 'root',
+
+  // Your password
+  password: 'password',
+  database: 'crypto_db'
+});
 
 //pass options as a param to request
 var options = [
@@ -9,7 +24,7 @@ var options = [
     method: 'GET',
     uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info',
     qs: {
-      symbol: 'BTC,ETH,LTC'
+      symbol: 'BTC,ETH'
     },
     headers: {
       'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
@@ -18,10 +33,9 @@ var options = [
   },
   {
     method: 'GET',
-    uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+    uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',
     qs: {
-      limit: '10',
-      convert: 'USD'
+      symbol: 'BTC,ETH'
     },
     headers: {
       'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
@@ -50,9 +64,46 @@ async.map(
     if (err) {
       console.log(err);
     } else {
-      for (var i = 0; i < results.length; i++) {
-        console.log(results[i].data);
+      var coin_info = results[0].data;
+      var coin_metadata = results[1].data;
+
+      for (var i in coin_metadata) {
+        var crypto_name = coin_metadata[i].name;
+        var crypto_symbol = coin_metadata[i].symbol;
+        var crypto_price = coin_metadata[i].quote.USD.price;
+
+        connection.query(
+          'INSERT INTO crypto_metadata SET ?',
+          {
+            crypto_name: crypto_name,
+            crypto_symbol: crypto_symbol,
+            crypto_price: crypto_price
+          },
+          function(err, res) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
       }
+
+      for (var j in coin_info) {
+        crypto_site = coin_info[j].urls.website[0];
+        crypto_logo = coin_info[j].logo;
+        connection.query(
+          'INSERT INTO crypto_info SET ?',
+          {
+            crypto_logo: crypto_logo,
+            crypto_link: crypto_site
+          },
+          function(err, res) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
+      }
+      
     }
   }
 );
