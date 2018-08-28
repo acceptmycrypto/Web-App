@@ -20,13 +20,13 @@ CREATE TABLE crypto_info(
 	FOREIGN KEY (crypto_metadata_id) REFERENCES crypto_metadata(id)
 );
 
-CREATE TABLE business (
+CREATE TABLE venues (
 	id INT NOT NULL AUTO_INCREMENT,
-	business_name VARCHAR(255) NOT NULL,
-	business_description VARCHAR NOT NULL,
-	business_link VARCHAR(255) NOT NULL,
+	venue_name VARCHAR(255) NOT NULL,
+	venue_description VARCHAR NOT NULL,
+	venue_link VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id),
-  FOREIGN KEY business(id) REFERENCES crypto(id)
+  FOREIGN KEY venues(id) REFERENCES crypto(id)
 );
 
 CREATE TABLE userInput (
