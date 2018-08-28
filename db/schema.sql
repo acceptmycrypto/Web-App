@@ -22,18 +22,19 @@ CREATE TABLE crypto_info(
 
 -- CREATE TABLE venues (
 -- 	id INT NOT NULL AUTO_INCREMENT,
+-- 	crypto_metadata_id INT NULL,
 -- 	venue_name VARCHAR(255) NOT NULL,
 -- 	venue_description VARCHAR NOT NULL,
 -- 	venue_link VARCHAR(255) NOT NULL,
 -- 	PRIMARY KEY (id),
---   FOREIGN KEY venues(id) REFERENCES crypto(id)
+--   FOREIGN KEY venues(crypto_metadata_id) REFERENCES crypto_metadata(id)
 -- );
 
--- CREATE TABLE userInput (
--- 	id INT NOT NULL AUTO_INCREMENT,
--- 	user_email VARCHAR(255) NOT NULL,
--- 	crypto_name VARCHAR(255) NOT NULL,
--- 	venue VARCHAR(255) NOT NULL,
--- 	venue_link VARCHAR(255) NOT NULL
--- 	PRIMARY KEY (id)
--- );
+CREATE TABLE userInput (
+	id INT NOT NULL AUTO_INCREMENT,
+	user_email VARCHAR(255) NOT NULL,
+	crypto_name VARCHAR(255) NOT NULL,
+	venue VARCHAR(255) NOT NULL,
+	venue_link VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+);
