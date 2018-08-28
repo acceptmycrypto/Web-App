@@ -33,6 +33,7 @@ CREATE TABLE userInput (
 	id INT NOT NULL AUTO_INCREMENT,
 	user_email VARCHAR(255) NOT NULL,
 	crypto_name VARCHAR(255) NOT NULL,
-	merchant VARCHAR(255) NOT NULL,
+	venue VARCHAR(255) NOT NULL,
+	venue_link VARCHAR(255) NOT NULL
 	PRIMARY KEY (id)
 );
