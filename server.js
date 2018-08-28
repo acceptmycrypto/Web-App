@@ -88,8 +88,8 @@ async.map(
       }
 
       for (var j in coin_info) {
-        crypto_site = coin_info[j].urls.website[0];
-        crypto_logo = coin_info[j].logo;
+        var crypto_site = coin_info[j].urls.website[0];
+        var crypto_logo = coin_info[j].logo;
         connection.query(
           'INSERT INTO crypto_info SET ?',
           {
@@ -103,7 +103,7 @@ async.map(
           }
         );
       }
-      
+
     }
   }
 );
@@ -111,9 +111,18 @@ async.map(
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-// index page
-app.get('/', function(req, res) {
+app.get('/cryptos', function(req, res) {
   res.render('pages/index');
+});
+
+app.get('/cryptos/:crypto', function(req, res) {
+  res.render('pages/crypto');
+  console.log(req.params.crypto);
+});
+
+app.get('/venues/:venue', function(req, res) {
+  res.render('pages/venues');
+  console.log(req.params.venue);
 });
 
 app.listen(3000, function() {
