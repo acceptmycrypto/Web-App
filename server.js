@@ -3,6 +3,14 @@ var app = express();
 var mysql = require('mysql');
 var request = require('request');
 var async = require('async');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var path = require("path");
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static("public"));
+app.use(methodOverride('_method'));
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -111,6 +119,10 @@ async.map(
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
+app.get('/', function(req, res) {
+  res.redirect('/cryptos')
+});
+
 app.get('/cryptos', function(req, res) {
   res.render('pages/index');
 });
@@ -120,9 +132,20 @@ app.get('/cryptos/:crypto', function(req, res) {
   console.log(req.params.crypto);
 });
 
-app.get('/venues/:venue', function(req, res) {
+app.get('/venues', function(req, res) {
   res.render('pages/venues');
-  console.log(req.params.venue);
+});
+
+app.post('/venues/create', function(req, res){
+  console.log(req.body);
+
+  var query = connection.query(
+	  "INSERT INTO userInput SET ?",
+	  req.body,
+	  function(err, response) {
+	    res.redirect('/');
+	  }
+	);
 });
 
 app.listen(3000, function() {
