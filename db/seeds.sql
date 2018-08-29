@@ -1,1 +1,1 @@
-INSERT INTO questions (question) VALUES ("1+1");
+INSERT INTO venues (venue_name, venue_description, venue_link) VALUES ("1+1");
