@@ -3,6 +3,14 @@ var app = express();
 var mysql = require('mysql');
 var request = require('request');
 var async = require('async');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var path = require("path");
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static("public"));
+app.use(methodOverride('_method'));
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -88,8 +96,8 @@ async.map(
       }
 
       for (var j in coin_info) {
-        crypto_site = coin_info[j].urls.website[0];
-        crypto_logo = coin_info[j].logo;
+        var crypto_site = coin_info[j].urls.website[0];
+        var crypto_logo = coin_info[j].logo;
         connection.query(
           'INSERT INTO crypto_info SET ?',
           {
@@ -103,7 +111,7 @@ async.map(
           }
         );
       }
-      
+
     }
   }
 );
@@ -111,9 +119,38 @@ async.map(
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-// index page
 app.get('/', function(req, res) {
-  res.render('pages/index');
+  res.redirect('/cryptos')
+});
+
+app.get('/cryptos', function(req, res) {
+  connection.query("SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.id = crypto_info.crypto_metadata_id",
+  function(data) {
+    res.render('pages/index', {
+      cryptos: data
+    });
+  })
+});
+
+app.get('/cryptos/:crypto', function(req, res) {
+  res.render('pages/crypto');
+  console.log(req.params.crypto);
+});
+
+app.get('/venues', function(req, res) {
+  res.render('pages/venues');
+});
+
+app.post('/venues/create', function(req, res){
+  console.log(req.body);
+
+  var query = connection.query(
+	  "INSERT INTO userInput SET ?",
+	  req.body,
+	  function(err, response) {
+	    res.redirect('/');
+	  }
+	);
 });
 
 app.listen(3000, function() {

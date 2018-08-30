@@ -20,19 +20,30 @@ CREATE TABLE crypto_info(
 	FOREIGN KEY (crypto_metadata_id) REFERENCES crypto_metadata(id)
 );
 
-CREATE TABLE business (
+CREATE TABLE venues (
 	id INT NOT NULL AUTO_INCREMENT,
-	business_name VARCHAR(255) NOT NULL,
-	business_description VARCHAR NOT NULL,
-	business_link VARCHAR(255) NOT NULL,
-	PRIMARY KEY (id),
-  FOREIGN KEY business(id) REFERENCES crypto(id)
+	-- crypto_metadata_id INT NULL,
+	venue_name VARCHAR(255) NOT NULL,
+	venue_description VARCHAR(255) NOT NULL,
+	venue_link VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+  -- FOREIGN KEY (crypto_metadata_id) REFERENCES crypto_metadata(id)
+);
+
+-- create a juntion table for many-to-many association
+CREATE TABLE cryptos_venues (
+	crypto_id INT NOT NULL,
+	venue_id INT NOT NULL,
+	PRIMARY KEY (crypto_id, venue_id),
+	FOREIGN KEY (crypto_id)  REFERENCES crypto_metadata(id),
+	FOREIGN KEY (venue_id) REFERENCES venues(id)
 );
 
 CREATE TABLE userInput (
 	id INT NOT NULL AUTO_INCREMENT,
 	user_email VARCHAR(255) NOT NULL,
 	crypto_name VARCHAR(255) NOT NULL,
-	merchant VARCHAR(255) NOT NULL,
+	venue VARCHAR(255) NOT NULL,
+	venue_link VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id)
 );
