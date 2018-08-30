@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(methodOverride('_method'));
 
+path.join(__dirname, "public");
+
 var connection = mysql.createConnection({
   host: 'localhost',
 
