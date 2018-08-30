@@ -5,8 +5,8 @@ USE crypto_db;
 
 CREATE TABLE crypto_metadata(
 	id INT NOT NULL AUTO_INCREMENT,
-	crypto_name VARCHAR(255) NOT NULL,
-	crypto_symbol VARCHAR(255) NOT NULL,
+	crypto_name VARCHAR(255) NOT NULL UNIQUE,	
+	crypto_symbol VARCHAR(255) NOT NULL UNIQUE, 
 	crypto_price DECIMAL(10, 4) NOT NULL,
 	PRIMARY KEY (id)
 );
@@ -14,8 +14,8 @@ CREATE TABLE crypto_metadata(
 CREATE TABLE crypto_info(
 	id INT NOT NULL AUTO_INCREMENT,
 	crypto_metadata_id INT NULL,
-	crypto_logo VARCHAR(255) NOT NULL,
-	crypto_link VARCHAR(255) NOT NULL,
+	crypto_logo VARCHAR(255) NOT NULL UNIQUE,
+	crypto_link VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (crypto_metadata_id) REFERENCES crypto_metadata(id)
 );
@@ -23,9 +23,9 @@ CREATE TABLE crypto_info(
 CREATE TABLE venues (
 	id INT NOT NULL AUTO_INCREMENT,
 	-- crypto_metadata_id INT NULL,
-	venue_name VARCHAR(255) NOT NULL,
+	venue_name VARCHAR(255) NOT NULL UNIQUE,
 	venue_description VARCHAR(255) NOT NULL,
-	venue_link VARCHAR(255) NOT NULL,
+	venue_link VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
   -- FOREIGN KEY (crypto_metadata_id) REFERENCES crypto_metadata(id)
 );
@@ -41,9 +41,9 @@ CREATE TABLE cryptos_venues (
 
 CREATE TABLE userInput (
 	id INT NOT NULL AUTO_INCREMENT,
-	user_email VARCHAR(255) NOT NULL,
-	crypto_name VARCHAR(255) NOT NULL,
-	venue VARCHAR(255) NOT NULL,
-	venue_link VARCHAR(255) NOT NULL,
+	user_email VARCHAR(255) NOT NULL UNIQUE,
+	crypto_name VARCHAR(255) NOT NULL UNIQUE,
+	venue VARCHAR(255) NOT NULL UNIQUE,
+	venue_link VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
 );
