@@ -31,12 +31,12 @@ CREATE TABLE venues (
 );
 
 -- create a juntion table for many-to-many association
-CREATE TABLE cryptos_vendors (
+CREATE TABLE cryptos_venues (
 	crypto_id INT NOT NULL,
-	vendor_id INT NOT NULL,
-	PRIMARY KEY (crypto_id, vendor_id),
+	venue_id INT NOT NULL,
+	PRIMARY KEY (crypto_id, venue_id),
 	FOREIGN KEY (crypto_id)  REFERENCES crypto_metadata(id),
-	FOREIGN KEY (vendor_id) REFERENCES venues(id)
+	FOREIGN KEY (venue_id) REFERENCES venues(id)
 );
 
 CREATE TABLE userInput (
