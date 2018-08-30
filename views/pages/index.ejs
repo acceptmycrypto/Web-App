@@ -15,13 +15,14 @@
   </header>
 
   <div>
-    <% cryptos.forEach(function(data) { %>
-    <li><%= cryptos %></li>
-    <% }); %>
-
-    <% for(var i=0; i<cryptos.length; i++) { %>
-    <li><%= cryptos[i] %></li>
-    <% } %>
+  <ul>
+  <% cryptos.forEach(function(data) { %>
+      <li><%= data.crypto_name %> - <%= data.crypto_symbol %>
+          <%= data.crypto_price %> - <%= data.crypto_metadata_id %>
+          <%= data.crypto_logo %> - <%= data.crypto_link %>
+      </li>
+  <% }); %>
+</ul>
   <div>
 
 
