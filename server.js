@@ -125,10 +125,12 @@ app.get('/', function(req, res) {
 
 app.get('/cryptos', function(req, res) {
   connection.query("SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.id = crypto_info.crypto_metadata_id",
-  function(data) {
+  function(err, data, fields) {
     res.render('pages/index', {
       cryptos: data
+  
     });
+    console.log(data);
   })
 });
 

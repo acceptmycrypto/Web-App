@@ -15,7 +15,13 @@
   </header>
 
   <div>
-    <%= cryptos %> <br>
+    <% cryptos.forEach(function(data) { %>
+    <li><%= cryptos %></li>
+    <% }); %>
+
+    <% for(var i=0; i<cryptos.length; i++) { %>
+    <li><%= cryptos[i] %></li>
+    <% } %>
   <div>
 
 
