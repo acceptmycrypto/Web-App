@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html>
-
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Page Title</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+    
+    <% include ../partials/head %>
 
+</head>
 <body>
-  <h1>index page</h1>
-  <header>
-    <% include ../partials/header %>
-  </header>
+
+
+    <header>
+            <% include ../partials/header %>
+    </header>
 
   <div>
   <ul>
@@ -26,6 +22,57 @@
   <div>
 
 
-</body>
+    <main>
+	
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+					<div class="table">
 
+						<div class="row header">
+							<div class="cell">
+								Crypto Name
+							</div>
+							<div class="cell">
+								Symbol
+							</div>
+							<div class="cell">
+								Price
+							</div>
+							<div class="cell">
+								URL
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="cell" data-title="Crypto">
+								Bitcoin
+							</div>
+							<div class="cell" data-title="Symbol">
+								BTC
+							</div>
+							<div class="cell" data-title="Price">
+								$7,000
+							</div>
+							<div class="cell" data-title="URL">
+								www.bitcoin.org
+							</div>
+						</div>
+
+					</div>
+			</div>
+		</div>
+    </div>
+
+    </main>
+    
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+	
+	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="/assets/javascript/nav.js"></script>
+
+</body>
 </html>
