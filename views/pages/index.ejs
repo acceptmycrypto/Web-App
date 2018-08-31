@@ -1,74 +1,74 @@
 <head>
 
-    <% include ../partials/head %>
+  <% include ../partials/head %>
 
 </head>
+
 <body>
 
 
-    <header>
-            <% include ../partials/header %>
-    </header>
-    <main>
+  <header>
+    <% include ../partials/header %>
+  </header>
+  <main>
 
-	<div class="limiter">
-		<div class="container-table100">
-			<div class="wrap-table100">
-					<div class="table">
+    <div class="limiter">
+      <div class="container-table100">
+        <div class="wrap-table100">
+          <div class="table">
 
-						<div class="row header">
-							<div class="cell">
-								Crypto Name
-							</div>
-							<div class="cell">
-								Symbol
-							</div>
-							<div class="cell">
-								Price
-							</div>
-							<div class="cell">
-								URL
-							</div>
-						</div>
+            <div class="row header">
+              <div class="cell">
+                Crypto Name
+              </div>
+              <div class="cell">
+                Symbol
+              </div>
+              <div class="cell">
+                Price
+              </div>
+              <div class="cell">
+                URL
+              </div>
+            </div>
 
-						<div class="row">
-							<div class="cell" data-title="Crypto">
-								<% cryptos.forEach(function(data) { %>
-                <a href="/cryptos/<%= data.crypto_name %>">
-                  <%= data.crypto_name %></a><br>
-								<% }); %>
-							</div>
-							<div class="cell" data-title="Symbol">
-								<% cryptos.forEach(function(data) { %>
-								<%= data.crypto_symbol %> <br>
-								<% }); %>
-							</div>
-							<div class="cell" data-title="Price">
-								<% cryptos.forEach(function(data) { %>
-								<%= data.crypto_price %> <br>
-								<% }); %>
-							</div>
-							<div class="cell" data-title="URL">
-								<% cryptos.forEach(function(data) { %>
-								<%= data.crypto_link %> <br>
-								<% }); %>
-							</div>
-						</div>
+            <div class="row">
+              <div class="cell" data-title="Crypto">
+                <% cryptos.forEach(function(data) { %>
+                  <a href="/cryptos/<%= data.crypto_name %>">
+                    <%= data.crypto_name %></a><br>
+                  <% }); %>
+              </div>
+              <div class="cell" data-title="Symbol">
+                <% cryptos.forEach(function(data) { %>
+                  <%= data.crypto_symbol %> <br>
+                    <% }); %>
+              </div>
+              <div class="cell" data-title="Price">
+                <% cryptos.forEach(function(data) { %>
+                  <%= data.crypto_price %> <br>
+                    <% }); %>
+              </div>
+              <div class="cell" data-title="URL">
+                <% cryptos.forEach(function(data) { %>
+                  <%= data.crypto_link %> <br>
+                    <% }); %>
+              </div>
+            </div>
 
-					</div>
-			</div>
-		</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    </main>
+  </main>
 
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
+  <footer>
+    <% include ../partials/footer %>
+  </footer>
 
-	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-	<script src="/assets/javascript/nav.js"></script>
+  <script src="/assets/javascript/nav.js"></script>
 
 </body>
-</html>

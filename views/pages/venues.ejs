@@ -1,18 +1,40 @@
-<h1>Venues Page</h1>
-<header>
-  <% include ../partials/header %>
-</header>
+<head>
+  <% include ../partials/head %>
+</head>
 
-<div>
-  <ul>
-    <% venues.forEach(function(venue) { %>
-      <li>
-        <%= venue.venue_name %> -
-          <%= venue.crypto_name %>
-      </li>
-      <% }); %>
-  </ul>
-  <div>
+<body>
+  <header>
+    <% include ../partials/header %>
+  </header>
+  <main>
+    <h1>Venues Page</h1>
+    <header>
+      <% include ../partials/header %>
+    </header>
+
+    <div class="limiter">
+      <div class="container-table100">
+        <div class="wrap-table100">
+          <div class="table">
+
+            <div class="row header">
+              <div class="cell">
+                Venues
+              </div>
+              <div class="cell">
+                Description
+              </div>
+              <div class="cell">
+                Crypto Accepting
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
 
     <form method="POST" action="/venues/create">
       <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
@@ -21,3 +43,13 @@
       <input type="text" name="venue_link" placeholder="Venue Website"> <br>
       <button>submit</button>
     </form>
+
+  </main>
+  <footer>
+    <% include ../partials/footer %>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="/assets/javascript/venues.js"></script>
+</body>
