@@ -13,9 +13,9 @@
   <div>
   <ul>
   <% cryptos.forEach(function(data) { %>
-      <li><%= data.crypto_name %> - <%= data.crypto_symbol %>
-          <%= data.crypto_price %> - <%= data.crypto_metadata_id %>
-          <%= data.crypto_logo %> - <%= data.crypto_link %>
+      <li><%= data.crypto_name %> - <%= data.crypto_symbol %><br>
+          <%= data.crypto_price %> - <%= data.crypto_metadata_id %><br>
+          <%= data.crypto_logo %> - <%= data.crypto_link %><br>
       </li>
   <% }); %>
 </ul>
@@ -46,16 +46,24 @@
 
 						<div class="row">
 							<div class="cell" data-title="Crypto">
-								Bitcoin
+								<% cryptos.forEach(function(data) { %>
+								<%= data.crypto_name %> 
+								<% }); %>
 							</div>
 							<div class="cell" data-title="Symbol">
-								BTC
+								<% cryptos.forEach(function(data) { %>
+								<%= data.crypto_symbol %> <br>
+								<% }); %>
 							</div>
 							<div class="cell" data-title="Price">
-								$7,000
+								<% cryptos.forEach(function(data) { %>
+								<%= data.crypto_price %> <br>
+								<% }); %>
 							</div>
 							<div class="cell" data-title="URL">
-								www.bitcoin.org
+								<% cryptos.forEach(function(data) { %>
+								<%= data.crypto_link %> <br>
+								<% }); %>
 							</div>
 						</div>
 
