@@ -1,5 +1,5 @@
 <head>
-    
+
     <% include ../partials/head %>
 
 </head>
@@ -10,7 +10,7 @@
             <% include ../partials/header %>
     </header>
     <main>
-	
+
 	<div class="limiter">
 		<div class="container-table100">
 			<div class="wrap-table100">
@@ -34,7 +34,8 @@
 						<div class="row">
 							<div class="cell" data-title="Crypto">
 								<% cryptos.forEach(function(data) { %>
-								<%= data.crypto_name %> <br> 
+                <a href="/cryptos/<%= data.crypto_name %>">
+                  <%= data.crypto_name %></a><br>
 								<% }); %>
 							</div>
 							<div class="cell" data-title="Symbol">
@@ -60,11 +61,11 @@
     </div>
 
     </main>
-    
+
     <footer>
         <% include ../partials/footer %>
     </footer>
-	
+
 	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 	<script src="/assets/javascript/nav.js"></script>
