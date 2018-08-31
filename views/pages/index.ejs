@@ -9,19 +9,6 @@
     <header>
             <% include ../partials/header %>
     </header>
-
-  <div>
-  <ul>
-  <% cryptos.forEach(function(data) { %>
-      <li><%= data.crypto_name %> - <%= data.crypto_symbol %><br>
-          <%= data.crypto_price %> - <%= data.crypto_metadata_id %><br>
-          <%= data.crypto_logo %> - <%= data.crypto_link %><br>
-      </li>
-  <% }); %>
-</ul>
-  <div>
-
-
     <main>
 	
 	<div class="limiter">
