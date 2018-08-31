@@ -2,10 +2,22 @@
 <header>
   <% include ../partials/header %>
 </header>
-<form method="POST" action="/venues/create">
-  <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
-  <input type="text" name="crypto_name" placeholder="Crypto"> <br>
-  <input type="text" name="venue" placeholder="Venue Name"> <br>
-  <input type="text" name="venue_link" placeholder="Venue Website"> <br>
-  <button>submit</button>
-</form>
+
+<div>
+  <ul>
+    <% venues.forEach(function(venue) { %>
+      <li>
+        <%= venue.venue_name %> -
+          <%= venue.crypto_name %>
+      </li>
+      <% }); %>
+  </ul>
+  <div>
+
+    <form method="POST" action="/venues/create">
+      <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
+      <input type="text" name="crypto_name" placeholder="Crypto"> <br>
+      <input type="text" name="venue" placeholder="Venue Name"> <br>
+      <input type="text" name="venue_link" placeholder="Venue Website"> <br>
+      <button>submit</button>
+    </form>
