@@ -132,9 +132,7 @@ app.get('/cryptos', function(req, res) {
   function(err, data, fields) {
     res.render('pages/index', {
       cryptos: data
-
     });
-    console.log(data);
   })
 });
 
@@ -144,7 +142,13 @@ app.get('/cryptos/:crypto', function(req, res) {
 });
 
 app.get('/venues', function(req, res) {
-  res.render('pages/venues');
+  connection.query("SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id",
+  function(err, data, fields) {
+    res.render('pages/venues', {
+      venues: data
+    });
+    console.log(data);
+  })
 });
 
 app.post('/venues/create', function(req, res){

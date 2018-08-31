@@ -22,12 +22,12 @@ CREATE TABLE crypto_info(
 
 CREATE TABLE venues (
 	id INT NOT NULL AUTO_INCREMENT,
-	-- crypto_metadata_id INT NULL,
+	-- crypto_metadata_name VARCHAR(255) NULL,
 	venue_name VARCHAR(255) NOT NULL UNIQUE,
 	venue_description VARCHAR(255) NOT NULL,
 	venue_link VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
-  -- FOREIGN KEY (crypto_metadata_id) REFERENCES crypto_metadata(id)
+  -- FOREIGN KEY (crypto_metadata_name) REFERENCES crypto_metadata(crypto_name)
 );
 
 -- create a juntion table for many-to-many association
