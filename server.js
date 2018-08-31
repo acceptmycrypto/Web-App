@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
   user: 'root',
 
   // Your password
-  password: 'Hackerman',
+  password: 'password',
   database: 'crypto_db'
 });
 
@@ -100,11 +100,13 @@ async.map(
       for (var j in coin_info) {
         var crypto_site = coin_info[j].urls.website[0];
         var crypto_logo = coin_info[j].logo;
+        var crypto_metadata_name = coin_info[j].name;
         connection.query(
           'INSERT INTO crypto_info SET ?',
           {
             crypto_logo: crypto_logo,
-            crypto_link: crypto_site
+            crypto_link: crypto_site,
+            crypto_metadata_name
           },
           function(err, res) {
             if (err) {
@@ -126,11 +128,11 @@ app.get('/', function(req, res) {
 });
 
 app.get('/cryptos', function(req, res) {
-  connection.query("SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.id = crypto_info.crypto_metadata_id",
+  connection.query("SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name",
   function(err, data, fields) {
     res.render('pages/index', {
       cryptos: data
-  
+
     });
     console.log(data);
   })
