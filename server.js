@@ -5,14 +5,14 @@ var request = require('request');
 var async = require('async');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var path = require("path");
+var path = require('path');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static('public'));
 app.use(methodOverride('_method'));
 
-path.join(__dirname, "public");
+path.join(__dirname, 'public');
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
   user: 'root',
 
   // Your password
-  password: 'Hackerman',
+  password: 'password',
   database: 'crypto_db'
 });
 
@@ -34,7 +34,7 @@ var options = [
     method: 'GET',
     uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info',
     qs: {
-      symbol: 'BTC,ETH'
+      symbol: 'BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR'
     },
     headers: {
       'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
@@ -45,7 +45,7 @@ var options = [
     method: 'GET',
     uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',
     qs: {
-      symbol: 'BTC,ETH'
+      symbol: 'BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR'
     },
     headers: {
       'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
@@ -100,11 +100,13 @@ async.map(
       for (var j in coin_info) {
         var crypto_site = coin_info[j].urls.website[0];
         var crypto_logo = coin_info[j].logo;
+        var crypto_metadata_name = coin_info[j].name;
         connection.query(
           'INSERT INTO crypto_info SET ?',
           {
             crypto_logo: crypto_logo,
-            crypto_link: crypto_site
+            crypto_link: crypto_site,
+            crypto_metadata_name
           },
           function(err, res) {
             if (err) {
@@ -113,7 +115,6 @@ async.map(
           }
         );
       }
-
     }
   }
 );
@@ -122,18 +123,18 @@ async.map(
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.redirect('/cryptos')
+  res.redirect('/cryptos');
 });
 
 app.get('/cryptos', function(req, res) {
-  connection.query("SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.id = crypto_info.crypto_metadata_id",
-  function(err, data, fields) {
-    res.render('pages/index', {
-      cryptos: data
-  
-    });
-    console.log(data);
-  })
+  connection.query(
+    'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name',
+    function(err, data, fields) {
+      res.render('pages/index', {
+        cryptos: data
+      });
+    }
+  );
 });
 
 app.get('/cryptos/:crypto', function(req, res) {
@@ -141,20 +142,38 @@ app.get('/cryptos/:crypto', function(req, res) {
   console.log(req.params.crypto);
 });
 
-app.get('/venues', function(req, res) {
-  res.render('pages/venues');
+app.get('/api/cryptos_venues', function(req, res) {
+  connection.query(
+    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
+    function(error, results, fields) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
 });
 
-app.post('/venues/create', function(req, res){
+app.get('/venues', function(req, res) {
+  connection.query(
+    'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
+    function(err, data, fields) {
+      res.render('pages/venues', {
+        venues: data
+      });
+      console.log(data);
+    }
+  );
+});
+
+app.post('/venues/create', function(req, res) {
   console.log(req.body);
 
   var query = connection.query(
-	  "INSERT INTO userInput SET ?",
-	  req.body,
-	  function(err, response) {
-	    res.redirect('/');
-	  }
-	);
+    'INSERT INTO userInput SET ?',
+    req.body,
+    function(err, response) {
+      res.redirect('/');
+    }
+  );
 });
 
 app.listen(3000, function() {
