@@ -47,7 +47,7 @@
     line-height: 1;
     margin-bottom: 10px;
   }
-  /* @media only screen and (max-width: 766px) {
+  @media only screen and (max-width: 766px) {
     .logo {
       float: none;
     }
@@ -89,7 +89,7 @@
       margin: 0;
     }
   }
-  nav ul a {
+  nav ul .nav_a {
     color: #888888;
     text-transform: uppercase;
     font-size: 12px;
@@ -121,7 +121,7 @@
     display: block;
   }
   
-  .row {
+  .nav_row {
     width: 100%;
     max-width: 940px;
     margin: 0 auto;
@@ -141,7 +141,7 @@
     -webkit-font-smoothing: antialiased;
   }
   
-  a {
+  .nav_a {
     text-decoration: none;
   }
   
@@ -246,4 +246,4 @@
       transform: translateY(20px);
     }
   }
-   */
+  

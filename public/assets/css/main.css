@@ -260,3 +260,13 @@ iframe {
     width: 100% !important;
   }
 }
+
+  .add_venue {
+    display:block;
+    height: 35px;
+    width: 35px;
+    margin: 5px;
+    border-radius: 50%;
+    border: 1px solid #666666;
+    background: #9099a2;
+  }
