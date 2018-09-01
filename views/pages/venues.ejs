@@ -1,23 +1,22 @@
-<head>
-  <% include ../partials/head %>
+<head>    
+    <% include ../partials/head %>
 </head>
 
 <body>
-  <header>
-    <% include ../partials/header %>
-  </header>
-  <main>
-    <h1>Venues Page</h1>
+
     <header>
-      <% include ../partials/header %>
+		<% include ../partials/header %>
     </header>
 
-    <div class="limiter">
-      <div class="container-table100">
-        <div class="wrap-table100">
-          <div class="table">
+    <main>
 
-            <div class="row header">
+      <div class="limiter">
+          <div class="container-modal">
+
+        <div class="container-table100">
+          <div class="wrap-table100">
+              <div class="table">
+               <div class="row header">
               <div class="cell">
                 Venues
               </div>
@@ -29,27 +28,41 @@
               </div>
             </div>
 
+                
+
+              </div>
           </div>
 
-        </div>
-      </div>
-    </div>
-    </div>
+          <button id="modalBtn" class="button">Click Here</button>
+            <div id="simpleModal" class="modal">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <span class="closeBtn">&times;</span>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="/venues/create">
+                    <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
+                    <input type="text" name="crypto_name" placeholder="Crypto"> <br>
+                    <input type="text" name="venue" placeholder="Venue Name"> <br>
+                    <input type="text" name="venue_link" placeholder="Venue Website"> <br>
+                    <button>submit</button>
+                  </form>
+                </div>
+                </div>
+              </div>
+            </div>
+        </div>        
+        </div>        
 
-    <form method="POST" action="/venues/create">
-      <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
-      <input type="text" name="crypto_name" placeholder="Crypto"> <br>
-      <input type="text" name="venue" placeholder="Venue Name"> <br>
-      <input type="text" name="venue_link" placeholder="Venue Website"> <br>
-      <button>submit</button>
-    </form>
-
-  </main>
-  <footer>
-    <% include ../partials/footer %>
-  </footer>
-
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    </main>
+    
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+	
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="/assets/javascript/venues.js"></script>
+
 </body>
+
