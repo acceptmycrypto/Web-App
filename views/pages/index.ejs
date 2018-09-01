@@ -4,9 +4,22 @@
 
 <body>
 
+
     <header>
 		<% include ../partials/header %>
     </header>
+
+  <div>
+  <ul>
+  <% cryptos.forEach(function(data) { %>
+      <li><%= data.crypto_name %> - <%= data.crypto_symbol %>
+          <%= data.crypto_price %> - <%= data.crypto_metadata_id %>
+          <%= data.crypto_logo %> - <%= data.crypto_link %>
+      </li>
+  <% }); %>
+</ul>
+  <div>
+
 
     <main>
 	
