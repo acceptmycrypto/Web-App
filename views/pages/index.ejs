@@ -1,12 +1,8 @@
 <head>
-
   <% include ../partials/head %>
-
 </head>
 
 <body>
-
-
   <header>
     <% include ../partials/header %>
   </header>
@@ -22,39 +18,34 @@
                 Crypto Name
               </div>
               <div class="cell">
-                Symbol
+                Rank
+              </div>
+              <div class="cell">
+                # of Venues Accepting
               </div>
               <div class="cell">
                 Price
               </div>
-              <div class="cell">
-                URL
-              </div>
             </div>
 
-            <div class="row">
-              <div class="cell" data-title="Crypto">
-                <% cryptos.forEach(function(data) { %>
+            <% cryptos.forEach(function(data) { %>
+              <div class="row">
+                <div class="cell" data-title="crypto">
                   <a href="/cryptos/<%= data.crypto_name %>">
-                    <%= data.crypto_name %></a><br>
-                  <% }); %>
+                    <%= data.crypto_name %></a>
+                </div>
+                <div class="cell" data-title="rank">
+                  Rank (TBD)
+                </div>
+                <div class="cell" data-title="vendors">
+                  # of Vendors Accepting (TBD)
+                </div>
+                <div class="cell" data-title="price">
+                  $ <%= data.crypto_price %>
+                </div>
               </div>
-              <div class="cell" data-title="Symbol">
-                <% cryptos.forEach(function(data) { %>
-                  <%= data.crypto_symbol %> <br>
-                    <% }); %>
-              </div>
-              <div class="cell" data-title="Price">
-                <% cryptos.forEach(function(data) { %>
-                  <%= data.crypto_price %> <br>
-                    <% }); %>
-              </div>
-              <div class="cell" data-title="URL">
-                <% cryptos.forEach(function(data) { %>
-                  <%= data.crypto_link %> <br>
-                    <% }); %>
-              </div>
-            </div>
+              <% }); %>
+
 
           </div>
         </div>

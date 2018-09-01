@@ -34,7 +34,7 @@ var options = [
     method: 'GET',
     uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info',
     qs: {
-      symbol: 'BTC,ETH'
+      symbol: 'BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR'
     },
     headers: {
       'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
@@ -45,7 +45,7 @@ var options = [
     method: 'GET',
     uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',
     qs: {
-      symbol: 'BTC,ETH'
+      symbol: 'BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR'
     },
     headers: {
       'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
