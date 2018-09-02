@@ -138,8 +138,9 @@ app.get('/cryptos', function(req, res) {
 });
 
 app.get('/cryptos/:crypto', function(req, res) {
-  res.render('pages/crypto');
-  console.log(req.params.crypto);
+  res.render('pages/crypto', {
+    crypto: req.params.crypto
+  });
 });
 
 app.get('/api/cryptos_venues', function(req, res) {
