@@ -1,62 +1,47 @@
-<head>    
-        <% include ../partials/head %>
-    </head>
-    
-    <body>
-    
-        <header>
-            <% include ../partials/header %>
-        </header>
-    
-        <main>
-        
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+
+    <!-- commented header out for now until the nav is fixed -->
+    <!-- <header>
+        <% include ../partials/header %>
+    </header> -->
+    <h1>
+        <%= crypto %>
+    </h1>
+    <main>
         <div class="limiter">
             <div class="container-table100">
                 <div class="wrap-table100">
-                        <div class="table">
-    
-                            <div class="row header">
-                                <div class="cell">
-                                    Crypto Name
-                                </div>
-                                <div class="cell">
-                                    Symbol
-                                </div>
-                                <div class="cell">
-                                    Price
-                                </div>
-                                <div class="cell">
-                                    URL
-                                </div>
+                    <div class="table">
+
+                        <div class="row header">
+                            <div class="cell">
+                                Venues
                             </div>
-    
-                            <div class="row">
-                                <div class="cell" data-title="Crypto">
-                                    Bitcoin
-                                </div>
-                                <div class="cell" data-title="Symbol">
-                                    BTC
-                                </div>
-                                <div class="cell" data-title="Price">
-                                    $7,000
-                                </div>
-                                <div class="cell" data-title="URL">
-                                    www.bitcoin.org
-                                </div>
+                            <div class="cell">
+                                Description
                             </div>
-    
+                            <div class="cell">
+                                Crypto Accepting
+                            </div>
                         </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    
-        </main>
-        
-        <footer>
-            <% include ../partials/footer %>
-        </footer>
-        
-        <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    
-    </body>
-    </html>
+
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+    <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="/assets/javascript/crypto.js"></script>
+</body>
