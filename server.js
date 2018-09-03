@@ -160,14 +160,11 @@ app.get('/venues', function(req, res) {
       res.render('pages/venues', {
         venues: data
       });
-      console.log(data);
     }
   );
 });
 
 app.post('/venues/create', function(req, res) {
-  console.log(req.body);
-
   var query = connection.query(
     'INSERT INTO userInput SET ?',
     req.body,
@@ -176,6 +173,50 @@ app.post('/venues/create', function(req, res) {
     }
   );
 });
+
+app.post('/cryptos/search', function(req, res) {
+  connection.query(
+    'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name WHERE ?',
+    req.body,
+    function(err, data, fields) {
+      if (data === undefined || data.length == 0) {
+        res.redirect('/');
+      } else {
+        res.render('pages/index', {
+          cryptos: data
+        });
+      }
+    }
+  );
+});
+
+// app.post('/venues/search', function(req, res) {
+//   console.log(req.body);
+//   connection.query(
+//     'SELECT venues.id FROM venues WHERE ?',
+//     req.body,
+//     function(err, data, fields) {
+//       if (data === undefined || data.length == 0) {
+//         res.redirect('/venues');
+//       } else {
+//         //data returns the key as 'id', need the key as 'venue_id' to be able to query
+//         var venueID_value = data[0].id;
+//         var venue_id = {venue_id: venueID_value}
+//         connection.query(
+//           'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id WHERE ?',
+//           venue_id,
+//           function(err, data, fields) {
+
+//             if (err) {
+//               console.log(err);
+//             }
+
+//           }
+//         );
+//       }
+//     }
+//   );
+// });
 
 app.listen(3000, function() {
   console.log('listening on 3000');
