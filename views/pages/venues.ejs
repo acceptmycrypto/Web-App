@@ -52,7 +52,10 @@
     </div>
 
   </main>
-
+  <form method="POST" action="/venues/search">
+    <input type="text" name="venue_name" placeholder="Search Venue">
+    <button>Search</button>
+  </form>
   <footer>
     <% include ../partials/footer %>
   </footer>

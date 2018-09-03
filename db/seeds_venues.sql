@@ -11,7 +11,7 @@ VALUES
 INSERT INTO venues
 (venue_name, venue_description, venue_link)
 VALUES
-("OkCupid:", "internationally operating online dating.", "https://support.microsoft.com/en-us/help/13942/microsoft-account-add-money-with-bitcoin");
+("OkCupid", "internationally operating online dating.", "https://support.microsoft.com/en-us/help/13942/microsoft-account-add-money-with-bitcoin");
 
 INSERT INTO venues
 (venue_name, venue_description, venue_link)
