@@ -5,9 +5,14 @@
 
         <nav>
             <ul>
-                <li><a href="/" class="nav_a">index</a></li>
                 <li><a href="/cryptos" class="nav_a">Cryptos</a></li>
                 <li><a href="/venues" class="nav_a">Venues</a></li>
+                <li>
+                    <form class="nav_a" method="POST" action="/cryptos/search">
+                        <input type="text" name="crypto_name" placeholder="Search Cryptocurrency">
+                        <button class="nav_a">Search</button>
+                    </form>
+                </li>
             </ul>
         </nav>
 

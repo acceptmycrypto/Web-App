@@ -30,7 +30,7 @@ CREATE TABLE venues (
   -- FOREIGN KEY (crypto_metadata_name) REFERENCES crypto_metadata(crypto_name)
 );
 
--- create a juntion table for many-to-many association
+-- create a junction table for many-to-many association
 CREATE TABLE cryptos_venues (
 	crypto_id INT NOT NULL,
 	venue_id INT NOT NULL,
