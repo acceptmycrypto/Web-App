@@ -8,6 +8,7 @@ CREATE TABLE crypto_metadata(
 	crypto_name VARCHAR(255) NOT NULL UNIQUE,
 	crypto_symbol VARCHAR(255) NOT NULL UNIQUE,
 	crypto_price DECIMAL(10, 4) NOT NULL,
+	venues_count INT NULL,
 	PRIMARY KEY (id)
 );
 
