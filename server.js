@@ -128,11 +128,31 @@ app.get('/', function(req, res) {
 
 app.get('/cryptos', function(req, res) {
   connection.query(
-    'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name',
-    function(err, data, fields) {
-      res.render('pages/index', {
-        cryptos: data
-      });
+    'SELECT crypto_id, count(venue_id) as total FROM cryptos_venues GROUP BY crypto_id',
+    function(err, venues_count, fields) {
+      for (var i in venues_count) {
+        connection.query(
+          'UPDATE crypto_metadata SET ? WHERE ?',
+          [
+            {venues_count: venues_count[i].total},
+            {id: venues_count[i].crypto_id}
+          ],
+          function(err, res) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
+      }
+      connection.query(
+        'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name',
+        function(err, data, fields) {
+          res.render('pages/index', {
+            cryptos: data
+          });
+          console.log(data);
+        }
+      );
     }
   );
 });
