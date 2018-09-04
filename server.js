@@ -144,6 +144,9 @@ app.get('/cryptos', function(req, res) {
           }
         );
       }
+
+      // ("SELECT * FROM cryptos_venues ORDER by venue_id DESC")
+
       connection.query(
         'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name',
         function(err, data, fields) {
