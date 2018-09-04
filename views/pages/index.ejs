@@ -17,10 +17,10 @@
 
             <div class="row header">
               <div class="cell">
-                Crypto Name
+                Rank
               </div>
               <div class="cell">
-                Rank
+                Crypto Name
               </div>
               <div class="cell">
                 # of Venues Accepting
@@ -30,24 +30,24 @@
               </div>
             </div>
 
-            <% cryptos.forEach(function(data) { %>
+            <% for(var i = 0; i < cryptos.length; i++) { %>
               <div class="row">
-                <div class="cell" data-title="crypto">
-                  <a href="/cryptos/<%= data.crypto_name %>">
-                    <%= data.crypto_name %></a>
-                </div>
                 <div class="cell" data-title="rank">
-                  Rank (TBD)
+                  <%= i + 1 %></a>
+                </div>
+                <div class="cell" data-title="crypto">
+                  <a href="/cryptos/<%= cryptos[i].crypto_name %>">
+                    <%= cryptos[i].crypto_name %></a>
                 </div>
                 <div class="cell" data-title="vendors">
-                    <%= data.venues_count %>
+                  <%= cryptos[i].venues_count %>
                 </div>
                 <div class="cell" data-title="price">
                   $
-                  <%= data.crypto_price %>
+                  <%= cryptos[i].crypto_price %>
                 </div>
               </div>
-              <% }); %>
+              <% } %>
 
           </div>
         </div>
