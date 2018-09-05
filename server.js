@@ -5,12 +5,23 @@ var request = require('request');
 var async = require('async');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var flash = require('express-flash')
 var path = require('path');
+//use session
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
+app.use(cookieParser());
+app.use(session({
+  secret: 'app',
+  cookie: { maxAge: 60000}
+ }
+));
+app.use(flash());
 
 path.join(__dirname, 'public');
 
@@ -203,6 +214,7 @@ app.post('/venues/create', function(req, res) {
     'INSERT INTO userInput SET ?',
     req.body,
     function(err, response) {
+      req.flash('info', 'Thank you for your Submit. Once verified, we will email you the result.');
       res.redirect('/');
     }
   );
