@@ -259,6 +259,17 @@ app.post('/admin/cryptos_venues/create', function(req, res) {
   );
 });
 
+//User queries
+app.post('/contactus/create', function(req, res) {
+  var query = connection.query(
+    'INSERT INTO userQueries SET ?',
+    req.body,
+    function(err, response) {
+      res.redirect('/');
+    }
+  );
+});
+
 app.listen(3000, function() {
   console.log('listening on 3000');
 });
