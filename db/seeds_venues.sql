@@ -6,19 +6,45 @@ VALUES
 INSERT INTO venues
 (venue_name, venue_description, venue_link)
 VALUES
-("Microsoft", "an American multinational corp. technology company.", "https://support.microsoft.com/en-us/help/13942/microsoft-account-add-money-with-bitcoin");
+("Microsoft", "an American multinational corp. technology company.", "https://www.microsoft.com/en-us/");
 
 INSERT INTO venues
 (venue_name, venue_description, venue_link)
 VALUES
-("OkCupid", "internationally operating online dating.", "https://support.microsoft.com/en-us/help/13942/microsoft-account-add-money-with-bitcoin");
+("BitPay", "cryptocurrency payment processor, serving industry-leading merchants on six continents.", "https://www.bitpay.com/");
 
 INSERT INTO venues
 (venue_name, venue_description, venue_link)
 VALUES
-("CheapAir", "an online travel agency", "https://support.microsoft.com/en-us/help/13942/microsoft-account-add-money-with-bitcoin");
+("CheapAir", "an online travel agency", "https://www.expedia.com/");
 
 INSERT INTO venues
 (venue_name, venue_description, venue_link)
 VALUES
-("Etsy", "is an ecommerce focused on handmade or vintage items and supplies.", "https://support.microsoft.com/en-us/help/13942/microsoft-account-add-money-with-bitcoin");
+("Etsy", "is an ecommerce focused on handmade or vintage items and supplies.", "https://www.etsy.com/");
+
+INSERT INTO venues
+(venue_name, venue_description, venue_link)
+VALUES
+("CryptoMercado", "an ecommerce where people can buy stuff online with cryptocurrency", "https://www.etsy.com/");
+
+INSERT INTO venues
+(venue_name, venue_description, venue_link)
+VALUES
+("eGifter", "buy premium branded gift cards and send by email, text, or hand deliver.", "https://www.egifter.com/");
+
+INSERT INTO venues
+(venue_name, venue_description, venue_link)
+VALUES
+("bitcoin.com", "premier source for everything Bitcoin related", "https://store.bitcoin.com/");
+
+INSERT INTO venues
+(venue_name, venue_description, venue_link)
+VALUES
+("MindGeek", "privately held Canadian company that focuses primarily on Internet pornography", "https://mindgeek.com/");
+
+INSERT INTO venues
+(venue_name, venue_description, venue_link)
+VALUES
+("TorGuard", "provide online privacy protection services", "https://torguard.net/");
+
