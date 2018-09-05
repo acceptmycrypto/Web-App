@@ -225,6 +225,10 @@ iframe {
   width: 100% !important;
 }
 
+.table .crypto-logo {
+  height: 50%;
+}
+
 .row:hover {
   background-color: #ececff;
   cursor: pointer;

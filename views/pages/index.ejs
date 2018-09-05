@@ -36,7 +36,8 @@
                 </div>
                 <div class="cell" data-title="crypto">
                   <a href="/cryptos/<%= cryptos[i].crypto_name %>">
-                    <%= cryptos[i].crypto_name %></a>
+                    <img class="crypto-logo" src="<%=cryptos[i].crypto_logo %>" alt="crypto-logo">
+                  <%= cryptos[i].crypto_name %></a>
                 </div>
                 <div class="cell" data-title="vendors">
                   <%= cryptos[i].venues_count %>
@@ -57,20 +58,20 @@
 
   <% if (messages.info) { %>
     <div id="snackbar">
-        <%= messages.info %>
+      <%= messages.info %>
     </div>
-  <% } %>
+    <% } %>
 
-  <footer>
-    <% include ../partials/footer %>
-  </footer>
+      <footer>
+        <% include ../partials/footer %>
+      </footer>
 
 
-  <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <script src="/assets/javascript/modal.js"></script>
-  <script src="/assets/javascript/nav.js"></script>
-  <script src="/assets/javascript/snackbar.js"></script>
-  <script src="/assets/javascript/app.js"></script>
+      <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+      <script src="/assets/javascript/modal.js"></script>
+      <script src="/assets/javascript/nav.js"></script>
+      <script src="/assets/javascript/snackbar.js"></script>
+      <script src="/assets/javascript/app.js"></script>
 </body>
