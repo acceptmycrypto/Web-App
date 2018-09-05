@@ -54,7 +54,7 @@
 
   nav {
     float: right;
-    width: 60%;
+    width: 80%;
   }
   @media only screen and (max-width: 766px) {
     nav {

@@ -11,7 +11,7 @@ body {
   border: 0;
   border-radius: 50%;
   margin-left: 10px;
-  
+
 }
 
 .button:hover {
@@ -56,6 +56,7 @@ body {
 
 .modal-body input {
   width: 100%;
+  display: block !important;
 }
 
 .modal-body button {

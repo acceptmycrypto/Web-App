@@ -8,30 +8,28 @@
                 <li><a href="/cryptos" class="nav_a">Cryptos</a></li>
                 <li><a href="/venues" class="nav_a">Venues</a></li>
                 <li>
-                <button id="modalBtn" class="button nav_a">Submit Venue</button>
                     <form class="nav_a" method="POST" action="/cryptos/search">
                         <input type="text" name="crypto_name" placeholder="Search Cryptocurrency">
                         <button class="nav_a search">Search</button>
                     </form>
                 </li>
-                <li>
-                    
-                    <div id="simpleModal" class="modal">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <span class="closeBtn">&times;</span>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" action="/venues/create">
-                                    <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
-                                    <input type="text" name="crypto_name" placeholder="Crypto Name"> <br>
-                                    <input type="text" name="venue" placeholder="Venue Name"> <br>
-                                    <input type="text" name="venue_link" placeholder="Venue Website"> <br>
-                                    <button>submit</button>
-                                </form>
-                            </div>
+                <button id="modalBtn" class="button nav_a">Submit Venue</button>
+                <div id="simpleModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="closeBtn">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="/venues/create">
+                                <input type="text" name="user_email" placeholder="Enter Your Email Address"> <br>
+                                <input type="text" name="crypto_name" placeholder="Crypto Name"> <br>
+                                <input type="text" name="venue" placeholder="Venue Name"> <br>
+                                <input type="text" name="venue_link" placeholder="Venue Website"> <br>
+                                <button>submit</button>
+                            </form>
                         </div>
                     </div>
+                </div>
                 </li>
             </ul>
         </nav>
