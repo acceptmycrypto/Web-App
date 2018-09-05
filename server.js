@@ -194,6 +194,16 @@ app.post('/venues/create', function(req, res) {
   );
 });
 
+app.get('/api/venues_submit', function(req, res) {
+  connection.query(
+    'SELECT * FROM userInput',
+    function(error, results, fields) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
 app.post('/cryptos/search', function(req, res) {
   connection.query(
     'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name WHERE ?',
