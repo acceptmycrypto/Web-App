@@ -202,16 +202,17 @@ iframe {
 }
 
 .row .cell:nth-child(1) {
-  width: 360px;
+  width: 100px;
   padding-left: 40px;
 }
 
 .row .cell:nth-child(2) {
-  width: 160px;
+  width: 150px;
 }
 
 .row .cell:nth-child(3) {
-  width: 250px;
+  width: 300px;
+  text-align: center;
 }
 
 .row .cell:nth-child(4) {
