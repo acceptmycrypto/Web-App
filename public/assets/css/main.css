@@ -59,7 +59,7 @@ ul, li {
 input {
   display: block;
 	outline: none;
-	border: none !important;
+  border: none !important;
 }
 
 textarea {
