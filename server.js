@@ -135,8 +135,8 @@ app.get('/cryptos', function(req, res) {
         connection.query(
           'UPDATE crypto_metadata SET ? WHERE ?',
           [
-            {venues_count: venues_count[i].total},
-            {id: venues_count[i].crypto_id}
+            { venues_count: venues_count[i].total },
+            { id: venues_count[i].crypto_id }
           ],
           function(err, res) {
             if (err) {
@@ -147,7 +147,7 @@ app.get('/cryptos', function(req, res) {
       }
 
       // ("SELECT * FROM cryptos_venues ORDER by venue_id DESC")
-    // ("Select RANK() Over(Order BY venues_count DESC) From crypto_metadata")
+      // ("Select RANK() Over(Order BY venues_count DESC) From crypto_metadata")
 
       connection.query(
         'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
@@ -210,13 +210,10 @@ app.post('/venues/create', function(req, res) {
 
 //api
 app.get('/api/venues_submit', function(req, res) {
-  connection.query(
-    'SELECT * FROM userInput',
-    function(error, results, fields) {
-      if (error) throw error;
-      res.json(results);
-    }
-  );
+  connection.query('SELECT * FROM userInput', function(error, results, fields) {
+    if (error) throw error;
+    res.json(results);
+  });
 });
 
 app.get('/api/cryptos_venues', function(req, res) {
@@ -225,6 +222,39 @@ app.get('/api/cryptos_venues', function(req, res) {
     function(error, results, fields) {
       if (error) throw error;
       res.json(results);
+    }
+  );
+});
+
+//admin
+app.get('/admin', function(req, res) {
+  // connection.query(
+  //   'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
+  //   function(err, data, fields) {
+  //     res.render('pages/venues', {
+  //       venues: data
+  //     });
+  //   }
+  // );
+  res.render('pages/admin');
+});
+
+app.post('/admin/venues/create', function(req, res) {
+  var query = connection.query(
+    'INSERT INTO venues SET ?',
+    req.body,
+    function(err, response) {
+      res.redirect('/admin');
+    }
+  );
+});
+
+app.post('/admin/cryptos_venues/create', function(req, res) {
+  var query = connection.query(
+    'INSERT INTO cryptos_venues SET ?',
+    req.body,
+    function(err, response) {
+      res.redirect('/admin');
     }
   );
 });

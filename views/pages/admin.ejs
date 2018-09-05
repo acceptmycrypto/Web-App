@@ -1,0 +1,18 @@
+<h1>Admin</h1>
+
+<h2>1) Add Venues</h2>
+<form method="POST" action="/admin/venues/create">
+  <input type="text" name="venue_name" placeholder="Venue Name"> <br>
+  <input type="text" name="venue_description" placeholder="Venue Description"> <br>
+  <input type="text" name="venue_link" placeholder="Venue Website"> <br>
+  <button>Submit</button>
+</form>
+
+<h2>2) Add Cryptos (If app is ran, Cryptos are added from coinmarketcap api)</h2>
+
+<h2>3) Add Cryptos_Venues Relation</h2>
+<form method="POST" action="/admin/cryptos_venues/create">
+  <input type="text" name="crypto_id" placeholder="Crypto ID"> <br>
+  <input type="text" name="venue_id" placeholder="Venue ID"> <br>
+  <button>Submit</button>
+</form>
