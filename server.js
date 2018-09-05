@@ -122,6 +122,7 @@ async.map(
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
+//cryptos list
 app.get('/', function(req, res) {
   res.redirect('/cryptos');
 });
@@ -161,22 +162,31 @@ app.get('/cryptos', function(req, res) {
   );
 });
 
+//crypto detail
 app.get('/cryptos/:crypto', function(req, res) {
   res.render('pages/crypto', {
     crypto: req.params.crypto
   });
 });
 
-app.get('/api/cryptos_venues', function(req, res) {
+//crypto search
+app.post('/cryptos/search', function(req, res) {
   connection.query(
-    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
-    function(error, results, fields) {
-      if (error) throw error;
-      res.json(results);
+    'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name WHERE ?',
+    req.body,
+    function(err, data, fields) {
+      if (data === undefined || data.length == 0) {
+        res.redirect('/');
+      } else {
+        res.render('pages/index', {
+          cryptos: data
+        });
+      }
     }
   );
 });
 
+//venues list
 app.get('/venues', function(req, res) {
   connection.query(
     'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
@@ -198,6 +208,7 @@ app.post('/venues/create', function(req, res) {
   );
 });
 
+//api
 app.get('/api/venues_submit', function(req, res) {
   connection.query(
     'SELECT * FROM userInput',
@@ -208,49 +219,15 @@ app.get('/api/venues_submit', function(req, res) {
   );
 });
 
-app.post('/cryptos/search', function(req, res) {
+app.get('/api/cryptos_venues', function(req, res) {
   connection.query(
-    'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name WHERE ?',
-    req.body,
-    function(err, data, fields) {
-      if (data === undefined || data.length == 0) {
-        res.redirect('/');
-      } else {
-        res.render('pages/index', {
-          cryptos: data
-        });
-      }
+    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
+    function(error, results, fields) {
+      if (error) throw error;
+      res.json(results);
     }
   );
 });
-
-// app.post('/venues/search', function(req, res) {
-//   console.log(req.body);
-//   connection.query(
-//     'SELECT venues.id FROM venues WHERE ?',
-//     req.body,
-//     function(err, data, fields) {
-//       if (data === undefined || data.length == 0) {
-//         res.redirect('/venues');
-//       } else {
-//         //data returns the key as 'id', need the key as 'venue_id' to be able to query
-//         var venueID_value = data[0].id;
-//         var venue_id = {venue_id: venueID_value}
-//         connection.query(
-//           'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id WHERE ?',
-//           venue_id,
-//           function(err, data, fields) {
-
-//             if (err) {
-//               console.log(err);
-//             }
-
-//           }
-//         );
-//       }
-//     }
-//   );
-// });
 
 app.listen(3000, function() {
   console.log('listening on 3000');
