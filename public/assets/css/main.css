@@ -57,9 +57,9 @@ ul, li {
 
 /* ------------------------------------ */
 input {
-  display: block;
+  /* display: block; */
 	outline: none;
-	border: none !important;
+  border: none !important;
 }
 
 textarea {
@@ -75,7 +75,8 @@ textarea:focus, input:focus {
 button {
 	outline: none !important;
 	border: none;
-	background: transparent;
+  background: transparent;
+  padding: 7px;
 }
 
 button:hover {
