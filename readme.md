@@ -4,7 +4,7 @@
 # API
 *AcceptMyCrypto uses coinmarketcap api to get crypto info shown below*
 * Name
-* Symple Price
+* Symple
 * Price
 * Logo
 * Website URL
