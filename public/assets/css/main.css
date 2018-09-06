@@ -58,8 +58,9 @@ ul, li {
 /* ------------------------------------ */
 input {
   /* display: block; */
-	outline: none;
-  border: none !important;
+  outline: none;
+  border: solid, thin;
+  border-color: darkgray !important;
 }
 
 textarea {
