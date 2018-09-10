@@ -10,6 +10,9 @@ var path = require('path');
 //use session
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+//login
+var bcrypt = require('bcrypt');
+var saltRounds = 10;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -166,7 +169,6 @@ app.get('/cryptos', function(req, res) {
           res.render('pages/index', {
             cryptos: data
           });
-          console.log(data);
         }
       );
     }
@@ -239,16 +241,84 @@ app.get('/api/cryptos_venues', function(req, res) {
 });
 
 //admin
+app.get('/admin/signup', function(req, res) {
+  if (req.session.user_id) {
+    res.redirect('/admin');
+  } else {
+    res.render('pages/admin/signup');
+  }
+});
+
+app.post('/admin/signup/create', function(req, res){
+
+  if (/@acceptmycrypto.com\s*$/.test(req.body.email)) {
+    bcrypt.genSalt(10, function(err, salt) {
+
+	    bcrypt.hash(req.body.password, salt, function(err, p_hash) {
+
+	    	connection.query('INSERT INTO admin_users (email, password) VALUES (?, ?)', [req.body.email, p_hash],function (error, results, fields) {
+
+          if (error) throw error;
+          req.flash('info', "You're signed up successfully.");
+	    	  res.redirect("/admin/signin");
+
+	    	});
+	    });
+    });
+  } else {
+    req.flash('info', "Please use the company's domain");
+    res.redirect('/admin/signup');
+  }
+
+});
+
 app.get('/admin', function(req, res) {
-  // connection.query(
-  //   'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
-  //   function(err, data, fields) {
-  //     res.render('pages/venues', {
-  //       venues: data
-  //     });
-  //   }
-  // );
-  res.render('pages/admin');
+  if (req.session.user_id) {
+    res.render('pages/admin/index');
+  } else {
+    res.redirect('/admin/signin');
+  }
+});
+
+app.get('/admin/signin', function(req, res) {
+  if (req.session.user_id) {
+    res.redirect('/admin');
+  } else {
+    res.render('pages/admin/login');
+  }
+});
+
+app.get('/admin/logout', function(req, res){
+	req.session.destroy(function(err){
+    res.redirect('/admin/signin');
+	})
+});
+
+app.post('/admin', function(req, res){
+
+	connection.query('SELECT * FROM admin_users WHERE email = ?', [req.body.email],function (error, results, fields) {
+
+	  if (error) throw error;
+
+	  if (results.length == 0){
+      req.flash('info', "No username matched.");
+      res.redirect('/admin/signin');
+	  }else {
+	  	bcrypt.compare(req.body.password, results[0].password, function(err, result) {
+
+	  	    if (result == true){
+
+	  	      req.session.user_id = results[0].id;
+	  	      req.session.email = results[0].email;
+
+	  	      res.render('pages/admin/index');
+
+	  	    }else{
+	  	      res.redirect('/admin/signin');
+	  	    }
+	  	});
+	  }
+	});
 });
 
 app.post('/admin/venues/create', function(req, res) {

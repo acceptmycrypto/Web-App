@@ -23,12 +23,10 @@ CREATE TABLE crypto_info(
 
 CREATE TABLE venues (
 	id INT NOT NULL AUTO_INCREMENT,
-	-- crypto_metadata_name VARCHAR(255) NULL,
 	venue_name VARCHAR(255) NOT NULL,
 	venue_description VARCHAR(255) NOT NULL,
 	venue_link VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id)
-  -- FOREIGN KEY (crypto_metadata_name) REFERENCES crypto_metadata(crypto_name)
 );
 
 -- create a junction table for many-to-many association
@@ -53,5 +51,12 @@ CREATE TABLE userQueries (
 	id INT NOT NULL AUTO_INCREMENT,
 	email VARCHAR(255) NOT NULL UNIQUE,
 	message VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE admin_users (
+	id INT NOT NULL AUTO_INCREMENT,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
 );
