@@ -10,9 +10,13 @@ var path = require('path');
 //use session
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-//login
-var bcrypt = require('bcrypt');
-var saltRounds = 10;
+
+//routers
+var adminRoutes = require('./routes/admin.js');
+var venueRoutes = require('./routes/venue.js');
+var cryptoRoutes = require('./routes/crypto.js');
+var apiRoutes = require('./routes/api.js');
+var supportRoutes = require('./routes/support.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,6 +29,12 @@ app.use(session({
  }
 ));
 app.use(flash());
+app.use('/', adminRoutes);
+app.use('/', venueRoutes);
+app.use('/', cryptoRoutes);
+app.use('/', apiRoutes);
+app.use('/', supportRoutes);
+
 
 path.join(__dirname, 'public');
 
@@ -135,222 +145,6 @@ async.map(
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-
-//cryptos list
-app.get('/', function(req, res) {
-  res.redirect('/cryptos');
-});
-
-app.get('/cryptos', function(req, res) {
-  connection.query(
-    'SELECT crypto_id, count(venue_id) as total FROM cryptos_venues GROUP BY crypto_id',
-    function(err, venues_count, fields) {
-      for (var i in venues_count) {
-        connection.query(
-          'UPDATE crypto_metadata SET ? WHERE ?',
-          [
-            { venues_count: venues_count[i].total },
-            { id: venues_count[i].crypto_id }
-          ],
-          function(err, res) {
-            if (err) {
-              console.log(err);
-            }
-          }
-        );
-      }
-
-      // ("SELECT * FROM cryptos_venues ORDER by venue_id DESC")
-      // ("Select RANK() Over(Order BY venues_count DESC) From crypto_metadata")
-
-      connection.query(
-        'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
-        function(err, data, fields) {
-          res.render('pages/index', {
-            cryptos: data
-          });
-        }
-      );
-    }
-  );
-});
-
-//crypto detail
-app.get('/cryptos/:crypto', function(req, res) {
-  res.render('pages/crypto', {
-    crypto: req.params.crypto
-  });
-});
-
-//crypto search
-app.post('/cryptos/search', function(req, res) {
-  connection.query(
-    'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name WHERE ?',
-    req.body,
-    function(err, data, fields) {
-      if (data === undefined || data.length == 0) {
-        res.redirect('/');
-      } else {
-        res.render('pages/index', {
-          cryptos: data
-        });
-      }
-    }
-  );
-});
-
-//venues list
-app.get('/venues', function(req, res) {
-  connection.query(
-    'SELECT venues.venue_name, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
-    function(err, data, fields) {
-      res.render('pages/venues', {
-        venues: data
-      });
-    }
-  );
-});
-
-app.post('/venues/create', function(req, res) {
-  var query = connection.query(
-    'INSERT INTO userInput SET ?',
-    req.body,
-    function(err, response) {
-      req.flash('info', 'Thank you for your Submit. Once verified, we will email you the result.');
-      res.redirect('/');
-    }
-  );
-});
-
-//api
-app.get('/api/venues_submit', function(req, res) {
-  connection.query('SELECT * FROM userInput', function(error, results, fields) {
-    if (error) throw error;
-    res.json(results);
-  });
-});
-
-app.get('/api/cryptos_venues', function(req, res) {
-  connection.query(
-    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
-    function(error, results, fields) {
-      if (error) throw error;
-      res.json(results);
-    }
-  );
-});
-
-//admin
-app.get('/admin/signup', function(req, res) {
-  if (req.session.user_id) {
-    res.redirect('/admin');
-  } else {
-    res.render('pages/admin/signup');
-  }
-});
-
-app.post('/admin/signup/create', function(req, res){
-
-  if (/@acceptmycrypto.com\s*$/.test(req.body.email)) {
-    bcrypt.genSalt(10, function(err, salt) {
-
-	    bcrypt.hash(req.body.password, salt, function(err, p_hash) {
-
-	    	connection.query('INSERT INTO admin_users (email, password) VALUES (?, ?)', [req.body.email, p_hash],function (error, results, fields) {
-
-          if (error) throw error;
-          req.flash('info', "You're signed up successfully.");
-	    	  res.redirect("/admin/signin");
-
-	    	});
-	    });
-    });
-  } else {
-    req.flash('info', "Please use the company's domain");
-    res.redirect('/admin/signup');
-  }
-
-});
-
-app.get('/admin', function(req, res) {
-  if (req.session.user_id) {
-    res.render('pages/admin/index');
-  } else {
-    res.redirect('/admin/signin');
-  }
-});
-
-app.get('/admin/signin', function(req, res) {
-  if (req.session.user_id) {
-    res.redirect('/admin');
-  } else {
-    res.render('pages/admin/login');
-  }
-});
-
-app.get('/admin/logout', function(req, res){
-	req.session.destroy(function(err){
-    res.redirect('/admin/signin');
-	})
-});
-
-app.post('/admin', function(req, res){
-
-	connection.query('SELECT * FROM admin_users WHERE email = ?', [req.body.email],function (error, results, fields) {
-
-	  if (error) throw error;
-
-	  if (results.length == 0){
-      req.flash('info', "No username matched.");
-      res.redirect('/admin/signin');
-	  }else {
-	  	bcrypt.compare(req.body.password, results[0].password, function(err, result) {
-
-	  	    if (result == true){
-
-	  	      req.session.user_id = results[0].id;
-	  	      req.session.email = results[0].email;
-
-	  	      res.render('pages/admin/index');
-
-	  	    }else{
-	  	      res.redirect('/admin/signin');
-	  	    }
-	  	});
-	  }
-	});
-});
-
-app.post('/admin/venues/create', function(req, res) {
-  var query = connection.query(
-    'INSERT INTO venues SET ?',
-    req.body,
-    function(err, response) {
-      res.redirect('/admin');
-    }
-  );
-});
-
-app.post('/admin/cryptos_venues/create', function(req, res) {
-  var query = connection.query(
-    'INSERT INTO cryptos_venues SET ?',
-    req.body,
-    function(err, response) {
-      res.redirect('/admin');
-    }
-  );
-});
-
-//User queries
-app.post('/contactus/create', function(req, res) {
-  var query = connection.query(
-    'INSERT INTO userQueries SET ?',
-    req.body,
-    function(err, response) {
-      res.redirect('/');
-    }
-  );
-});
 
 app.listen(3000, function() {
   console.log('listening on 3000');
