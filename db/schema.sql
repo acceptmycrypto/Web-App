@@ -26,6 +26,7 @@ CREATE TABLE venues (
 	venue_name VARCHAR(255) NOT NULL,
 	venue_description VARCHAR(255) NOT NULL,
 	venue_link VARCHAR(255) NOT NULL,
+	accepted_crypto BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id)
 );
 
