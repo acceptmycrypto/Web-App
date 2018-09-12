@@ -15,37 +15,61 @@
       <a class="nav-link active" href="/admin">Admin</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/add_venue">Add Venue</a>
-      </li>
+      <a class="nav-link" href="/admin/add_venue">Add Venue</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" href="/admin/logout">Logout</a>
     </li>
   </ul>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Crypto ID</th>
-        <th scope="col">Crypto Name</th>
-        <th scope="col">Venues Count</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% cryptos.forEach(function(crypto) {  %>
-        <tr>
-          <th scope="row"><%= crypto.id %></th>
-          <td><%= crypto.crypto_name %></td>
-          <td><%= crypto.venues_count %></td>
-          <td>
-            <a href="/admin/<%= crypto.crypto_name %>/accept_venue">
-              <button class="btn btn-primary">Accept Venue</button>
-            </a>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
+  <h1>
+    <%= cryptos[0].crypto_name %>
+  </h1>
+
+  <form method="POST" action="/admin/:crypto/accept_venue/create">
+
+    <div class="form-group col">
+      <label for="accepted-venues">Accepted Venues</label>
+      <select multiple class="form-control" id="accepted-venues">
+        <% cryptos.forEach(function(crypto) {  %>
+        <option>
+          ID:
+          <%= crypto.venue_id %> -
+          <%= crypto.venue_name %>
+        </option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="form-group col">
+      <label for="accept-venue">Venues to be Accepted</label>
+      <select multiple class="form-control" id="accepted-venues">
+        <% venues.forEach(function(venue) {  %>
+        <option>
+          ID:
+          <%= venue.id %> |
+          <%= venue.venue_name %>
+        </option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="form-group col">
+      <label>Enter Crypto ID</label>
+      <input value="<%= cryptos[0].crypto_id %>" name="crypto_id" type="text" class="form-control" placeholder="Crypto ID">
+    </div>
+
+    <div class="form-group col">
+      <label>Enter Venue ID</label>
+      <input name="venue_id" type="text" class="form-control" placeholder="Venue ID">
+    </div>
+
+    <div class="form-group col-sm-10">
+      <button type="submit" class="btn btn-primary">Accept Venue</button>
+    </div>
+
+  </form>
+
 
   <!-- <h2>1) Add Venues</h2>
 <form method="POST" action="/admin/venues/create">

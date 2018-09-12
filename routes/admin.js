@@ -72,11 +72,33 @@ router.post('/admin/signup/create', function(req, res){
 
 router.get('/admin', function(req, res) {
   if (req.session.user_id) {
-    res.render('pages/admin/index');
+    connection.query(
+      'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by crypto_metadata.id ASC',
+      function(err, data, fields) {
+        res.render('pages/admin/index', {
+          cryptos: data
+        });
+      }
+    );
   } else {
     res.redirect('/admin/signin');
   }
 });
+
+// router.get('/admin/edit', function(req, res) {
+//   if (req.session.user_id) {
+//     connection.query(
+//       'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name',
+//       function(err, data, fields) {
+//         res.render('pages/admin/index', {
+//           cryptos: data
+//         });
+//       }
+//     );
+//   } else {
+//     res.redirect('/admin/signin');
+//   }
+// });
 
 router.get('/admin/signin', function(req, res) {
   if (req.session.user_id) {
@@ -90,6 +112,10 @@ router.get('/admin/logout', function(req, res){
 	req.session.destroy(function(err){
     res.redirect('/admin/signin');
 	})
+});
+
+router.get('/admin/add_venue', function(req, res) {
+  res.render('pages/admin/add_venue');
 });
 
 router.post('/admin', function(req, res){
@@ -109,7 +135,14 @@ router.post('/admin', function(req, res){
 	  	      req.session.user_id = results[0].id;
 	  	      req.session.email = results[0].email;
 
-	  	      res.render('pages/admin/index');
+            connection.query(
+              'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by crypto_metadata.id ASC',
+              function(err, data, fields) {
+                res.render('pages/admin/index', {
+                  cryptos: data
+                });
+              }
+            );
 
 	  	    }else{
 	  	      res.redirect('/admin/signin');
@@ -129,11 +162,43 @@ router.post('/admin/venues/create', function(req, res) {
   );
 });
 
-router.post('/admin/cryptos_venues/create', function(req, res) {
+router.get('/admin/:crypto/accept_venue', function(req, res) {
+
+  connection.query(
+    'SELECT crypto_metadata.id AS crypto_id, crypto_metadata.crypto_name, venues.id AS venue_id, venues.venue_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id WHERE ?',
+    {crypto_name: req.params.crypto},
+    function(err, data, fields) {
+      connection.query(
+        'SELECT * FROM venues WHERE ?',
+        {accepted_crypto: false},
+        function(err, venue, fields) {
+          res.render('pages/admin/accept_venue', {
+            cryptos: data,
+            venues: venue
+          });
+        }
+      );
+    }
+  );
+});
+
+router.post('/admin/:crypto/accept_venue/create', function(req, res) {
   var query = connection.query(
     'INSERT INTO cryptos_venues SET ?',
     req.body,
     function(err, response) {
+      connection.query(
+        'UPDATE venues SET ? WHERE ?',
+        [
+          { accepted_crypto: true },
+          { id: req.body.venue_id }
+        ],
+        function(err, res) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
       res.redirect('/admin');
     }
   );

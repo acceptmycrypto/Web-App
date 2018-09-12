@@ -48,9 +48,6 @@ router.get('/cryptos', function(req, res) {
         );
       }
 
-      // ("SELECT * FROM cryptos_venues ORDER by venue_id DESC")
-      // ("Select RANK() Over(Order BY venues_count DESC) From crypto_metadata")
-
       connection.query(
         'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
         function(err, data, fields) {
