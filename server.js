@@ -147,7 +147,7 @@ async.map(
 app.set('view engine', 'ejs');
 
 //Heroku tells us which port our app to use. For production, we use Heroku port. For development, we use 3000
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, function() {
   console.log('listening on 3000');
 });
