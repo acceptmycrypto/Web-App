@@ -14,3 +14,8 @@
 *Two ways we come up with the venues data*
 * Team does marketing research and submit manually
 * Users submitting prospective venues to us. We verified and submit manually.
+
+# Run the server and client concurrently
+```
+npm run dev
+```
