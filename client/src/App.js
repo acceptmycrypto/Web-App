@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
 import Crypto from './components/Crypto';
-import FeedVenues from './components/Feeds/Venues';
-import FeedFriends from './components/Feeds/Friends';
-import FeedTransactions from './components/Feeds/Transactions';
+import FeedVenues from './components/Feed/Venues';
+import FeedFriends from './components/Feed/Friends';
+import FeedTransactions from './components/Feed/Transactions';
 
 class App extends Component {
   render() {
