@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Signup from './components/Signup';
-import Profile from './components/Profile';
+import Profile from './components/Profile/UserProfile';
 import Crypto from './components/Crypto';
 import FeedVenues from './components/Feed/Venues';
-import FeedFriends from './components/Feed/Friends';
+import FeedFriends from './components/Feed/MatchedFriends';
 import FeedTransactions from './components/Feed/Transactions';
 
 class App extends Component {
