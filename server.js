@@ -17,6 +17,8 @@ var venueRoutes = require('./routes/venue.js');
 var cryptoRoutes = require('./routes/crypto.js');
 var apiRoutes = require('./routes/api.js');
 var supportRoutes = require('./routes/support.js');
+var userProfileRoutes = require('./routes/user_profile.js');
+var matchedFriendsRoutes = require('./routes/matched_friends.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,6 +36,8 @@ app.use('/', venueRoutes);
 app.use('/', cryptoRoutes);
 app.use('/', apiRoutes);
 app.use('/', supportRoutes);
+app.use('/', userProfileRoutes);
+app.use('/', matchedFriendsRoutes);
 
 
 path.join(__dirname, 'public');
