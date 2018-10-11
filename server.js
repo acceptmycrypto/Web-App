@@ -5,11 +5,22 @@ var request = require('request');
 var async = require('async');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var flash = require('express-flash')
+var flash = require('express-flash');
 var path = require('path');
 //use session
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+
+//allow the api to be accessed by other apps
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+  next();
+});
 
 //routers
 var adminRoutes = require('./routes/admin.js');
@@ -19,17 +30,19 @@ var apiRoutes = require('./routes/api.js');
 var supportRoutes = require('./routes/support.js');
 var userProfileRoutes = require('./routes/user_profile.js');
 var matchedFriendsRoutes = require('./routes/matched_friends.js');
+var dealsRoutes = require('./routes/deals.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
-app.use(session({
-  secret: 'app',
-  cookie: { maxAge: 60000}
- }
-));
+app.use(
+  session({
+    secret: 'app',
+    cookie: { maxAge: 60000 }
+  })
+);
 app.use(flash());
 app.use('/', adminRoutes);
 app.use('/', venueRoutes);
@@ -38,7 +51,7 @@ app.use('/', apiRoutes);
 app.use('/', supportRoutes);
 app.use('/', userProfileRoutes);
 app.use('/', matchedFriendsRoutes);
-
+app.use('/', dealsRoutes);
 
 path.join(__dirname, 'public');
 
