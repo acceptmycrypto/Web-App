@@ -128,3 +128,21 @@ CREATE TABLE users_matched_friends(
 	FOREIGN KEY (matched_friend_id) REFERENCES users(id)
 );
 
+CREATE TABLE crypto_comments(
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+    crypto_id INT NOT NULL,
+    body TEXT NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+);
+
+CREATE TABLE parents_children(
+    comment_parent_id INT NOT NULL,
+    comment_child_id INT NOT NULL,
+    FOREIGN KEY (comment_parent_id) REFERENCES crypto_comments(id),
+    FOREIGN KEY (comment_child_id) REFERENCES crypto_comments(id)
+);
+
