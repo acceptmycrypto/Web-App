@@ -22,16 +22,28 @@ class Venues extends Component {
     console.log(this.state.deals);
     return (
       <div>
-        {this.state.deals.map(deal => (
-          <div key={deal.id} className="deal">
-            <div>{deal.deal_name}</div>
-            <div>{deal.deal_description}</div>
-            <img src={deal.deal_image} alt="deal"/>
-            <div>Pay in dollar: ${deal.pay_in_dollar}</div>
-            <div>Pay in crypto: ${deal.pay_in_crypto}</div>
-            <div>Offered by: {deal.venue_name}</div>
-          </div>
-        ))}
+        <div className="row">
+          {this.state.deals.map(deal => (
+            <div key={deal.id} className="col-sm-4 deal">
+              <a href="#">
+                <div className="card">
+                  <div className="card-body">
+                    <img
+                      className="card-img-top"
+                      src={deal.deal_image}
+                      alt="deal"
+                    />
+                    <h5 className="card-title">{deal.deal_name}</h5>
+                    <p class="card-text">{deal.deal_description}</p>
+                    <div>Pay in dollar: ${deal.pay_in_dollar}</div>
+                    <div>Pay in crypto: ${deal.pay_in_crypto}</div>
+                    <div>Offered by: {deal.venue_name}</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
