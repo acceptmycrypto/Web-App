@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
@@ -10,6 +12,10 @@ var path = require('path');
 //use session
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+//coinpayment
+var Coinpayments = require('coinpayments');
+var keys = require('./key');
+var client = new Coinpayments(keys.coinpayment);
 
 //allow the api to be accessed by other apps
 app.use(function(req, res, next) {
@@ -113,7 +119,7 @@ async.map(
   function(err, results) {
     // all requests have been made
     if (err) {
-      console.log(err);
+      // console.log(err);
     } else {
       var coin_info = results[0].data;
       var coin_metadata = results[1].data;
@@ -132,7 +138,7 @@ async.map(
           },
           function(err, res) {
             if (err) {
-              console.log(err);
+              // console.log(err);
             }
           }
         );
@@ -151,7 +157,7 @@ async.map(
           },
           function(err, res) {
             if (err) {
-              console.log(err);
+              // console.log(err);
             }
           }
         );
@@ -162,6 +168,15 @@ async.map(
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
+
+//coinpayment
+client.getBasicInfo(function(error, result) {
+ if (error) {
+   console.log(error);
+ } else {
+   console.log(result);
+ }
+});
 
 //Heroku tells us which port our app to use. For production, we use Heroku port. For development, we use 3000
 const PORT = process.env.PORT || 3001;
