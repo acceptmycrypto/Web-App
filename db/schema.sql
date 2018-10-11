@@ -142,7 +142,6 @@ CREATE TABLE crypto_comments(
 CREATE TABLE parents_children(
     comment_parent_id INT NOT NULL,
     comment_child_id INT NOT NULL,
-    PRIMARY KEY (id),
     FOREIGN KEY (comment_parent_id) REFERENCES crypto_comments(id),
     FOREIGN KEY (comment_child_id) REFERENCES crypto_comments(id)
 );
