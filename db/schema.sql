@@ -73,7 +73,7 @@ CREATE TABLE users(
 	password VARCHAR(30) BINARY NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE user_logins(
 	id INT NOT NULL AUTO_INCREMENT,
@@ -81,7 +81,7 @@ CREATE TABLE user_logins(
 	sign_in_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
-)
+);
 
 CREATE TABLE user_profiles(
 	id INT NOT NULL AUTO_INCREMENT,
@@ -92,7 +92,7 @@ CREATE TABLE user_profiles(
 	birthday DATE NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
-)
+);
 
 CREATE TABLE users_cryptos(
 	id INT NOT NULL AUTO_INCREMENT,
@@ -102,7 +102,7 @@ CREATE TABLE users_cryptos(
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
-)
+);
 
 CREATE TABLE users_purchases(
 	id INT NOT NULL AUTO_INCREMENT,
@@ -113,8 +113,9 @@ CREATE TABLE users_purchases(
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (deal_id) REFERENCES deals(id)
-)
+	FOREIGN KEY (deal_id) REFERENCES deals(id),
+	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+);
 
 CREATE TABLE users_matched_friends(
 	id INT NOT NULL AUTO_INCREMENT,
@@ -125,5 +126,5 @@ CREATE TABLE users_matched_friends(
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (matched_friend_id) REFERENCES users(id)
-)
+);
 
