@@ -61,3 +61,70 @@ CREATE TABLE admin_users (
 	password VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
 );
+
+
+CREATE TABLE users(
+	id INT NOT NULL AUTO_INCREMENT,
+	username VARCHAR(30) NOT NULL UNIQUE,
+	first_name VARCHAR(255) NOT NULL,
+	last_name VARCHAR (255) NOT NULL, 
+	phone_number VARCHAR(100) NULL,
+	email VARCHAR(100) NOT NULL UNIQUE, 
+	password VARCHAR(30) BINARY NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE user_logins(
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	sign_in_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE user_profiles(
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	bio TEXT NULL,
+	photo VARCHAR(255) NULL,
+	user_location VARCHAR(255) NULL,
+	birthday DATE NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE users_cryptos(
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	crypto_id INT NOT NULL,
+	crypto_address VARCHAR(255) NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+);
+
+CREATE TABLE users_purchases(
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	deal_id INT NOT NULL,
+	crypto_id INT NOT NULL,
+	amount DECIMAL(10, 4) NOT NULL,
+	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (deal_id) REFERENCES deals(id),
+	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+);
+
+CREATE TABLE users_matched_friends(
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	matched_friend_id INT NOT NULL,
+	date_matched TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	user_accepted BOOLEAN NOT NULL DEFAULT FALSE,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (matched_friend_id) REFERENCES users(id)
+);
+
