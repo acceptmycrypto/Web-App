@@ -1,0 +1,1 @@
+INSERT INTO deals (venue_id, deal_name, deal_description, deal_image, pay_in_dollar, pay_in_crypto) VALUES ("6", "Equal Exchange Organic Love Buzz", "1 pound, bulk packaging.", "https://images-na.ssl-images-amazon.com/images/I/51R6iGcdunL.jpg", "13.25", "9.94");

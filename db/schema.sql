@@ -30,6 +30,20 @@ CREATE TABLE venues (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE deals (
+	id INT NOT NULL AUTO_INCREMENT,
+	venue_id INT NOT NULL,
+	deal_name VARCHAR(255) NOT NULL,
+	deal_description VARCHAR(255) NOT NULL,
+	deal_image VARCHAR(255) NOT NULL,
+	pay_in_dollar DECIMAL(10,2) NOT NULL,
+	pay_in_crypto DECIMAL(10, 2) NOT NULL,
+	expired_date DATETIME NULL,
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (venue_id) REFERENCES venues(id)
+);
+
 -- create a junction table for many-to-many association
 CREATE TABLE cryptos_venues (
 	crypto_id INT NOT NULL,
