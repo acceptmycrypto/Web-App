@@ -38,8 +38,8 @@ CREATE TABLE deals (
 	deal_image VARCHAR(255) NOT NULL,
 	pay_in_dollar DECIMAL(10,2) NOT NULL,
 	pay_in_crypto DECIMAL(10, 2) NOT NULL,
-	expired_date DATETIME NULL,
-	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	date_expired DATETIME NULL,
+	date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (venue_id) REFERENCES venues(id)
 );
@@ -81,9 +81,9 @@ CREATE TABLE users(
 	id INT NOT NULL AUTO_INCREMENT,
 	username VARCHAR(30) NOT NULL UNIQUE,
 	first_name VARCHAR(255) NOT NULL,
-	last_name VARCHAR (255) NOT NULL, 
+	last_name VARCHAR (255) NOT NULL,
 	phone_number VARCHAR(100) NULL,
-	email VARCHAR(100) NOT NULL UNIQUE, 
+	email VARCHAR(100) NOT NULL UNIQUE,
 	password VARCHAR(30) BINARY NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
@@ -145,18 +145,18 @@ CREATE TABLE users_matched_friends(
 CREATE TABLE crypto_comments(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
-    crypto_id INT NOT NULL,
-    body TEXT NOT NULL,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  crypto_id INT NOT NULL,
+  body TEXT NOT NULL,
+  date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+  FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
 );
 
 CREATE TABLE parents_children(
-    comment_parent_id INT NOT NULL,
-    comment_child_id INT NOT NULL,
-    FOREIGN KEY (comment_parent_id) REFERENCES crypto_comments(id),
-    FOREIGN KEY (comment_child_id) REFERENCES crypto_comments(id)
+	comment_parent_id INT NOT NULL,
+	comment_child_id INT NOT NULL,
+	FOREIGN KEY (comment_parent_id) REFERENCES crypto_comments(id),
+	FOREIGN KEY (comment_child_id) REFERENCES crypto_comments(id)
 );
 
