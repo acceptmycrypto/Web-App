@@ -1,0 +1,15 @@
+#profile{
+    width: 13%;
+    /* min-width: fit-content; */
+    max-width: 13%;
+    border: rgb(22, 190, 182) 2px solid;
+}
+
+#responsive{
+    max-width: 100%;
+    height: auto;
+}
+
+h5{
+    font-size: 1.1vw;
+}
