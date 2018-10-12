@@ -7,7 +7,8 @@ class SignIn extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            SignUp: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,6 +31,11 @@ class SignIn extends Component {
         console.log('The form was submitted with the following data:');
         console.log(this.state);
     }
+
+    hideSignUpForm = (event) => {
+        event.preventDefault();
+        this.setState({SignUp:false})
+      };
 
     render() {
         return (
