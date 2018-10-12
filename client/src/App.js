@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import SignUp from './components/SignUp/SignUp';
+import SignUp from './components/SignUp/Signup';
 import Profile from './components/Profile/UserProfile';
 import Crypto from './components/Crypto';
 import FeedVenues from './components/Feed/Venues';
