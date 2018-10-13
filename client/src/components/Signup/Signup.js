@@ -9,13 +9,13 @@ class SignUp extends Component {
         super();
 
         this.state = {
-            name: '',
+            // name: '',
             userName: '',
             email: '',
             password: '',
-            phoneNum: '',
-            location: '',
-            birthday: '',
+            // phoneNum: '',
+            // location: '',
+            // birthday: '',
             cryptoProfile: '',
             hasAgreed: false
         };
