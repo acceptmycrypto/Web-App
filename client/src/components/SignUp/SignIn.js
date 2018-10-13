@@ -43,7 +43,7 @@ class SignIn extends Component {
             <div className="App">
             <div className="App__Aside"></div>
             <div className="App__Form">
-              <div className="PageSwitcher">
+            <div className="PageSwitcher">
                   <NavLink to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
                   <NavLink exact to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
@@ -51,9 +51,7 @@ class SignIn extends Component {
                 <div className="FormTitle">
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                 </div>
-            </div>
-
-        <div className="FormCenter">
+            <div className="FormCenter">
             <form onSubmit={this.handleSubmit} className="FormFields">
             <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
@@ -70,6 +68,10 @@ class SignIn extends Component {
               </div>
             </form>
           </div>
+              
+            </div>
+
+       
           </div>
         );
     }
