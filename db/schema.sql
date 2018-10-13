@@ -89,7 +89,7 @@ CREATE TABLE users(
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE user_logins(
+CREATE TABLE users_logins(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	sign_in_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +97,7 @@ CREATE TABLE user_logins(
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE user_profiles(
+CREATE TABLE users_profiles(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	bio TEXT NULL,
@@ -145,12 +145,12 @@ CREATE TABLE users_matched_friends(
 CREATE TABLE crypto_comments(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
-  crypto_id INT NOT NULL,
-  body TEXT NOT NULL,
-  date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	crypto_id INT NOT NULL,
+	body TEXT NOT NULL,
+	date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+  	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
 );
 
 CREATE TABLE parents_children(
