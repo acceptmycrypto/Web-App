@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import SignUp from './components/SignUp/SignUp';
-import SignIn from './components/SignUp/SignIn';
+import SignUp from './components/signup/SignUp';
+import SignIn from './components/signup/SignIn';
 
 import Profile from './components/Profile/UserProfile';
 import Crypto from './components/Crypto';
