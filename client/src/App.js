@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignUp/SignIn';
 import Profile from './components/Profile/UserProfile';
 import Crypto from './components/Crypto';
 import FeedVenues from './components/Feed/Venues';
@@ -38,6 +39,7 @@ class App extends Component {
 
           <div>
           <Route exact path="/" component={SignUp}/>
+          <Route path="/SignIn" component={SignIn}/>
           <Route path="/profile" component={Profile} />
           <Route path="/crypto" component={Crypto} />
           <Route path="/feed/venues" component={FeedVenues} />
