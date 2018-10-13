@@ -1,5 +1,6 @@
+import "./SignUp.css";
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 
 class SignIn extends Component {
     constructor() {
@@ -32,14 +33,25 @@ class SignIn extends Component {
         console.log(this.state);
     }
 
-    hideSignUpForm = (event) => {
-        event.preventDefault();
-        this.setState({SignUp:false})
-      };
+    // hideSignUpForm = (event) => {
+    //     event.preventDefault();
+    //     this.setState({SignUp:false})
+    //   };
 
     render() {
         return (
-        <div className="FormCenter">
+            <div className="App">
+            <div className="App__Aside"></div>
+            <div className="App__Form">
+            <div className="PageSwitcher">
+                  <NavLink to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
+                  <NavLink exact to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
+                </div>
+  
+                <div className="FormTitle">
+                    <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+                </div>
+            <div className="FormCenter">
             <form onSubmit={this.handleSubmit} className="FormFields">
             <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
@@ -55,6 +67,11 @@ class SignIn extends Component {
                   <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
             </form>
+          </div>
+              
+            </div>
+
+       
           </div>
         );
     }

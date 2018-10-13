@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import SignUp from './components/SignUp/Signup';
+
+import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignUp/SignIn';
+
 import Profile from './components/Profile/UserProfile';
 import Crypto from './components/Crypto';
 import FeedVenues from './components/Feed/Venues';
@@ -15,7 +18,7 @@ class App extends Component {
         <div>
           <ul>
             <li>
-              <Link to="/">SignUp</Link>
+              <Link to="/">SignIn</Link>
             </li>
             <li>
               <Link to="/profile">Profile</Link>
@@ -37,7 +40,8 @@ class App extends Component {
           <hr />
 
           <div>
-          <Route exact path="/" component={SignUp}/>
+          <Route exact path="/" component={SignIn}/>
+          <Route path="/SignUp" component={SignUp}/>
           <Route path="/profile" component={Profile} />
           <Route path="/crypto" component={Crypto} />
           <Route path="/feed/venues" component={FeedVenues} />
