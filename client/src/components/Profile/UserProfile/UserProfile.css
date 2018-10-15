@@ -1,15 +1,74 @@
 #profile{
-    width: 13%;
+    width: 16%;
     /* min-width: fit-content; */
-    max-width: 13%;
+    max-width: 16%;
     border: rgb(22, 190, 182) 2px solid;
+    border-radius: 5px;
 }
 
-#responsive{
-    max-width: 100%;
-    height: auto;
+.capitalize{
+    text-transform: capitalize;
+}
+
+#cryptoPortfolio{
+    width: 16%;
+    /* min-width: fit-content; */
+    max-width: 16%;
+    border:#0D6FCB 2px solid;
+    border-radius: 5px;
+}
+
+#cryptoHeader{
+    color: rgb(8, 83, 153);
+    font-weight: bold;
+}
+
+.portfolioSwitch input{
+    display:none;
+}
+
+.portfolioItem {
+    background-color: white;
+    color: rgb(8, 83, 153);
+    /* padding: 10px 25px; */
+    cursor: pointer;
+    font-size: 0.9vw;
+    border: rgb(8, 83, 153) solid 1px;
+    outline: none;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.portfolioActive {
+    background-color: rgb(8, 83, 153);
+    color: white;
+    border: rgb(8, 83, 153) solid 1px;
+    font-size: 0.9vw;
+}
+
+.portfolioItem:first-child, .portfolioActive:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.portfolioItem:last-child, .portfolioActive:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 h5{
-    font-size: 1.1vw;
+    font-size: 1vw;
+}
+
+i{
+    color: rgb(22, 190, 182);
+}
+
+.shaded{
+    display: inline-block;
+    color: white;
+    background-image: linear-gradient(-85deg, #49cdb7, #1ab7db); 
+    width: 100%;
+    font-size: 30px;
+    font-size: 7vw;
+    border-radius: 5px;
 }
