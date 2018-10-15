@@ -1,3 +1,4 @@
+/* Start of CSS for User Profile Card */
 #profile{
     width: 16%;
     /* min-width: fit-content; */
@@ -10,49 +11,8 @@
     text-transform: capitalize;
 }
 
-#cryptoPortfolio{
-    width: 16%;
-    /* min-width: fit-content; */
-    max-width: 16%;
-    border:#0D6FCB 2px solid;
-    border-radius: 5px;
-}
-
-#cryptoHeader{
+.blueText{
     color: rgb(8, 83, 153);
-    font-weight: bold;
-}
-
-.portfolioSwitch input{
-    display:none;
-}
-
-.portfolioItem {
-    background-color: white;
-    color: rgb(8, 83, 153);
-    /* padding: 10px 25px; */
-    cursor: pointer;
-    font-size: 0.9vw;
-    border: rgb(8, 83, 153) solid 1px;
-    outline: none;
-    display: inline-block;
-    text-decoration: none;
-}
-
-.portfolioActive {
-    background-color: rgb(8, 83, 153);
-    color: white;
-    border: rgb(8, 83, 153) solid 1px;
-    font-size: 0.9vw;
-}
-
-.portfolioItem:first-child, .portfolioActive:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-.portfolioItem:last-child, .portfolioActive:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
 }
 
 h5{
@@ -72,3 +32,117 @@ i{
     font-size: 7vw;
     border-radius: 5px;
 }
+/* End of CSS for User Profile Card */
+
+/* Start of CSS for Crypto Portfolio */
+#cryptoPortfolio{
+    width: 16%;
+    /* min-width: fit-content; */
+    max-width: 16%;
+    /* border:#0D6FCB 2px solid; */
+    border: rgb(22, 190, 182) 2px solid;
+
+    border-radius: 5px;
+}
+
+#cryptoHeader{
+    font-weight: bold;
+}
+
+a:hover{
+    color: #0d5045;
+}
+
+.cryptoImage{
+    width: 70%;
+   
+}
+
+.cryptoText{
+    font-size: 15px;
+}
+
+/* End of CSS for Crypto Portfolio */
+
+
+
+/* Start of CSS for Owned vs Interested Slider */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 34px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #49cdb7;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #1ab7db;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(85px);
+    -ms-transform: translateX(85px);
+    transform: translateX(85px);
+  }
+  
+  .interest
+  {
+    display: none;
+    padding-right: 23px;
+  }
+
+  .own, .interest
+  {
+    color: white;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    font-size: 12px;
+    font-family: Verdana, sans-serif;
+  }
+  
+  input:checked+ .slider .interest
+  {display: block;}
+  
+  input:checked + .slider .own
+  {display: none;}
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;}
+
+/* Start of CSS for Owned vs Interested Slider */
