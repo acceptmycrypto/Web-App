@@ -2,9 +2,16 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
-// import Select from 'react-select'
+import Select from 'react-select'
 
-
+const options = [
+  { value: 'Bitcoin', label: 'Bitcoin (BTC)' },
+  { value: 'Litecoin', label: 'Litecoin (LTC)' },
+  { value: 'Etherium', label: 'Etherium (ETH)' }
+];
+const DropdownMenu = () => (
+  <Select options={options} />
+);
 
 
 class SignUp extends Component {
@@ -25,7 +32,7 @@ class SignUp extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    };
 
     handleChange(e) {
         let target = e.target;
@@ -35,23 +42,14 @@ class SignUp extends Component {
         this.setState({
           [name]: value
         });
-    }
+    };
 
     handleSubmit(e) {
         e.preventDefault();
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
-    }
-
-    // const options = [
-    //   { value: 'chocolate', label: 'Chocolate' },
-    //   { value: 'strawberry', label: 'Strawberry' },
-    //   { value: 'vanilla', label: 'Vanilla' }
-    // ]
-    // const MyComponent = () => (
-    //   <Select options={options} />
-    // )
+    };
 
     render() {
         return (
@@ -98,7 +96,8 @@ class SignUp extends Component {
               </div> */}
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">Crypto Profile</label>
-                <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} />
+                {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
+                {DropdownMenu()}
               </div>
               
               <div className="FormField">
@@ -116,9 +115,9 @@ class SignUp extends Component {
               
             </div>
         );
-    }
+    };
    
-}
+};
 
 // class SignIn extends Component {
 //     constructor() {
