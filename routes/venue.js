@@ -49,4 +49,41 @@ router.post('/venues/create', function(req, res) {
   );
 });
 
+//api
+router.get('/api/venues_cryptos', function(req, res) {
+  connection.query(
+    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
+    function(error, results, fields) {
+      if (error) throw error;
+
+      let venue = '';
+      let crypto = '';
+      let cryptocurrencies = [];
+      let newObj = {};
+
+      results.map((venueObj) => {
+
+        if (venueObj.venue_name !== venue) {
+          venue = venueObj.venue_name;
+          crypto = venueObj.crypto_name;
+
+          //when it's a new venue_name, empty the cryptocurrencies array
+          cryptocurrencies = [];
+          cryptocurrencies.push(crypto);
+          newObj[venueObj.venue_name] = cryptocurrencies;
+
+        } else {
+          crypto = venueObj.crypto_name;
+          cryptocurrencies.push(crypto);
+          newObj[venueObj.venue_name] = cryptocurrencies;
+        }
+
+        return newObj;
+      });
+
+      res.json(newObj);
+    }
+  );
+});
+
 module.exports = router;

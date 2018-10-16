@@ -150,7 +150,7 @@ CREATE TABLE crypto_comments(
 	date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-  	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+  FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
 );
 
 CREATE TABLE parents_children(
