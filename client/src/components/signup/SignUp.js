@@ -8,7 +8,7 @@ const options = [
   { value: 'Bitcoin', label: 'Bitcoin (BTC)' },
   { value: 'Litecoin', label: 'Litecoin (LTC)' },
   { value: 'Etherium', label: 'Etherium (ETH)' }
-]
+];
 const DropdownMenu = () => (
   <Select options={options} />
 );
@@ -32,7 +32,7 @@ class SignUp extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    };
 
     handleChange(e) {
         let target = e.target;
@@ -42,14 +42,14 @@ class SignUp extends Component {
         this.setState({
           [name]: value
         });
-    }
+    };
 
     handleSubmit(e) {
         e.preventDefault();
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
-    }
+    };
 
     render() {
         return (
@@ -115,9 +115,9 @@ class SignUp extends Component {
               
             </div>
         );
-    }
+    };
    
-}
+};
 
 // class SignIn extends Component {
 //     constructor() {
