@@ -46,3 +46,8 @@ INSERT INTO users_purchases (user_id, deal_id, crypto_id, amount) VALUES
 INSERT INTO users_matched_friends (user_id, matched_friend_id) VALUES
 (1, 2),
 (2, 1);
+
+
+INSERT INTO users_cryptos(user_id, crypto_id, crypto_address) VALUES
+(1,1, "15wFc6QAAJqRnwAdtaYMydGJHFrQrDZkPA"),
+(1,3, "XshzoU2HrRdki4T78YV9vpeXAVuPZnnBaF");
