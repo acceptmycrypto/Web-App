@@ -14,24 +14,70 @@ class UserProfile extends Component {
       userInfo: [],
       userCrypto: []
     }
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     let target = event.target.checked;
 
-    if(target){
+    if (target) {
       this.setState({
         cryptoView: "interested"
       });
-    }else{
+    } else {
       this.setState({
         cryptoView: "owned"
       });
     }
 
-    
+
   }
+
+  showQR = (event) => {
+    let target = event.target;
+    let parentDiv = target.parentElement.parentElement;
+    let address = target.getAttribute("data-address");
+    let surroundingDiv = target.parentElement.parentElement.parentElement;
+
+    let allChildren = surroundingDiv.children;
+    for (let i = 0; i < allChildren.length; i++) {
+      let element = allChildren[i]
+      if(element != parentDiv){
+        element.style.display = "none";
+      }
+    }
+    let remainingDiv = document.querySelector('.cryptoWallet');
+
+    let qr = document.createElement("img")
+    qr.src =`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`;
+
+
+    remainingDiv.append(qr);
+    let icon = document.createElement("i");
+    icon.classList.add('fas', 'fa-times');
+    icon.addEventListener("click", this.hideQR);
+    icon.classList.add('deleteQR');
+    remainingDiv.insertBefore(icon,parentDiv);
+
+  }
+
+  hideQR = (event) =>{
+    let target = event.target;
+    let parentDiv = target.parentElement;
+    console.log(parentDiv);
+
+    let allChildren = parentDiv.children;
+    for (let i = 0; i < allChildren.length; i++) {
+      let element = allChildren[i]
+      if(element.tagName == "DIV"){
+        element.style.display = "flex";
+      }
+      else{
+        element.remove();
+      }
+    }
+
+  }
+
 
   componentWillMount() {
 
@@ -70,14 +116,14 @@ class UserProfile extends Component {
         <div id="cryptoPortfolio" className="p-1 m-3">
           <h5 id="cryptoHeader" className="blueText">CRYPTO PORTFOLIO</h5>
 
-          <label className="switch"><input type="checkbox" id="togBtn" onChange={this.handleChange}/><div className="slider round"><span className="own">OWNED</span><span className="interest">INTERESTED</span></div></label>
-          <div className="d-flex flex-row flex-wrap justify-content-center">
+          <label className="switch"><input type="checkbox" id="togBtn" onChange={this.handleChange} /><div className="slider round"><span className="own">OWNED</span><span className="interest">INTERESTED</span></div></label>
+          <div className="cryptoWallet">
             {(this.state.cryptoView === "interested")
               ? this.state.userCrypto.map((y) =>
                 <div className="d-flex flex-column">
                   {
                     (y.crypto_address === null)
-                      ? <div className="mx-1 my-2">
+                      ? <div className="mx-1 my-2 cryptos">
                         {/* <p>{y.crypto_symbol}</p> */}
                         <a className="blueText cryptoText" href={y.crypto_link}>{y.crypto_metadata_name}</a>
                         <br></br>
@@ -91,12 +137,10 @@ class UserProfile extends Component {
                 <div>
                   {
                     (y.crypto_address !== null)
-                      ? <div className="mx-1 my-2">
-                        {/* <p>{y.crypto_symbol}</p> */}
-                        <a  className="blueText cryptoText" href={y.crypto_link}>{y.crypto_metadata_name}</a>
+                      ? <div className="mx-1 my-2 cryptos">
+                        <a className="blueText cryptoText" href={y.crypto_link}>{y.crypto_metadata_name}</a>
                         <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} onClick={this.showQR}></img>
-                        {/* <img src={`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${y.crypto_address}`}></img> */}
+                        <img className="cryptoImage" data-name={y.crypto_metadata_name} data-address={y.crypto_address} src={y.crypto_logo} onClick={this.showQR}></img>
                       </div>
                       : ""
                   }
@@ -104,7 +148,7 @@ class UserProfile extends Component {
               )
             }
           </div>
-          
+
 
         </div>
 
