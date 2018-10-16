@@ -47,27 +47,39 @@ class UserProfile extends Component {
     }
     let remainingDiv = document.querySelector('.cryptoWallet');
 
-    let qr = document.createElement("img")
+    let qr = document.createElement("img");
     qr.src =`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`;
+    
+    let displayAddress = document.createElement("p");
+    displayAddress.classList.add('address');
+    displayAddress.innerHTML = address;
+    remainingDiv.append(qr, displayAddress);
+    // remainingDiv.appendChild(displayAddress);
 
+    
 
-    remainingDiv.append(qr);
     let icon = document.createElement("i");
     icon.classList.add('fas', 'fa-times');
     icon.addEventListener("click", this.hideQR);
     icon.classList.add('deleteQR');
     remainingDiv.insertBefore(icon,parentDiv);
+    
 
   }
 
   hideQR = (event) =>{
     let target = event.target;
     let parentDiv = target.parentElement;
-    console.log(parentDiv);
 
     let allChildren = parentDiv.children;
+    console.log(allChildren);
+
+    let address = document.getElementsByClassName('address');
+    address[0].remove();
+
     for (let i = 0; i < allChildren.length; i++) {
       let element = allChildren[i]
+      console.log(element);
       if(element.tagName == "DIV"){
         element.style.display = "flex";
       }

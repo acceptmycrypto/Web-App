@@ -55,6 +55,7 @@ a:hover{
 
 .cryptoImage{
     width: 70%;
+    cursor: pointer;
    
 }
 
@@ -80,6 +81,11 @@ a:hover{
     right: 10%;
     cursor: pointer;
     
+}
+
+.address{
+    display: inline-block;
+    word-break: break-all;
 }
 
 /* End of CSS for Crypto Portfolio */
