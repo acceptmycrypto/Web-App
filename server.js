@@ -170,12 +170,20 @@ async.map(
 app.set('view engine', 'ejs');
 
 //coinpayment
-// client.getBasicInfo(function(error, result) {
-//  if (error) {
-//    console.log(error);
-//  } else {
-//    console.log(result);
-//  }
+app.post('/checkout', function(req, res) {
+  console.log(req.body)
+  // var query = connection.query(
+  //   'INSERT INTO users_purchases SET ?',
+  //   {},
+  //   function(err, response) {
+  //     req.flash('info', 'Thank you for your Submit. Once verified, we will email you the result.');
+  //     res.redirect('/');
+  //   }
+  // );
+});
+
+// client.createTransaction({'currency1' : 'DOGE', 'currency2' : 'POT', 'amount' : 10},function(err,result){
+//   console.log(result);
 // });
 
 //Heroku tells us which port our app to use. For production, we use Heroku port. For development, we use 3000

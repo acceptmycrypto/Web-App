@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Modal from '../../UI/Modal/Modal'
+import Checkout from '../../Checkout/Checkout'
 import './Venues.css';
 
 class Venues extends Component {
@@ -34,28 +36,27 @@ class Venues extends Component {
   createPayment = event => {
     event.preventDefault();
     let selectEle = event.target.children[2];
-    let selectedCrypto = selectEle.options[selectEle.selectedIndex].value;
-    console.log(selectedCrypto);
-    //need to make a post call
+    let crypto_name = selectEle.options[selectEle.selectedIndex].value;
     
-    // return fetch('http://localhost:3001/pets', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ name, type })
-    // })
-    //   .then(res => res.json())
-    //   .then(rj => {
-    //     let pets = [...this.state.pets, rj];
-    //     this.setState({ pets });
-    //   });
+    console.log(crypto_name);
+    //need to make a post call
+
+    return fetch('http://localhost:3001/checkout', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ crypto_name })
+    })
   };
 
   render() {
     return (
       <div>
+        <Modal >
+          <Checkout />
+        </Modal>
         <div className="row">
           {this.state.deals.map(deal => (
             <div key={deal.id} className="col-sm-4 deal">

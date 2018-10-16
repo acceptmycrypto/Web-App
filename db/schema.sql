@@ -122,13 +122,12 @@ CREATE TABLE users_purchases(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
-	crypto_id INT NOT NULL,
+	crypto_name INT NOT NULL,
 	amount DECIMAL(10, 4) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (deal_id) REFERENCES deals(id),
-	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
 );
 
 CREATE TABLE users_matched_friends(
