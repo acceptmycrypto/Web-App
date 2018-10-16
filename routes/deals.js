@@ -27,7 +27,7 @@ var connection = mysql.createConnection({
 // api
 router.get('/api/deals', function(req, res) {
   connection.query(
-    'SELECT * FROM deals LEFT JOIN venues ON deals.venue_id = venues.id',
+    'SELECT deals.id, deals.deal_name, deals.deal_description, deals.deal_image, deals.pay_in_dollar, deals.pay_in_crypto, venues.venue_name, venues.venue_link FROM deals LEFT JOIN venues ON deals.venue_id = venues.id',
     function(error, results, fields) {
       if (error) throw error;
       res.json(results);

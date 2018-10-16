@@ -28,8 +28,30 @@ class Venues extends Component {
         cryptocurrencies = this.state.cryptosAccepted[venueKey]
       }
     }
-    return cryptocurrencies.join(', ');
+    return cryptocurrencies
   }
+
+  createPayment = event => {
+    event.preventDefault();
+    let selectEle = event.target.children[2];
+    let selectedCrypto = selectEle.options[selectEle.selectedIndex].value;
+    console.log(selectedCrypto);
+    //need to make a post call
+    
+    // return fetch('http://localhost:3001/pets', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ name, type })
+    // })
+    //   .then(res => res.json())
+    //   .then(rj => {
+    //     let pets = [...this.state.pets, rj];
+    //     this.setState({ pets });
+    //   });
+  };
 
   render() {
     return (
@@ -37,7 +59,7 @@ class Venues extends Component {
         <div className="row">
           {this.state.deals.map(deal => (
             <div key={deal.id} className="col-sm-4 deal">
-              <a href="#">
+
                 <div className="card">
                   <div className="card-body">
                     <img
@@ -46,14 +68,23 @@ class Venues extends Component {
                       alt="deal"
                     />
                     <h5 className="card-title">{deal.deal_name}</h5>
-                    <p class="card-text">{deal.deal_description}</p>
+                    <p className="card-text">{deal.deal_description}</p>
                     <div>Pay in dollar: ${deal.pay_in_dollar}</div>
                     <div>Pay in crypto: ${deal.pay_in_crypto}</div>
                     <div>Offered by: {deal.venue_name}</div>
-                    <div>Accepted: {this.showAcceptedCryptos(deal.venue_name)}</div>
+                    <div>Accepted: {this.showAcceptedCryptos(deal.venue_name).join(', ')}</div>
+                    <form onSubmit={this.createPayment}>
+                      <label htmlFor="crypto_payment">Select Your crypto payment</label> <br/>
+                      <select id="selectCrypto">
+                        {this.showAcceptedCryptos(deal.venue_name).map(crypto => {
+                          return <option key={crypto} className="crypto_payment" value={crypto}>{crypto}</option>
+                        })}
+                      </select>
+                      <button className="btn btn-primary btn-sm">Pay With My Crypto</button>
+                    </form>
                   </div>
                 </div>
-              </a>
+
             </div>
           ))}
         </div>
