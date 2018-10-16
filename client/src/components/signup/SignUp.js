@@ -2,6 +2,9 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+// import Select from 'react-select'
+
+
 
 
 class SignUp extends Component {
@@ -40,6 +43,15 @@ class SignUp extends Component {
         console.log('The form was submitted with the following data:');
         console.log(this.state);
     }
+
+    // const options = [
+    //   { value: 'chocolate', label: 'Chocolate' },
+    //   { value: 'strawberry', label: 'Strawberry' },
+    //   { value: 'vanilla', label: 'Vanilla' }
+    // ]
+    // const MyComponent = () => (
+    //   <Select options={options} />
+    // )
 
     render() {
         return (
