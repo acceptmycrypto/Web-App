@@ -6,20 +6,32 @@ class Venues extends Component {
     super();
 
     this.state = {
-      deals: []
+      deals: [],
+      cryptosAccepted: null
     };
   }
 
-  componentDidMount() {
-    return fetch('http://localhost:3001/api/deals')
-      .then(res => res.json())
-      .then(resultingJSON => {
-        this.setState({ deals: resultingJSON });
-      });
+  //Another way to fetch api with promise using es6 syntax so we can call multiple api routes
+  async componentDidMount() {
+    const dealsList = await fetch("http://localhost:3001/api/deals");
+    const deals = await dealsList.json();
+
+    const venuesList = await fetch("http://localhost:3001/api/venues_cryptos");
+    const cryptosAccepted = await venuesList.json();
+    this.setState({deals, cryptosAccepted});
+  }
+
+  showAcceptedCryptos = (venue) => {
+    let cryptocurrencies;
+    for (let venueKey in this.state.cryptosAccepted) {
+      if (venue === venueKey) {
+        cryptocurrencies = this.state.cryptosAccepted[venueKey]
+      }
+    }
+    return cryptocurrencies.join(', ');
   }
 
   render() {
-    console.log(this.state.deals);
     return (
       <div>
         <div className="row">
@@ -38,6 +50,7 @@ class Venues extends Component {
                     <div>Pay in dollar: ${deal.pay_in_dollar}</div>
                     <div>Pay in crypto: ${deal.pay_in_crypto}</div>
                     <div>Offered by: {deal.venue_name}</div>
+                    <div>Accepted: {this.showAcceptedCryptos(deal.venue_name)}</div>
                   </div>
                 </div>
               </a>

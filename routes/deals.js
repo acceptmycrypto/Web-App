@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
   database: 'crypto_db'
 });
 
-//api
+// api
 router.get('/api/deals', function(req, res) {
   connection.query(
     'SELECT * FROM deals LEFT JOIN venues ON deals.venue_id = venues.id',

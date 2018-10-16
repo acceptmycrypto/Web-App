@@ -170,16 +170,16 @@ async.map(
 app.set('view engine', 'ejs');
 
 //coinpayment
-client.getBasicInfo(function(error, result) {
- if (error) {
-   console.log(error);
- } else {
-   console.log(result);
- }
-});
+// client.getBasicInfo(function(error, result) {
+//  if (error) {
+//    console.log(error);
+//  } else {
+//    console.log(result);
+//  }
+// });
 
 //Heroku tells us which port our app to use. For production, we use Heroku port. For development, we use 3000
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, function() {
-  console.log('listening on 3000');
+  console.log('Backend server is listening on 3001');
 });
