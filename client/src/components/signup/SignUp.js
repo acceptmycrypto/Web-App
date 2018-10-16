@@ -26,7 +26,7 @@ class SignUp extends Component {
             // phoneNum: '',
             // location: '',
             // birthday: '',
-            cryptoProfile: '',
+            cryptoProfile: options,
             hasAgreed: false
         };
 
@@ -61,9 +61,9 @@ class SignUp extends Component {
                   <NavLink to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
   
-                <div className="FormTitle">
+                {/* <div className="FormTitle">
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
-                </div>
+                </div> */}
             <div className="FormCenter">
             <form onSubmit={this.handleSubmit} className="FormFields">
               {/* <div className="FormField">
@@ -71,8 +71,8 @@ class SignUp extends Component {
                 <input type="text" id="name" className="FormField__Input" placeholder="Enter your full name" name="name" value={this.state.name} onChange={this.handleChange} />
               </div> */}
               <div className="FormField">
-                <label className="FormField__Label" htmlFor="name">User Name</label>
-                <input type="userName" id="userName" className="FormField__Input" placeholder="Enter your desired User Name" name="User name" value={this.state.userName} onChange={this.handleChange} />
+                <label className="FormField__Label" htmlFor="userName">User Name</label>
+                <input type="userName" id="userName" className="FormField__Input" placeholder="Enter your desired User Name" name="userName" value={this.state.userName} onChange={this.handleChange} />
               </div>
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
