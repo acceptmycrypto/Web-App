@@ -96,7 +96,7 @@ class SignUp extends Component {
               </div> */}
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">Crypto Profile</label>
-                <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} />
+                {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
                 {DropdownMenu()}
               </div>
               
