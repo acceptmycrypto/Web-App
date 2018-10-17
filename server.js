@@ -166,6 +166,26 @@ async.map(
   }
 );
 
+// app.post('/', function(req, res) {
+//   // Get sent data.
+//   var user = req.body;
+//   // Do a MySQL query.
+//   var query = connection.query('INSERT INTO ____ SET ?', ____, function(err, result) {
+//     // Neat!
+//   });
+//   res.end('Success');
+// });
+
+// app.post('/SignUp', function(req, res) {
+//   // Get sent data.
+//   var user = req.body;
+//   // Do a MySQL query.
+//   var query = connection.query('INSERT INTO ____ SET ?', ____, function(err, result) {
+//     // Neat!
+//   });
+//   res.end('Success');
+// });
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 

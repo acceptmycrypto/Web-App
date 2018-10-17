@@ -9,15 +9,20 @@ const options = [
   { value: 'Litecoin', label: 'Litecoin (LTC)' },
   { value: 'Etherium', label: 'Etherium (ETH)' }
 ];
-const DropdownMenu = () => (
-  <Select options={options} />
-);
+// const DropdownMenu = () => (
+//   <Select options={options} />
+// );
 
 
 class SignUp extends Component {
     constructor() {
         super();
 
+        // When the submit button is pressed:
+
+        // this.state = { user: {} };
+        // this.onSubmit = this.handleSubmit.bind(this);
+        
         this.state = {
             // name: '',
             userName: '',
@@ -40,9 +45,17 @@ class SignUp extends Component {
         let name = target.name;
 
         this.setState({
-          [name]: value
+          [name]: value,
         });
     };
+    state = {
+      selectedOption: null,
+    };
+
+    handleDropdownChange = (selectedOption) => {
+      this.setState({ selectedOption });
+      console.log(`Option selected:`, selectedOption);
+    }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -51,7 +64,30 @@ class SignUp extends Component {
         console.log(this.state);
     };
 
+    // When the submit button is clicked it will hit the fetch...
+
+  // handleFormSubmit(e) {
+  //   e.preventDefault();
+  //   var self = this;
+  //   // On submit of the form, send a POST request with the data to the server.
+  //   fetch('/users', { 
+  //       method: 'POST',
+  //       data: {
+  //         name: self.refs.name,
+  //         job: self.refs.job
+  //       }
+  //     })
+  //     .then(function(response) {
+  //       return response.json()
+  //     }).then(function(body) {
+  //       console.log(body);
+  //     });
+  // }
+
+    
+
     render() {
+      const { selectedOption } = this.state;
         return (
             <div className="App">
             <div className="App__Aside"></div>
@@ -97,7 +133,7 @@ class SignUp extends Component {
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">Crypto Profile</label>
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
-                {DropdownMenu()}
+                <Select value={selectedOption} onChange={this.handleDropdownChange} options={options} isMulti={true} />
               </div>
               
               <div className="FormField">
@@ -107,7 +143,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20">Sign Up</button> <Link to="/sign-in" className="FormField__Link">I'm already member</Link>
+                  <button onSubmit={this.onSubmit} className="FormField__Button mr-20">Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
               </div>
             </form>
           </div>
