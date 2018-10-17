@@ -11,7 +11,8 @@ class Venues extends Component {
       deals: [],
       cryptosAccepted: null,
       transactionInfo: null,
-      paidIn: ""
+      paidIn: "",
+      purchasing: false
     };
   }
 
@@ -61,17 +62,22 @@ class Venues extends Component {
       .then(transactionInfo => {
         this.setState(
           { transactionInfo,
-            paidIn: crypto_name
+            paidIn: crypto_name,
+            purchasing: true
           });
         console.log(this.state.transactionInfo);
       });
   };
 
+  closePaymentHander = () => {
+    this.setState({purchasing: false})
+  }
+
   render() {
     return (
       <div>
-        <Modal >
-          {this.state.paidIn ? <Checkout transactionInfo={this.state.transactionInfo} paidIn={this.state.paidIn}/>: null}
+        <Modal showModal={this.state.purchasing} closeModal={this.closePaymentHander}>
+          {this.state.purchasing ? <Checkout transactionInfo={this.state.transactionInfo} paidIn={this.state.paidIn}/>: null}
         </Modal>
         <div className="row">
           {this.state.deals.map(deal => (
