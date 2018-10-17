@@ -9,7 +9,9 @@ class Venues extends Component {
 
     this.state = {
       deals: [],
-      cryptosAccepted: null
+      cryptosAccepted: null,
+      transactionInfo: null,
+      paidIn: ""
     };
   }
 
@@ -47,9 +49,6 @@ class Venues extends Component {
     let user_id = '4' //hardcoded user_id for now. Need to grab user_id dynamically
     let amount = event.target.children[3].getAttribute('data-amount');
 
-    console.log(crypto_name);
-    //need to make a post call
-
     return fetch('http://localhost:3001/checkout', {
       method: 'POST',
       headers: {
@@ -58,13 +57,21 @@ class Venues extends Component {
       },
       body: JSON.stringify({ crypto_name, deal_id, user_id, amount })
     })
+      .then(res => res.json())
+      .then(transactionInfo => {
+        this.setState(
+          { transactionInfo,
+            paidIn: crypto_name
+          });
+        console.log(this.state.transactionInfo);
+      });
   };
 
   render() {
     return (
       <div>
         <Modal >
-          <Checkout />
+          {this.state.paidIn ? <Checkout transactionInfo={this.state.transactionInfo} paidIn={this.state.paidIn}/>: null}
         </Modal>
         <div className="row">
           {this.state.deals.map(deal => (
