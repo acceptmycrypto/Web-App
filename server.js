@@ -12,10 +12,6 @@ var path = require("path");
 //use session
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
-//coinpayment
-var Coinpayments = require("coinpayments");
-var keys = require("./key");
-var client = new Coinpayments(keys.coinpayment);
 
 //allow the api to be accessed by other apps
 app.use(function(req, res, next) {
@@ -37,6 +33,7 @@ var supportRoutes = require("./routes/support.js");
 var userProfileRoutes = require("./routes/user_profile.js");
 var matchedFriendsRoutes = require("./routes/matched_friends.js");
 var dealsRoutes = require("./routes/deals.js");
+var transactionsRoutes = require("./routes/transactions.js");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -58,6 +55,7 @@ app.use("/", supportRoutes);
 app.use("/", userProfileRoutes);
 app.use("/", matchedFriendsRoutes);
 app.use("/", dealsRoutes);
+app.use("/", transactionsRoutes);
 
 path.join(__dirname, "public");
 
@@ -168,60 +166,6 @@ async.map(
 
 // set the view engine to ejs
 app.set("view engine", "ejs");
-
-//get list of checkouts
-app.get('/api/checkout', function(req, res) {
-  connection.query(
-    'SELECT * FROM users_purchases',
-    function(error, results, fields) {
-      if (error) throw error;
-      res.json(results);
-    }
-  );
-});
-
-//coinpayment
-app.post("/checkout", function(req, res) {
-  console.log("deal_info", req.body);
-  //Inserting to user_purchases table, this doens't mean purchase is successful
-  //Need to listen to IPA when payment has recieved and then update payment_recieved to true
-
-  client.createTransaction(
-    {
-      currency1: "USD",
-      currency2: req.body.crypto_name, // The currency the buyer will be sending.
-      amount: req.body.amount // Expected amount to pay, where the price is expressed in currency1
-    },
-    function(err, paymentInfo) {
-      if (err) {
-        console.log("coinpayment error: ", err);
-      } else {
-        //send the paymentInfo to the client side
-        res.json(paymentInfo);
-
-        connection.query(
-        'INSERT INTO users_purchases SET ?',
-        {
-          user_id: req.body.user_id,
-          deal_id: req.body.deal_id,
-          crypto_name: req.body.crypto_name,
-          amount: paymentInfo.amount,
-          txn_id: paymentInfo.txn_id, //coinpayment transaction address
-          address: paymentInfo.address, //coinpayment temporary address
-          confirms_needed: paymentInfo.confirms_needed,
-          timeout: paymentInfo.timeout, //in seconds
-          status_url: paymentInfo.status_url,
-          qrcode_url: paymentInfo.qrcode_url
-        },
-        function(err, transactionInitiated) {
-          if (err) {
-            console.log(err)
-          }
-        })
-      }
-    }
-  );
-});
 
 //Heroku tells us which port our app to use. For production, we use Heroku port. For development, we use 3000
 const PORT = process.env.PORT || 3001;
