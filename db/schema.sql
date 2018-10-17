@@ -127,7 +127,7 @@ CREATE TABLE users_purchases(
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (deal_id) REFERENCES deals(id),
+	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
 CREATE TABLE users_matched_friends(

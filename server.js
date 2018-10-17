@@ -1,102 +1,102 @@
 require("dotenv").config();
 
-var express = require('express');
+var express = require("express");
 var app = express();
-var mysql = require('mysql');
-var request = require('request');
-var async = require('async');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var flash = require('express-flash');
-var path = require('path');
+var mysql = require("mysql");
+var request = require("request");
+var async = require("async");
+var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
+var flash = require("express-flash");
+var path = require("path");
 //use session
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
 //coinpayment
-var Coinpayments = require('coinpayments');
-var keys = require('./key');
+var Coinpayments = require("coinpayments");
+var keys = require("./key");
 var client = new Coinpayments(keys.coinpayment);
 
 //allow the api to be accessed by other apps
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
-  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
   next();
 });
 
 //routers
-var adminRoutes = require('./routes/admin.js');
-var venueRoutes = require('./routes/venue.js');
-var cryptoRoutes = require('./routes/crypto.js');
-var apiRoutes = require('./routes/api.js');
-var supportRoutes = require('./routes/support.js');
-var userProfileRoutes = require('./routes/user_profile.js');
-var matchedFriendsRoutes = require('./routes/matched_friends.js');
-var dealsRoutes = require('./routes/deals.js');
+var adminRoutes = require("./routes/admin.js");
+var venueRoutes = require("./routes/venue.js");
+var cryptoRoutes = require("./routes/crypto.js");
+var apiRoutes = require("./routes/api.js");
+var supportRoutes = require("./routes/support.js");
+var userProfileRoutes = require("./routes/user_profile.js");
+var matchedFriendsRoutes = require("./routes/matched_friends.js");
+var dealsRoutes = require("./routes/deals.js");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('public'));
-app.use(methodOverride('_method'));
+app.use(express.static("public"));
+app.use(methodOverride("_method"));
 app.use(cookieParser());
 app.use(
   session({
-    secret: 'app',
+    secret: "app",
     cookie: { maxAge: 60000 }
   })
 );
 app.use(flash());
-app.use('/', adminRoutes);
-app.use('/', venueRoutes);
-app.use('/', cryptoRoutes);
-app.use('/', apiRoutes);
-app.use('/', supportRoutes);
-app.use('/', userProfileRoutes);
-app.use('/', matchedFriendsRoutes);
-app.use('/', dealsRoutes);
+app.use("/", adminRoutes);
+app.use("/", venueRoutes);
+app.use("/", cryptoRoutes);
+app.use("/", apiRoutes);
+app.use("/", supportRoutes);
+app.use("/", userProfileRoutes);
+app.use("/", matchedFriendsRoutes);
+app.use("/", dealsRoutes);
 
-path.join(__dirname, 'public');
+path.join(__dirname, "public");
 
 var connection = mysql.createConnection({
-  host: 'localhost',
+  host: "localhost",
 
   // Your port; if not 3306
   port: 3306,
 
   // Your username
-  user: 'root',
+  user: "root",
 
   // Your password
-  password: 'password',
-  database: 'crypto_db'
+  password: "password",
+  database: "crypto_db"
 });
 
 //pass options as a param to request
 var options = [
   {
-    method: 'GET',
-    uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info',
+    method: "GET",
+    uri: "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info",
     qs: {
-      symbol: 'BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR'
+      symbol: "BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR"
     },
     headers: {
-      'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
-      Accept: 'application/json'
+      "X-CMC_PRO_API_KEY": "0972c733-b48c-4f2e-8da9-21e39cff4fc9",
+      Accept: "application/json"
     }
   },
   {
-    method: 'GET',
-    uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',
+    method: "GET",
+    uri: "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",
     qs: {
-      symbol: 'BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR'
+      symbol: "BTC,ETH,LTC,BCH,DASH,ETC,DOGE,XRP,XVG,XMR"
     },
     headers: {
-      'X-CMC_PRO_API_KEY': '0972c733-b48c-4f2e-8da9-21e39cff4fc9',
-      Accept: 'application/json'
+      "X-CMC_PRO_API_KEY": "0972c733-b48c-4f2e-8da9-21e39cff4fc9",
+      Accept: "application/json"
     }
   }
 ];
@@ -130,7 +130,7 @@ async.map(
         var crypto_price = coin_metadata[i].quote.USD.price;
 
         connection.query(
-          'INSERT INTO crypto_metadata SET ?',
+          "INSERT INTO crypto_metadata SET ?",
           {
             crypto_name: crypto_name,
             crypto_symbol: crypto_symbol,
@@ -149,7 +149,7 @@ async.map(
         var crypto_logo = coin_info[j].logo;
         var crypto_metadata_name = coin_info[j].name;
         connection.query(
-          'INSERT INTO crypto_info SET ?',
+          "INSERT INTO crypto_info SET ?",
           {
             crypto_logo: crypto_logo,
             crypto_link: crypto_site,
@@ -167,27 +167,37 @@ async.map(
 );
 
 // set the view engine to ejs
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 //coinpayment
-app.post('/checkout', function(req, res) {
-  console.log(req.body)
+app.post("/checkout", function(req, res) {
+  console.log(req.body);
+  //Need to insert to table when purchase is successful
   // var query = connection.query(
   //   'INSERT INTO users_purchases SET ?',
-  //   {},
+  //   req.body,
   //   function(err, response) {
-  //     req.flash('info', 'Thank you for your Submit. Once verified, we will email you the result.');
-  //     res.redirect('/');
+  //     console.log(response);
   //   }
   // );
+  client.createTransaction(
+    {
+      currency1: "USD",
+      currency2: req.body.crypto_name,
+      amount: req.body.amount
+    },
+    function(err, paymentInfo) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(paymentInfo);
+      }
+    }
+  );
 });
-
-// client.createTransaction({'currency1' : 'DOGE', 'currency2' : 'POT', 'amount' : 10},function(err,result){
-//   console.log(result);
-// });
 
 //Heroku tells us which port our app to use. For production, we use Heroku port. For development, we use 3000
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, function() {
-  console.log('Backend server is listening on 3001');
+  console.log("Backend server is listening on 3001");
 });

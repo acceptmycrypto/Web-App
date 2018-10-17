@@ -52,13 +52,15 @@ router.post('/venues/create', function(req, res) {
 //api
 router.get('/api/venues_cryptos', function(req, res) {
   connection.query(
-    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
+    'SELECT venues.venue_name, venues.venue_description, crypto_metadata.crypto_name, crypto_metadata.crypto_symbol FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id',
     function(error, results, fields) {
       if (error) throw error;
 
       let venue = '';
       let crypto = '';
+      let cryptoSymbol = '';
       let cryptocurrencies = [];
+      let crypto_symbols = [];
       let newObj = {};
 
       results.map((venueObj) => {
@@ -66,16 +68,21 @@ router.get('/api/venues_cryptos', function(req, res) {
         if (venueObj.venue_name !== venue) {
           venue = venueObj.venue_name;
           crypto = venueObj.crypto_name;
+          cryptoSymbol = venueObj.crypto_symbol;
 
           //when it's a new venue_name, empty the cryptocurrencies array
           cryptocurrencies = [];
           cryptocurrencies.push(crypto);
-          newObj[venueObj.venue_name] = cryptocurrencies;
+          crypto_symbols = [];
+          crypto_symbols.push(cryptoSymbol);
+          newObj[venueObj.venue_name] = [cryptocurrencies, crypto_symbols];
 
         } else {
           crypto = venueObj.crypto_name;
           cryptocurrencies.push(crypto);
-          newObj[venueObj.venue_name] = cryptocurrencies;
+          cryptoSymbol = venueObj.crypto_symbol;
+          crypto_symbols.push(cryptoSymbol);
+          newObj[venueObj.venue_name] = [cryptocurrencies, crypto_symbols];
         }
 
         return newObj;
