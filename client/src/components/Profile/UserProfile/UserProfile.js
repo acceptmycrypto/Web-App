@@ -12,7 +12,9 @@ class UserProfile extends Component {
       src: "./assets/images/user.png",
       cryptoView: "owned",
       userInfo: [],
-      userCrypto: []
+      userCrypto: [],
+      addAddress: false,
+      qr: false
     }
   }
 
@@ -21,77 +23,171 @@ class UserProfile extends Component {
 
     if (target) {
       this.setState({
-        cryptoView: "interested"
+        cryptoView: "interested",
+        qr: false
       });
+      let surroundingDiv = document.querySelector('.cryptoWallet');
+      let allChildren = surroundingDiv.children;
+      for (let i = 0; i < allChildren.length; i++) {
+        let element = allChildren[i]
+        console.log(element);
+        if (element.tagName == "DIV") {
+          element.style.display = "flex";
+        }
+        else {
+          element.remove();
+        }
+      }
+
+      let address = document.getElementsByClassName('address');
+      if (address[0] != undefined) {
+        address[0].remove();
+      }
+
+
     } else {
       this.setState({
-        cryptoView: "owned"
+        cryptoView: "owned",
+        qr: false
       });
+      let surroundingDiv = document.querySelector('.cryptoWallet');
+      let allChildren = surroundingDiv.children;
+      for (let i = 0; i < allChildren.length; i++) {
+        let element = allChildren[i]
+        console.log(element);
+        if (element.tagName == "DIV") {
+          element.style.display = "flex";
+        }
+        else {
+          element.remove();
+        }
+      }
+
+      let form = document.getElementsByClassName('addressForm');
+      if (form[0] != undefined) {
+        form[0].remove();
+      }
+
+
     }
 
 
   }
 
   showQR = (event) => {
-    let target = event.target;
-    let parentDiv = target.parentElement.parentElement;
-    let address = target.getAttribute("data-address");
-    let surroundingDiv = target.parentElement.parentElement.parentElement;
+    if (!this.state.qr) {
+      let target = event.target;
+      let parentDiv = target.parentElement.parentElement;
+      let address = target.getAttribute("data-address");
+      let surroundingDiv = target.parentElement.parentElement.parentElement;
 
-    let allChildren = surroundingDiv.children;
-    for (let i = 0; i < allChildren.length; i++) {
-      let element = allChildren[i]
-      if(element != parentDiv){
-        element.style.display = "none";
+      let allChildren = surroundingDiv.children;
+      for (let i = 0; i < allChildren.length; i++) {
+        let element = allChildren[i]
+        if (element != parentDiv) {
+          element.style.display = "none";
+        }
       }
+      let remainingDiv = document.querySelector('.cryptoWallet');
+
+      let qr = document.createElement("img");
+      qr.src = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`;
+
+      let displayAddress = document.createElement("p");
+      displayAddress.classList.add('address');
+      displayAddress.innerHTML = address;
+      remainingDiv.append(qr, displayAddress);
+      // remainingDiv.appendChild(displayAddress);
+
+
+
+      let icon = document.createElement("i");
+      icon.classList.add('fas', 'fa-times');
+      icon.addEventListener("click", this.hideQR);
+      icon.classList.add('deleteQR');
+      remainingDiv.insertBefore(icon, parentDiv);
+
+      this.setState({
+        qr: true
+      })
     }
-    let remainingDiv = document.querySelector('.cryptoWallet');
-
-    let qr = document.createElement("img");
-    qr.src =`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`;
-    
-    let displayAddress = document.createElement("p");
-    displayAddress.classList.add('address');
-    displayAddress.innerHTML = address;
-    remainingDiv.append(qr, displayAddress);
-    // remainingDiv.appendChild(displayAddress);
-
-    
-
-    let icon = document.createElement("i");
-    icon.classList.add('fas', 'fa-times');
-    icon.addEventListener("click", this.hideQR);
-    icon.classList.add('deleteQR');
-    remainingDiv.insertBefore(icon,parentDiv);
-    
 
   }
 
-  hideQR = (event) =>{
-    let target = event.target;
-    let parentDiv = target.parentElement;
+  hideQR = (event) => {
 
-    let allChildren = parentDiv.children;
-    console.log(allChildren);
+    if (this.state.qr) {
+      let target = event.target;
+      let parentDiv = target.parentElement;
 
-    let address = document.getElementsByClassName('address');
-    address[0].remove();
+      let allChildren = parentDiv.children;
+      console.log(allChildren);
 
-    for (let i = 0; i < allChildren.length; i++) {
-      let element = allChildren[i]
-      console.log(element);
-      if(element.tagName == "DIV"){
+      let address = document.getElementsByClassName('address');
+      address[0].remove();
+
+      //note: for loop stops at i = 5 and does not finish and remove the wallet address so have to manually remove with code above 
+      for (let i = 0; i < allChildren.length; i++) {
+        let element = allChildren[i]
+        console.log(element);
+        if (element.tagName == "DIV") {
+          element.style.display = "flex";
+        }
+        else {
+          element.remove();
+        }
+        this.setState({
+          qr: false
+        })
+      }
+    }
+
+
+  }
+
+  addQR = (event) => {
+    var addressStatus = this.state.addAddress;
+    if (this.state.addAddress) {
+      this.setState({
+        addAddress: false
+      })
+
+      let target = event.target;
+      let parentDiv = target.parentElement.parentElement;
+      let surroundingDiv = target.parentElement.parentElement.parentElement;
+      let allChildren = surroundingDiv.children;
+      for (let i = 0; i < allChildren.length; i++) {
+        debugger;
+        let element = allChildren[i]
         element.style.display = "flex";
+        // if (element != parentDiv) {
+        //   debugger;
+        //   element.style.display = "none";
+        // }
       }
-      else{
-        element.remove();
+
+    } else {
+      this.setState({
+        addAddress: true
+      })
+      let target = event.target;
+      let parentDiv = target.parentElement.parentElement;
+      let surroundingDiv = target.parentElement.parentElement.parentElement;
+      let allChildren = surroundingDiv.children;
+      for (let i = 0; i < allChildren.length; i++) {
+        let element = allChildren[i]
+        if (element != parentDiv) {
+          debugger;
+          element.style.display = "none";
+        }
       }
+
     }
 
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
 
     Promise.all([
       fetch('http://localhost:3001/profile'),
@@ -132,7 +228,7 @@ class UserProfile extends Component {
           <div className="cryptoWallet">
             {(this.state.cryptoView === "interested")
               ? this.state.userCrypto.map((y) =>
-                <div className="d-flex flex-column">
+                <div>
                   {
                     (y.crypto_address === null)
                       ? <div className="mx-1 my-2 cryptos">
@@ -141,7 +237,7 @@ class UserProfile extends Component {
                         <br></br>
                         <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} onClick={this.addQR}></img>
                       </div>
-                      : ""
+                      : null
                   }
                 </div>
               )
@@ -154,10 +250,19 @@ class UserProfile extends Component {
                         <br></br>
                         <img className="cryptoImage" data-name={y.crypto_metadata_name} data-address={y.crypto_address} src={y.crypto_logo} onClick={this.showQR}></img>
                       </div>
-                      : ""
+                      : null
                   }
                 </div>
               )
+            }
+            {this.state.addAddress &&
+              <div className="addressForm">
+                <form id="addAddressForm" onSubmit={this.updateCryptos}>
+                  <input type="text" name="crypto_address" placeholder="enter your wallet address here" />
+
+                  <button>Add Address</button>
+                </form>
+              </div>
             }
           </div>
 
