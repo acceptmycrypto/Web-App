@@ -43,3 +43,5 @@ var connection = mysql.createConnection({
 //   });
 //   res.end('Success');
 // });
+
+module.exports = router;
