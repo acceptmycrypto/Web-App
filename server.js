@@ -37,6 +37,7 @@ var supportRoutes = require('./routes/support.js');
 var userProfileRoutes = require('./routes/user_profile.js');
 var matchedFriendsRoutes = require('./routes/matched_friends.js');
 var dealsRoutes = require('./routes/deals.js');
+// var signUpRoutes = require('./routes/signup.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -58,6 +59,7 @@ app.use('/', supportRoutes);
 app.use('/', userProfileRoutes);
 app.use('/', matchedFriendsRoutes);
 app.use('/', dealsRoutes);
+// app.use('/', signUpRoutes);
 
 path.join(__dirname, 'public');
 
@@ -166,25 +168,6 @@ async.map(
   }
 );
 
-// app.post('/', function(req, res) {
-//   // Get sent data.
-//   var user = req.body;
-//   // Do a MySQL query.
-//   var query = connection.query('INSERT INTO ____ SET ?', ____, function(err, result) {
-//     // Neat!
-//   });
-//   res.end('Success');
-// });
-
-// app.post('/SignUp', function(req, res) {
-//   // Get sent data.
-//   var user = req.body;
-//   // Do a MySQL query.
-//   var query = connection.query('INSERT INTO ____ SET ?', ____, function(err, result) {
-//     // Neat!
-//   });
-//   res.end('Success');
-// });
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
