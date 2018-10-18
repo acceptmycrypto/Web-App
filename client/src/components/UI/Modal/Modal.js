@@ -2,7 +2,7 @@ import React from 'react';
 import './Modal.css';
 import Backdrop from '../Backdrop/Backdrop'
 
-const modal = (props) => {
+const Modal = (props) => {
   return (
     <div>
       <Backdrop ModalShown={props.showModal} ModalClosed={props.closeModal}/>
@@ -19,4 +19,4 @@ const modal = (props) => {
   )
 }
 
-export default modal;
+export default Modal;
