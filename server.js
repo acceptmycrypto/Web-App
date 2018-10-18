@@ -33,7 +33,9 @@ var supportRoutes = require("./routes/support.js");
 var userProfileRoutes = require("./routes/user_profile.js");
 var matchedFriendsRoutes = require("./routes/matched_friends.js");
 var dealsRoutes = require("./routes/deals.js");
+var signUpRoutes = require('./routes/signup.js');
 var transactionsRoutes = require("./routes/transactions.js");
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -47,6 +49,7 @@ app.use(
   })
 );
 app.use(flash());
+
 app.use("/", adminRoutes);
 app.use("/", venueRoutes);
 app.use("/", cryptoRoutes);
@@ -55,6 +58,7 @@ app.use("/", supportRoutes);
 app.use("/", userProfileRoutes);
 app.use("/", matchedFriendsRoutes);
 app.use("/", dealsRoutes);
+app.use('/', signUpRoutes);
 app.use("/", transactionsRoutes);
 
 path.join(__dirname, "public");
@@ -163,6 +167,7 @@ async.map(
     }
   }
 );
+
 
 // set the view engine to ejs
 app.set("view engine", "ejs");
