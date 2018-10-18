@@ -1,10 +1,10 @@
-INSERT INTO users (username, first_name, last_name, phone_number, email, password) VALUES
-("ym","yanan","meng","1234567890","ym@ym.com","ym"),
-("ak","avanika","k","1234567890","ak@ak.com","ak"),
-("jn","jason","neitro","1234567890","jn@jn.com","jn"),
-("sn","simon","nguyen","1234567890","sn@sn.com","sn"),
-("hf","hooman","f","1234567890","hf@hf.com","hf"),
-("pk","pavan","katapali","1234567890","pk@pk.com","pk");
+INSERT INTO users (username, first_name, last_name, phone_number, email, password, email_verification_token) VALUES
+("ym","yanan","meng","1234567890","ym@ym.com","ym", uuid()),
+("ak","avanika","k","1234567890","ak@ak.com","ak", uuid()),
+("jn","jason","neitro","1234567890","jn@jn.com","jn", uuid()),
+("sn","simon","nguyen","1234567890","sn@sn.com","sn", uuid()),
+("hf","hooman","f","1234567890","hf@hf.com","hf", uuid()),
+("pk","pavan","katapali","1234567890","pk@pk.com","pk", uuid());
 
 
 INSERT INTO users_profiles (user_id, bio, user_location) VALUES
