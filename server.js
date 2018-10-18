@@ -168,7 +168,6 @@ async.map(
   }
 );
 
-
 // set the view engine to ejs
 app.set("view engine", "ejs");
 
