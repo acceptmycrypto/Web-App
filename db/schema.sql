@@ -154,9 +154,11 @@ CREATE TABLE users_matched_friends(
 CREATE TABLE crypto_comments(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
-	crypto_id INT NOT NULL,
-	body TEXT NOT NULL,
-	date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  crypto_id INT NOT NULL,
+  body TEXT NOT NULL,
+  date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  comment_status VARCHAR (10) DEFAULT 'normal',
+  points INT DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
