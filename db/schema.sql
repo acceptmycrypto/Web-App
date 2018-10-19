@@ -148,6 +148,8 @@ CREATE TABLE crypto_comments(
   crypto_id INT NOT NULL,
   body TEXT NOT NULL,
   date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  comment_status VARCHAR (10) DEFAULT 'normal',
+  points INT DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
