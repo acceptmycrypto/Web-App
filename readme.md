@@ -19,3 +19,10 @@
 ```
 npm run dev
 ```
+# Run Schema/ Seeds files:
+1. SOURCE schema.sql
+2. SOURCE seeds_venues.sql
+3. Go to : http://localhost:3001/cryptos after running nodemon
+4. SOURCE seeds_cryptos-venues.sql
+5. SOURCE seeds_deals.sql
+6. SOURCE seeds_users.sql

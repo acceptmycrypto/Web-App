@@ -79,6 +79,9 @@ CREATE TABLE admin_users (
 
 CREATE TABLE users(
 	id INT NOT NULL AUTO_INCREMENT,
+	verified_email BOOLEAN DEFAULT FALSE,
+	-- when inserting into users table the value for email_verification_token should be uuid()
+	email_verification_token VARCHAR(255),
 	username VARCHAR(30) NOT NULL UNIQUE,
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR (255) NOT NULL,
@@ -89,7 +92,7 @@ CREATE TABLE users(
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE user_logins(
+CREATE TABLE users_logins(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	sign_in_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +100,7 @@ CREATE TABLE user_logins(
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE user_profiles(
+CREATE TABLE users_profiles(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	bio TEXT NULL,
@@ -122,13 +125,19 @@ CREATE TABLE users_purchases(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
-	crypto_id INT NOT NULL,
-	amount DECIMAL(10, 4) NOT NULL,
+	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	amount DECIMAL(10, 8) NOT NULL,
+	txn_id VARCHAR(255) NOT NULL,
+	address VARCHAR(255) NOT NULL,
+	confirms_needed VARCHAR(255) NOT NULL,
+	timeout INT NOT NULL,
+	status_url VARCHAR(255) NULL,
+	qrcode_url VARCHAR(255) NOT NULL,
+	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (deal_id) REFERENCES deals(id),
-	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
 CREATE TABLE users_matched_friends(

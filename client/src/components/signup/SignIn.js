@@ -48,9 +48,9 @@ class SignIn extends Component {
                   <NavLink exact to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
   
-                <div className="FormTitle">
+                {/* <div className="FormTitle">
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
-                </div>
+                </div> */}
             <div className="FormCenter">
             <form onSubmit={this.handleSubmit} className="FormFields">
             <div className="FormField">
@@ -67,11 +67,8 @@ class SignIn extends Component {
                   <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
             </form>
-          </div>
-              
+          </div>   
             </div>
-
-       
           </div>
         );
     }

@@ -1,13 +1,28 @@
 // import React from "react";
-import "./Signup.css";
+import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import Select from 'react-select'
+
+const options = [
+  { value: 'Bitcoin', label: 'Bitcoin (BTC)' },
+  { value: 'Litecoin', label: 'Litecoin (LTC)' },
+  { value: 'Etherium', label: 'Etherium (ETH)' }
+];
+// const DropdownMenu = () => (
+//   <Select options={options} />
+// );
 
 
 class SignUp extends Component {
     constructor() {
         super();
 
+        // When the submit button is pressed:
+
+        // this.state = { user: {} };
+        // this.onSubmit = this.handleSubmit.bind(this);
+        
         this.state = {
             // name: '',
             userName: '',
@@ -16,13 +31,13 @@ class SignUp extends Component {
             // phoneNum: '',
             // location: '',
             // birthday: '',
-            cryptoProfile: '',
+            cryptoProfile: options,
             hasAgreed: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    };
 
     handleChange(e) {
         let target = e.target;
@@ -30,8 +45,16 @@ class SignUp extends Component {
         let name = target.name;
 
         this.setState({
-          [name]: value
+          [name]: value,
         });
+    };
+    state = {
+      selectedOption: null,
+    };
+
+    handleDropdownChange = (selectedOption) => {
+      this.setState({ selectedOption });
+      console.log(`Option selected:`, selectedOption);
     }
 
     handleSubmit(e) {
@@ -39,9 +62,32 @@ class SignUp extends Component {
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
-    }
+    };
+
+    // When the submit button is clicked it will hit the fetch...
+
+  // handleFormSubmit(e) {
+  //   e.preventDefault();
+  //   var self = this;
+  //   // On submit of the form, send a POST request with the data to the server.
+  //   fetch('/users', { 
+  //       method: 'POST',
+  //       data: {
+  //         name: self.refs.name,
+  //         job: self.refs.job
+  //       }
+  //     })
+  //     .then(function(response) {
+  //       return response.json()
+  //     }).then(function(body) {
+  //       console.log(body);
+  //     });
+  // }
+
+    
 
     render() {
+      const { selectedOption } = this.state;
         return (
             <div className="App">
             <div className="App__Aside"></div>
@@ -51,9 +97,9 @@ class SignUp extends Component {
                   <NavLink to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
   
-                <div className="FormTitle">
+                {/* <div className="FormTitle">
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
-                </div>
+                </div> */}
             <div className="FormCenter">
             <form onSubmit={this.handleSubmit} className="FormFields">
               {/* <div className="FormField">
@@ -61,8 +107,8 @@ class SignUp extends Component {
                 <input type="text" id="name" className="FormField__Input" placeholder="Enter your full name" name="name" value={this.state.name} onChange={this.handleChange} />
               </div> */}
               <div className="FormField">
-                <label className="FormField__Label" htmlFor="name">User Name</label>
-                <input type="userName" id="userName" className="FormField__Input" placeholder="Enter your desired User Name" name="User name" value={this.state.userName} onChange={this.handleChange} />
+                <label className="FormField__Label" htmlFor="userName">User Name</label>
+                <input type="userName" id="userName" className="FormField__Input" placeholder="Enter your desired User Name" name="userName" value={this.state.userName} onChange={this.handleChange} />
               </div>
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
@@ -86,7 +132,8 @@ class SignUp extends Component {
               </div> */}
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">Crypto Profile</label>
-                <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} />
+                {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
+                <Select value={selectedOption} onChange={this.handleDropdownChange} options={options} isMulti={true} />
               </div>
               
               <div className="FormField">
@@ -96,7 +143,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20">Sign Up</button> <Link to="/sign-in" className="FormField__Link">I'm already member</Link>
+                  <button className="FormField__Button mr-20">Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
               </div>
             </form>
           </div>
@@ -104,68 +151,8 @@ class SignUp extends Component {
               
             </div>
         );
-    }
+    };
    
-}
-
-// class SignIn extends Component {
-//     constructor() {
-//         super();
-
-//         this.state = {
-//             email: '',
-//             password: '',
-//             SignUp: false
-//         };
-
-//         this.handleChange = this.handleChange.bind(this);
-//         this.handleSubmit = this.handleSubmit.bind(this);
-//     }
-
-//     handleChange(e) {
-//         let target = e.target;
-//         let value = target.type === 'checkbox' ? target.checked : target.value;
-//         let name = target.name;
-
-//         this.setState({
-//           [name]: value
-//         });
-//     }
-
-//     handleSubmit(e) {
-//         e.preventDefault();
-
-//         console.log('The form was submitted with the following data:');
-//         console.log(this.state);
-//     }
-
-//     hideSignUpForm = (event) => {
-//         event.preventDefault();
-//         this.setState({SignUp:false})
-//       };
-
-//     render() {
-//         return (
-//         <div className="FormCenter">
-//             <form onSubmit={this.handleSubmit} className="FormFields">
-//             <div className="FormField">
-//                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
-//                 <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} />
-//               </div>
-
-//               <div className="FormField">
-//                 <label className="FormField__Label" htmlFor="password">Password</label>
-//                 <input type="password" id="password" className="FormField__Input" placeholder="Enter your password" name="password" value={this.state.password} onChange={this.handleChange} />
-//               </div>
-
-//               <div className="FormField">
-//                   <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
-//               </div>
-//             </form>
-//           </div>
-//         );
-//     }
-// }
-
+};
 
 export default SignUp;
