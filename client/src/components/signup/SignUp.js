@@ -6,8 +6,16 @@ import Select from 'react-select'
 
 const options = [
   { value: 'Bitcoin', label: 'Bitcoin (BTC)' },
+  { value: 'Bitcoin Cash', label: 'Bitcoin Cash (BCH)' },
   { value: 'Litecoin', label: 'Litecoin (LTC)' },
-  { value: 'Etherium', label: 'Etherium (ETH)' }
+  { value: 'Ethereum', label: 'Ethereum (ETH)' },
+  { value: 'Ethereum Classic', label: 'Ethereum Classic (ETC)' },
+  { value: 'Litecoin', label: 'Litecoin (LTC)' },
+  { value: 'Dogecoin', label: 'Dogecoin (LTC)' },
+  { value: 'Dash', label: 'Dash' },
+  { value: 'Monero', label: 'Monero (XMR)' },
+  { value: 'Verge', label: 'Verge (XVG)' },
+  { value: 'Ripple', label: 'Ripple (XRP)' }
 ];
 // const DropdownMenu = () => (
 //   <Select options={options} />
@@ -66,25 +74,26 @@ class SignUp extends Component {
 
     // When the submit button is clicked it will hit the fetch...
 
-  // handleFormSubmit(e) {
-  //   e.preventDefault();
-  //   var self = this;
-  //   // On submit of the form, send a POST request with the data to the server.
-  //   fetch('/users', { 
-  //       method: 'POST',
-  //       data: {
-  //         name: self.refs.name,
-  //         job: self.refs.job
-  //       }
-  //     })
-  //     .then(function(response) {
-  //       return response.json()
-  //     }).then(function(body) {
-  //       console.log(body);
-  //     });
-  // }
-
-    
+  handleFormSubmit(e) {
+    e.preventDefault();
+    // var self = this;
+    // On submit of the form, send a POST request with the data to the server.
+    fetch('http://localhost:3001/SignUp', { 
+        method: 'POST',
+        data: {
+          userName: this.name.userName,
+          email: this.name.email,
+          password: this.name.password,
+          cryptoProfile: this.name.cryptoProfile,
+          hasAgreed: true
+        }
+      })
+      .then(function(response) {
+        return response.json()
+      }).then(function(body) {
+        console.log(body);
+      });
+  };
 
     render() {
       const { selectedOption } = this.state;
@@ -133,7 +142,7 @@ class SignUp extends Component {
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">Crypto Profile</label>
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
-                <Select value={selectedOption} onChange={this.handleDropdownChange} options={options} isMulti={true} />
+                <Select value={selectedOption} onChange={this.handleDropdownChange} options={options} isMulti={true} autoBlur={false} />
               </div>
               
               <div className="FormField">
