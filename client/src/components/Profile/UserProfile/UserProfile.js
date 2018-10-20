@@ -49,11 +49,11 @@ class UserProfile extends Component {
 
       if (address[0] && qr[0] && deleteIcon[0] && address[0] != undefined && qr[0] != undefined && deleteIcon[0] != undefined) {
         address[0].remove();
-        debugger;
+
         qr[0].remove();
-        debugger;
+
         deleteIcon[0].remove();
-        debugger;
+
       }
 
 
@@ -133,17 +133,14 @@ class UserProfile extends Component {
       let address = document.getElementsByClassName('address');
       address[0].remove();
 
-      debugger;
 
       let qr = document.getElementsByClassName('qr');
       qr[0].remove();
 
-      debugger;
 
       let deleteIcon = document.getElementsByClassName('deleteIcon');
       deleteIcon[0].remove();
 
-      debugger;
 
       //note: for loop stops at i = 5 and does not finish and remove the wallet address so have to manually remove with code above 
       for (let i = 0; i < allChildren.length; i++) {
@@ -169,15 +166,15 @@ class UserProfile extends Component {
     let parentDiv = target.parentElement.parentElement;
     let surroundingDiv = target.parentElement.parentElement.parentElement;
     let allChildren = surroundingDiv.children;
+    let i, j, element;
 
     if (this.state.addAddress) {
 
-      for (let i = 0; i < allChildren.length; i++) {
+      for (i = 0; i < allChildren.length; i++) {
 
-        let element = allChildren[i]
+        element = allChildren[i]
         element.style.display = "flex";
         // if (element != parentDiv) {
-        //   debugger;
         //   element.style.display = "none";
         // }
       }
@@ -187,8 +184,9 @@ class UserProfile extends Component {
 
     } else {
 
-      for (let i = 0; i < allChildren.length; i++) {
-        let element = allChildren[i]
+      for (j = 0; j < allChildren.length; j++) {
+        element = allChildren[j]
+
         if (element != parentDiv) {
           element.style.display = "none";
         }
@@ -201,6 +199,7 @@ class UserProfile extends Component {
     }
 
   }
+
 
 
   componentDidMount() {
@@ -231,7 +230,7 @@ class UserProfile extends Component {
               ? <i className="fas fa-user-circle my-2 py-4 px-1 shaded"></i>
               : <img src={this.state.userInfo.photo}></img>
             }
-            
+
             {/* <img id="responsive" data-id={x.id} clasName="my-2 justify-content-center" src={this.state.src} alt="" /> */}
             <h5 className="my-2 blueText">{x.username}</h5>
             <h5 className="my-2 capitalize blueText">{x.first_name}  {x.last_name}</h5>
@@ -259,7 +258,9 @@ class UserProfile extends Component {
                       </div>
                       : null
                   }
+
                 </div>
+
               )
               : this.state.userCrypto.map((y) =>
                 <div>
@@ -276,7 +277,7 @@ class UserProfile extends Component {
               )
             }
             {this.state.addAddress &&
-              <div className="addressForm">
+              <div className="addressForm d-flex flex-column">
                 <form id="addAddressForm" onSubmit={this.updateCryptos}>
                   <input type="text" name="crypto_address" placeholder="enter your wallet address here" />
 
