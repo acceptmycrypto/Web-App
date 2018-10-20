@@ -27,7 +27,7 @@
     color: #9DA6B1;
     padding: 10px 25px;
     cursor: pointer;
-    font-size: .9em;
+    font-size: 1.2em;
     border: none;
     outline: none;
     display: inline-block;
@@ -111,7 +111,7 @@
     outline: none;
     border-radius: 25px;
     padding: 15px 70px;
-    font-size: .8em;
+    font-size: 1em;
     font-weight: 500;
   }
   

@@ -125,13 +125,19 @@ CREATE TABLE users_purchases(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
-	crypto_id INT NOT NULL,
-	amount DECIMAL(10, 4) NOT NULL,
+	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	amount DECIMAL(10, 8) NOT NULL,
+	txn_id VARCHAR(255) NOT NULL,
+	address VARCHAR(255) NOT NULL,
+	confirms_needed VARCHAR(255) NOT NULL,
+	timeout INT NOT NULL,
+	status_url VARCHAR(255) NULL,
+	qrcode_url VARCHAR(255) NOT NULL,
+	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (deal_id) REFERENCES deals(id),
-	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
 CREATE TABLE users_matched_friends(
@@ -148,12 +154,14 @@ CREATE TABLE users_matched_friends(
 CREATE TABLE crypto_comments(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
-	crypto_id INT NOT NULL,
-	body TEXT NOT NULL,
-	date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  crypto_id INT NOT NULL,
+  body TEXT NOT NULL,
+  date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  comment_status VARCHAR (10) DEFAULT 'normal',
+  points INT DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-  	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+  FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
 );
 
 CREATE TABLE parents_children(
