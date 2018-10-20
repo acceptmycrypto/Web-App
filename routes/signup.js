@@ -28,15 +28,31 @@ var connection = mysql.createConnection({
   database: 'crypto_db'
 });
 
-// app.post('/', function(req, res) {
-//   // Get sent data.
-//   var user = req.body;
-//   // Do a MySQL query.
-//   var query = connection.query('INSERT INTO ____ SET ?', ____, function(err, result) {
-//     // Neat!
-//   });
-//   res.end('Success');
-// });
+router.post('/SignUp', function(req, res) {
+  // Get sent data.
+  var user = req.body;
+  // Do a MySQL query.
+  connection.query('INSERT INTO users SET ?',
+  { 
+  username: user.userName,
+  email: user.email,
+  password: user.password,
+  cyrptoProfil: user.cyrptoProfil,
+  hasAgreed: user.hasAgreed
+  },
+
+  function(err, result) {
+    // Neat!
+  });
+  res.end('Success');
+});
+
+
+
+
+
+
+
 
 // app.post('/SignUp', function(req, res) {
 //   // Get sent data.

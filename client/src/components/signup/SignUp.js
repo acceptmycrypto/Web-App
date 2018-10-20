@@ -78,7 +78,7 @@ class SignUp extends Component {
     e.preventDefault();
     // var self = this;
     // On submit of the form, send a POST request with the data to the server.
-    fetch('/users', { 
+    fetch('http://localhost:3001/SignUp', { 
         method: 'POST',
         data: {
           userName: this.name.userName,
