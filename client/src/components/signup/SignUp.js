@@ -33,7 +33,7 @@ class SignUp extends Component {
         
         this.state = {
             // name: '',
-            userName: '',
+            username: '',
             email: '',
             password: '',
             // phoneNum: '',
@@ -55,6 +55,7 @@ class SignUp extends Component {
         this.setState({
           [name]: value,
         });
+        console.log (name);
     };
     state = {
       selectedOption: null,
@@ -67,33 +68,50 @@ class SignUp extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        let username = e.target.children[0].children[1].value;
+        let email = e.target.children[1].children[1].value;
+        let password = e.target.children[2].children[1].value;
+
+
+        console.log("This is the user name " + username);
+
+
+        return fetch("http://localhost:3001/register", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username, email, password})
+        })
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
     };
+    
 
     // When the submit button is clicked it will hit the fetch...
 
-  handleFormSubmit(e) {
-    e.preventDefault();
-    // var self = this;
-    // On submit of the form, send a POST request with the data to the server.
-    fetch('http://localhost:3001/SignUp', { 
-        method: 'POST',
-        data: {
-          userName: this.name.userName,
-          email: this.name.email,
-          password: this.name.password,
-          cryptoProfile: this.name.cryptoProfile,
-          hasAgreed: true
-        }
-      })
-      .then(function(response) {
-        return response.json()
-      }).then(function(body) {
-        console.log(body);
-      });
-  };
+  // handleFormSubmit(e) {
+  //   e.preventDefault();
+  //   // var self = this;
+  //   // On submit of the form, send a POST request with the data to the server.
+  //   fetch('http://localhost:3001/register', { 
+  //       method: 'POST',
+  //       data: {
+  //         userName: this.name.userName,
+  //         email: this.name.email,
+  //         password: this.name.password,
+  //         cryptoProfile: this.name.cryptoProfile,
+  //         hasAgreed: true
+  //       }
+  //     })
+  //     .then(function(response) {
+  //       return response.json()
+  //     }).then(function(body) {
+  //       console.log(body);
+  //     });
+  // };
 
     render() {
       const { selectedOption } = this.state;
@@ -116,8 +134,8 @@ class SignUp extends Component {
                 <input type="text" id="name" className="FormField__Input" placeholder="Enter your full name" name="name" value={this.state.name} onChange={this.handleChange} />
               </div> */}
               <div className="FormField">
-                <label className="FormField__Label" htmlFor="userName">User Name</label>
-                <input type="userName" id="userName" className="FormField__Input" placeholder="Enter your desired User Name" name="userName" value={this.state.userName} onChange={this.handleChange} />
+                <label className="FormField__Label" htmlFor="username">User Name</label>
+                <input type="username" id="username" className="FormField__Input" placeholder="Enter your desired User Name" name="username" value={this.state.username} onChange={this.handleChange} />
               </div>
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>

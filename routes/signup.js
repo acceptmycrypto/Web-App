@@ -28,40 +28,83 @@ var connection = mysql.createConnection({
   database: 'crypto_db'
 });
 
-router.post('/SignUp', function(req, res) {
-  // Get sent data.
-  var user = req.body;
-  // Do a MySQL query.
-  connection.query('INSERT INTO users SET ?',
-  { 
-  username: user.userName,
-  email: user.email,
-  password: user.password,
-  cyrptoProfil: user.cyrptoProfil,
-  hasAgreed: user.hasAgreed
-  },
-
-  function(err, result) {
-    // Neat!
+connection.connect(function(err){
+  if(!err) {
+      console.log("Database is connected ... nn");
+  } else {
+      console.log("Error connecting database ... nn");
+  }
   });
-  res.end('Success');
-});
 
+  router.post("/register", function(req,res){
+    // console.log("req",req.body);
+    // var today = new Date();
+    var users={
+      // "first_name":req.body.first_name,
+      // "last_name":req.body.last_name,
+      "username": req.body.username,
+      "email":req.body.email,
+      "password":req.body.password,
+      // "created":today,
+      // "modified":today
+    }
+    connection.query('INSERT INTO users SET ?',users, function (error, results, fields, next) {
+    if (error) {
+      console.log("error ocurred",error);
+      res.send({
+        "code":400,
+        "failed":"error ocurred"
+      })
+    }else{
+      console.log('The solution is: ', results);
+      // Redirect to next page (first user page).
+      res.send({
+        "code":200,
+        "success":"user registered sucessfully"
+          });
+    }
+    });
+  });
+  // router.post('/login',login.login)
+  // app.use('/api', router);
 
-
-
-
-
-
-
-// app.post('/SignUp', function(req, res) {
+// router.post('/SignUp', function(req, res) {
 //   // Get sent data.
 //   var user = req.body;
 //   // Do a MySQL query.
-//   var query = connection.query('INSERT INTO ____ SET ?', ____, function(err, result) {
+//   connection.query('INSERT INTO users SET ?',
+//   { 
+//   username: user.userName,
+//   email: user.email,
+//   password: user.password,
+//   cyrptoProfil: user.cyrptoProfil,
+//   hasAgreed: user.hasAgreed
+//   },
+
+//   function(err, result) {
 //     // Neat!
 //   });
 //   res.end('Success');
+// });
+
+
+
+
+
+
+
+
+// router.post('/registered', function(req, res) {
+//   // Get sent data.
+//   // var user = req.body;
+//   // Do a MySQL query.
+//   connection.query('INSERT INTO users SET ?',req.body.username, req.body.email, req.body.password, 
+//   function(err, result) {
+//     if (error) throw error;
+//     res.json(result)
+    
+//   });
+//   res.redirect('/');
 // });
 
 /*
