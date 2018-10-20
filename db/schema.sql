@@ -125,6 +125,7 @@ CREATE TABLE users_purchases(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
+	crypto_id INT NOT NULL,
 	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	amount DECIMAL(10, 8) NOT NULL,
@@ -137,6 +138,7 @@ CREATE TABLE users_purchases(
 	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id),
 	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
