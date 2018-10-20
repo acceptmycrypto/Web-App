@@ -24,51 +24,57 @@ class UserProfile extends Component {
     if (target) {
       this.setState({
         cryptoView: "interested",
-        qr: false
+        qr: false,
+        addAddress: false
       });
       let surroundingDiv = document.querySelector('.cryptoWallet');
       let allChildren = surroundingDiv.children;
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
-        console.log(element);
-        if (element.tagName == "DIV") {
-          element.style.display = "flex";
-        }
-        else {
-          element.remove();
-        }
+        // console.log(element);
+        // if (element.tagName == "DIV") {
+        element.style.display = "flex";
+        // }
+        // else {
+        //   element.remove();
+        // }
       }
 
       let address = document.getElementsByClassName('address');
-      if (address[0] != undefined) {
+
+      let qr = document.getElementsByClassName('qr');
+
+      let deleteIcon = document.getElementsByClassName('deleteIcon');
+
+
+      if (address[0] && qr[0] && deleteIcon[0] && address[0] != undefined && qr[0] != undefined && deleteIcon[0] != undefined) {
         address[0].remove();
+        debugger;
+        qr[0].remove();
+        debugger;
+        deleteIcon[0].remove();
+        debugger;
       }
 
 
     } else {
       this.setState({
         cryptoView: "owned",
-        qr: false
+        qr: false,
+        addAddress: false
       });
       let surroundingDiv = document.querySelector('.cryptoWallet');
       let allChildren = surroundingDiv.children;
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
         console.log(element);
-        if (element.tagName == "DIV") {
-          element.style.display = "flex";
-        }
-        else {
-          element.remove();
-        }
+        // if (element.tagName == "DIV") {
+        element.style.display = "flex";
+        // }
+        // else {
+        // element.remove();
+        // }
       }
-
-      let form = document.getElementsByClassName('addressForm');
-      if (form[0] != undefined) {
-        form[0].remove();
-      }
-
-
     }
 
 
@@ -91,6 +97,7 @@ class UserProfile extends Component {
       let remainingDiv = document.querySelector('.cryptoWallet');
 
       let qr = document.createElement("img");
+      qr.classList.add('qr');
       qr.src = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`;
 
       let displayAddress = document.createElement("p");
@@ -102,7 +109,7 @@ class UserProfile extends Component {
 
 
       let icon = document.createElement("i");
-      icon.classList.add('fas', 'fa-times');
+      icon.classList.add('fas', 'fa-times', 'deleteIcon');
       icon.addEventListener("click", this.hideQR);
       icon.classList.add('deleteQR');
       remainingDiv.insertBefore(icon, parentDiv);
@@ -126,16 +133,28 @@ class UserProfile extends Component {
       let address = document.getElementsByClassName('address');
       address[0].remove();
 
+      debugger;
+
+      let qr = document.getElementsByClassName('qr');
+      qr[0].remove();
+
+      debugger;
+
+      let deleteIcon = document.getElementsByClassName('deleteIcon');
+      deleteIcon[0].remove();
+
+      debugger;
+
       //note: for loop stops at i = 5 and does not finish and remove the wallet address so have to manually remove with code above 
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
-        console.log(element);
-        if (element.tagName == "DIV") {
-          element.style.display = "flex";
-        }
-        else {
-          element.remove();
-        }
+        // console.log(element);
+        // if (element.tagName == "DIV") {
+        element.style.display = "flex";
+        // }
+        // else {
+        // element.remove();
+        // }
         this.setState({
           qr: false
         })
@@ -146,18 +165,15 @@ class UserProfile extends Component {
   }
 
   addQR = (event) => {
-    var addressStatus = this.state.addAddress;
-    if (this.state.addAddress) {
-      this.setState({
-        addAddress: false
-      })
+    let target = event.target;
+    let parentDiv = target.parentElement.parentElement;
+    let surroundingDiv = target.parentElement.parentElement.parentElement;
+    let allChildren = surroundingDiv.children;
 
-      let target = event.target;
-      let parentDiv = target.parentElement.parentElement;
-      let surroundingDiv = target.parentElement.parentElement.parentElement;
-      let allChildren = surroundingDiv.children;
+    if (this.state.addAddress) {
+
       for (let i = 0; i < allChildren.length; i++) {
-        debugger;
+
         let element = allChildren[i]
         element.style.display = "flex";
         // if (element != parentDiv) {
@@ -165,22 +181,22 @@ class UserProfile extends Component {
         //   element.style.display = "none";
         // }
       }
+      this.setState({
+        addAddress: false
+      })
 
     } else {
-      this.setState({
-        addAddress: true
-      })
-      let target = event.target;
-      let parentDiv = target.parentElement.parentElement;
-      let surroundingDiv = target.parentElement.parentElement.parentElement;
-      let allChildren = surroundingDiv.children;
+
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
         if (element != parentDiv) {
-          debugger;
           element.style.display = "none";
         }
       }
+
+      this.setState({
+        addAddress: true
+      })
 
     }
 
@@ -211,7 +227,11 @@ class UserProfile extends Component {
       <div className="userProfile text-center">
         {this.state.userInfo.map((x) =>
           <div id="profile" data-id={x.id} className="p-3 pb-0 ml-3 d-flex flex-column">
-            <i className="fas fa-user-circle my-2 py-4 px-1 shaded"></i>
+            {(this.state.userInfo.photo === undefined)
+              ? <i className="fas fa-user-circle my-2 py-4 px-1 shaded"></i>
+              : <img src={this.state.userInfo.photo}></img>
+            }
+            
             {/* <img id="responsive" data-id={x.id} clasName="my-2 justify-content-center" src={this.state.src} alt="" /> */}
             <h5 className="my-2 blueText">{x.username}</h5>
             <h5 className="my-2 capitalize blueText">{x.first_name}  {x.last_name}</h5>
