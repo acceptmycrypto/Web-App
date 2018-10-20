@@ -128,7 +128,7 @@ class SignUp extends Component {
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                 </div> */}
             <div className="FormCenter">
-            <form method="post" action="/register" onSubmit={this.handleSubmit} className="FormFields">
+            <form onSubmit={this.handleSubmit} className="FormFields">
               {/* <div className="FormField">
                 <label className="FormField__Label" htmlFor="name">Full Name</label>
                 <input type="text" id="name" className="FormField__Input" placeholder="Enter your full name" name="name" value={this.state.name} onChange={this.handleChange} />
