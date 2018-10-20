@@ -1,31 +1,44 @@
 .Toolbar {
-  height: 25px;
+  height: 45px;
   width: 100%;
   position: fixed;
+  justify-content: space-between;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.93);;
+  background-color: rgba(255, 255, 255, 0.93);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   box-sizing: border-box;
   z-index: 90;
+  font-size: 14px;
+  font-family: Verdana, sans-serif;
 }
 
-.Toolbar .Nav {
-  height: 100%;
+.nav-left {
+  display: flex;
 }
 
-ul {
-  list-style: none;
-  overflow: hidden;
-  text-align: right;
-  float: right;
+.Logo {
+  margin-right: 10px;
+}
+
+.Search {
+  margin-right: 45px;
+  border-radius: 5px;
+}
+
+.Search input {
+  border-radius: 5px;
+  border: 1px solid gray;
 }
 
 li {
   display: inline-block;
-  margin-left: 35px;
+  margin-left: 15px;
   line-height: 1.5;
+}
+
+.nav-left .Search {
+  width: 18%;
 }
