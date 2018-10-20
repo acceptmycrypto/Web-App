@@ -4,3 +4,18 @@ a {
 a:link {
   text-decoration: none;
 }
+
+.venues-content {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.column {
+  height: 100%; /*allows both columns to span the full height of the browser window*/
+  display: flex;
+}
+
+.right {
+  flex-shrink: 0;
+}
+

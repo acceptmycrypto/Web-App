@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../../UI/Modal/Modal'
 import Checkout from '../../Checkout/Checkout'
+import CryptoRankings from '../../CryptosRanking';
 import './Venues.css';
 
 class Venues extends Component {
@@ -79,37 +80,40 @@ class Venues extends Component {
         <Modal showModal={this.state.purchasing} closeModal={this.closePaymentHander}>
           {this.state.purchasing ? <Checkout transactionInfo={this.state.transactionInfo} paidIn={this.state.paidIn}/>: null}
         </Modal>
-        <div className="row">
-          {this.state.deals.map(deal => (
-            <div key={deal.id} className="col-sm-4 deal">
+        <div className="venues-content">
+          <CryptoRankings />
+          <div id="right" className="row column">
+            {this.state.deals.map(deal => (
+              <div key={deal.id} className="col-sm-4 deal">
 
-                <div className="card">
-                  <div className="card-body">
-                    <img
-                      className="card-img-top"
-                      src={deal.deal_image}
-                      alt="deal"
-                    />
-                    <h5 className="card-title">{deal.deal_name}</h5>
-                    <p className="card-text">{deal.deal_description}</p>
-                    <div>Pay in dollar: ${deal.pay_in_dollar}</div>
-                    <div>Pay in crypto: ${deal.pay_in_crypto}</div>
-                    <div>Offered by: {deal.venue_name}</div>
-                    <div>Accepted: {this.showAcceptedCryptos(deal.venue_name)[0].join(', ')}</div>
-                    <form onSubmit={this.createPaymentHandler}>
-                      <label htmlFor="crypto_payment">Select Your crypto payment</label> <br/>
-                      <select id="selectCrypto">
-                        {this.showAcceptedCryptos(deal.venue_name)[1].map(crypto => {
-                          return <option key={crypto} className="crypto_payment" value={crypto}>{crypto}</option>
-                        })}
-                      </select>
-                      <button data-dealid={deal.id} data-amount={deal.pay_in_crypto} className="btn btn-primary btn-sm">Pay With My Crypto</button>
-                    </form>
+                  <div className="card">
+                    <div className="card-body">
+                      <img
+                        className="card-img-top"
+                        src={deal.deal_image}
+                        alt="deal"
+                      />
+                      <h5 className="card-title">{deal.deal_name}</h5>
+                      <p className="card-text">{deal.deal_description}</p>
+                      <div>Pay in dollar: ${deal.pay_in_dollar}</div>
+                      <div>Pay in crypto: ${deal.pay_in_crypto}</div>
+                      <div>Offered by: {deal.venue_name}</div>
+                      <div>Accepted: {this.showAcceptedCryptos(deal.venue_name)[0].join(', ')}</div>
+                      <form onSubmit={this.createPaymentHandler}>
+                        <label htmlFor="crypto_payment">Select Your crypto payment</label> <br/>
+                        <select id="selectCrypto">
+                          {this.showAcceptedCryptos(deal.venue_name)[1].map(crypto => {
+                            return <option key={crypto} className="crypto_payment" value={crypto}>{crypto}</option>
+                          })}
+                        </select>
+                        <button data-dealid={deal.id} data-amount={deal.pay_in_crypto} className="btn btn-primary btn-sm">Pay With My Crypto</button>
+                      </form>
+                    </div>
                   </div>
-                </div>
 
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
