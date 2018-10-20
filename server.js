@@ -35,6 +35,7 @@ var matchedFriendsRoutes = require("./routes/matched_friends.js");
 var dealsRoutes = require("./routes/deals.js");
 var signUpRoutes = require('./routes/signup.js');
 var transactionsRoutes = require("./routes/transactions.js");
+var cryptosRankingRoutes = require("./routes/cryptos_ranking.js");
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,6 +61,7 @@ app.use("/", matchedFriendsRoutes);
 app.use("/", dealsRoutes);
 app.use('/', signUpRoutes);
 app.use("/", transactionsRoutes);
+app.use("/", cryptosRankingRoutes);
 
 path.join(__dirname, "public");
 
