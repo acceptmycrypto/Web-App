@@ -92,6 +92,21 @@ a:hover{
     width: 100%;
 }
 
+#addressFormInput{
+    width: 100%;
+}
+
+#addAddressForm{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.addAddressButton{
+    width: fit-content;
+    margin: 0 auto;
+}
+
 /* End of CSS for Crypto Portfolio */
 
 
