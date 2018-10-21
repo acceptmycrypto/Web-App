@@ -12,6 +12,9 @@ var path = require("path");
 //use session
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
+//for login/logout (authentication)
+var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 //allow the api to be accessed by other apps
 app.use(function(req, res, next) {
