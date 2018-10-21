@@ -75,9 +75,10 @@ connection.connect(function(err){
 
 
 
+// This will be changed to mysql once I get back to it. This is basically a place holder (bookmark) right now...
 
 // app.post('/signin', function(req, res) {
-//     db.users.findOne({
+//     db.users.findOne({ 
 //         username: req.body.username
 //     }, function(error, result) {
 //         if (!result) return res.status(404).json({ error: 'user not found' });

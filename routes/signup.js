@@ -69,7 +69,7 @@ connection.connect(function(err){
     });
   });
 
-// Encryption:
+// Encryption: I will come back to this...Bookmarked at the moment.
 
 //   app.post('/signup', function(req, res) {
 //     db.users.findOne({
@@ -105,6 +105,8 @@ connection.connect(function(err){
 //         });
 //     });
 // })
+// This doens't work the way it supposed to, yet. Will work on this next. 
+// I need to be able to insert info into two diffrent tables simultainously on formSubmit. 
 
   //   let cryptos = {"crypto_id" :req.body.cryptosProfile
   // }
