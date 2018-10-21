@@ -52,13 +52,13 @@ router.get('/profile/crypto', function(req, res){
 });
 
 
-router.put('/profile/addAddress?_method=PUT', function(req, res){
-    // {} = req.body
-    console.log()
-    // connection.query('UPDATE ', [id], function (error, results, fields) {
-    //     if (error) throw error;
-    //     res.json(results);
-    // });
+router.put('/profile/addAddress', function(req, res){
+    let {id,crypto_address} = req.body
+    console.log(id, crypto_address);
+    connection.query('UPDATE users_cryptos SET ? WHERE ?', [{crypto_address}, {id}], function (error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+    });
 });
 
 
