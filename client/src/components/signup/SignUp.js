@@ -3,7 +3,7 @@ import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import Select from 'react-select'
-import { _signUp, _login } from './services/AuthService';
+import { _signUp, _login } from './AuthService';
 
 const options = [
   { value: 'Bitcoin', label: 'Bitcoin (BTC)' },
@@ -18,10 +18,6 @@ const options = [
   { value: 'Verge', label: 'Verge (XVG)' },
   { value: 'Ripple', label: 'Ripple (XRP)' }
 ];
-// const DropdownMenu = () => (
-//   <Select options={options} />
-// );
-
 
 class SignUp extends Component {
     constructor() {

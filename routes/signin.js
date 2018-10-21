@@ -74,24 +74,26 @@ connection.connect(function(err){
 
 
 
-app.post('/login', function(req, res) {
-    db.users.findOne({
-        username: req.body.username
-    }, function(error, result) {
-        if (!result) return res.status(404).json({ error: 'user not found' });
+// app.post('/login', function(req, res) {
+//     db.users.findOne({
+//         username: req.body.username
+//     }, function(error, result) {
+//         if (!result) return res.status(404).json({ error: 'user not found' });
 
-        if (!bcrypt.compareSync(req.body.password, result.password)) return res.status(401).json({ error: 'incorrect password ' });
+//         if (!bcrypt.compareSync(req.body.password, result.password)) return res.status(401).json({ error: 'incorrect password ' });
 
-        var payload = {
-            _id: result._id,
-            username: result.username
-        };
+//         var payload = {
+//             _id: result._id,
+//             username: result.username
+//         };
 
-        var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });
+//         var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });
 
-        return res.json({
-            message: 'successfuly authenticated',
-            token: token
-        });
-    });
-})
+//         return res.json({
+//             message: 'successfuly authenticated',
+//             token: token
+//         });
+//     });
+// })
+
+module.exports = router;
