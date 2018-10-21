@@ -14,7 +14,9 @@ class UserProfile extends Component {
       userInfo: [],
       userCrypto: [],
       addAddress: false,
-      qr: false
+      qr: false,
+      users_cryptos_id: null
+
     }
   }
 
@@ -25,19 +27,16 @@ class UserProfile extends Component {
       this.setState({
         cryptoView: "interested",
         qr: false,
-        addAddress: false
+        addAddress: false,
+        users_cryptos_id: null
       });
       let surroundingDiv = document.querySelector('.cryptoWallet');
       let allChildren = surroundingDiv.children;
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
-        // console.log(element);
-        // if (element.tagName == "DIV") {
+
         element.style.display = "flex";
-        // }
-        // else {
-        //   element.remove();
-        // }
+
       }
 
       let address = document.getElementsByClassName('address');
@@ -58,19 +57,16 @@ class UserProfile extends Component {
       this.setState({
         cryptoView: "owned",
         qr: false,
-        addAddress: false
+        addAddress: false,
+        users_cryptos_id: null
       });
       let surroundingDiv = document.querySelector('.cryptoWallet');
       let allChildren = surroundingDiv.children;
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
         console.log(element);
-        // if (element.tagName == "DIV") {
+
         element.style.display = "flex";
-        // }
-        // else {
-        // element.remove();
-        // }
       }
     }
 
@@ -112,7 +108,8 @@ class UserProfile extends Component {
       remainingDiv.insertBefore(icon, parentDiv);
 
       this.setState({
-        qr: true
+        qr: true,
+        users_cryptos_id: null
       })
     }
 
@@ -137,15 +134,11 @@ class UserProfile extends Component {
       //note: for loop stops at i = 5 and does not finish and remove the wallet address so have to manually remove with code above 
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
-        // console.log(element);
-        // if (element.tagName == "DIV") {
         element.style.display = "flex";
-        // }
-        // else {
-        // element.remove();
-        // }
+
         this.setState({
-          qr: false
+          qr: false,
+          users_cryptos_id: null
         })
       }
     }
@@ -153,12 +146,13 @@ class UserProfile extends Component {
 
   }
 
-  addQR = (event) => {
+  showAddressForm = (event) => {
     let target = event.target;
     let parentDiv = target.parentElement.parentElement;
     let surroundingDiv = target.parentElement.parentElement.parentElement;
     let allChildren = surroundingDiv.children;
     let i, j, element;
+    let users_cryptos_id = target.getAttribute('data-id');
 
     if (this.state.addAddress) {
 
@@ -166,12 +160,11 @@ class UserProfile extends Component {
 
         element = allChildren[i]
         element.style.display = "flex";
-        // if (element != parentDiv) {
-        //   element.style.display = "none";
-        // }
+
       }
       this.setState({
-        addAddress: false
+        addAddress: false,
+        users_cryptos_id: null
       })
 
     } else {
@@ -185,12 +178,38 @@ class UserProfile extends Component {
       }
 
       this.setState({
-        addAddress: true
+        addAddress: true,
+        users_cryptos_id: users_cryptos_id
       })
 
     }
 
   }
+
+  updateCryptos = (event) => {
+    event.preventDefault();
+
+    let id = this.state.users_cryptos_id;
+    let crypto_address = event.target.children[0].value;
+
+    if (crypto_address.length > 20 && crypto_address.length < 40) {
+      return fetch("http://localhost:3001/profile/addAddress?_method=PUT", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, crypto_address })
+      }).then(res => res.json()).then(insertedAddress => {
+        console.log(insertedAddress);
+        // event.target.children[0].value = "";
+      })
+    }else{
+      event.target.children[0].value = "Invalid Address"
+    }
+
+  }
+
 
 
 
@@ -246,7 +265,7 @@ class UserProfile extends Component {
                         {/* <p>{y.crypto_symbol}</p> */}
                         <a className="blueText cryptoText" href={y.crypto_link}>{y.crypto_metadata_name}</a>
                         <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} onClick={this.addQR}></img>
+                        <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} data-id={y.id} onClick={this.showAddressForm}></img>
                       </div>
                       : null
                   }
@@ -261,7 +280,7 @@ class UserProfile extends Component {
                       ? <div className="mx-1 my-2 cryptos">
                         <a className="blueText cryptoText" href={y.crypto_link}>{y.crypto_metadata_name}</a>
                         <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} data-address={y.crypto_address} src={y.crypto_logo} onClick={this.showQR}></img>
+                        <img className="cryptoImage" data-name={y.crypto_metadata_name} data-address={y.crypto_address} data-id={y.id} src={y.crypto_logo} onClick={this.showQR}></img>
                       </div>
                       : null
                   }
