@@ -4,6 +4,9 @@ var router = express.Router();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+//for login/logout (authentication)
+var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 //use sendgrid
 var sgMail = require("@sendgrid/mail");
 var keys = require("../key");
@@ -65,6 +68,43 @@ connection.connect(function(err){
     }
     });
   });
+
+// Encryption:
+
+//   app.post('/signup', function(req, res) {
+//     db.users.findOne({
+//         username: req.body.username
+//     }, function(error, result) {
+//         if (result) return res.status(404).json({ error: 'user already exists' });
+
+//         if (!req.body.password) return res.status(401).json({ error: 'you need a password' });
+
+//         if (req.body.password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
+
+//         console.log('got to line 92')
+
+//         bcrypt.genSalt(10, function(err, salt) {
+//             bcrypt.hash(req.body.password, salt, function(err, hash) {
+//                 db.users.insert({
+//                     username: req.body.username,
+//                     password: hash
+//                 }, function(error, user) {
+
+//                 	console.log('got to line 101');
+                    
+//                     // Log any errors
+//                     if (error) {
+//                         res.send(error);
+//                     } else {
+//                         res.json({
+//                             message: 'successfully signed up'
+//                         });
+//                     }
+//                 });
+//             });
+//         });
+//     });
+// })
 
   //   let cryptos = {"crypto_id" :req.body.cryptosProfile
   // }
