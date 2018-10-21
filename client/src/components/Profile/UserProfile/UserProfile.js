@@ -49,11 +49,8 @@ class UserProfile extends Component {
 
       if (address[0] && qr[0] && deleteIcon[0] && address[0] != undefined && qr[0] != undefined && deleteIcon[0] != undefined) {
         address[0].remove();
-        debugger;
         qr[0].remove();
-        debugger;
         deleteIcon[0].remove();
-        debugger;
       }
 
 
@@ -132,18 +129,10 @@ class UserProfile extends Component {
 
       let address = document.getElementsByClassName('address');
       address[0].remove();
-
-      debugger;
-
       let qr = document.getElementsByClassName('qr');
       qr[0].remove();
-
-      debugger;
-
       let deleteIcon = document.getElementsByClassName('deleteIcon');
       deleteIcon[0].remove();
-
-      debugger;
 
       //note: for loop stops at i = 5 and does not finish and remove the wallet address so have to manually remove with code above 
       for (let i = 0; i < allChildren.length; i++) {
