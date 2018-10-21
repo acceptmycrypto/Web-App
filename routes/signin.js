@@ -74,7 +74,7 @@ connection.connect(function(err){
 
 
 
-// app.post('/login', function(req, res) {
+// app.post('/signin', function(req, res) {
 //     db.users.findOne({
 //         username: req.body.username
 //     }, function(error, result) {
