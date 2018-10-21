@@ -5,9 +5,9 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 //use sendgrid
-var sgMail = require("@sendgrid/mail");
-var keys = require("../key");
-sgMail.setApiKey(keys.sendgrid);
+// var sgMail = require("@sendgrid/mail");
+// var keys = require("../key");
+// sgMail.setApiKey(keys.sendgrid);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
