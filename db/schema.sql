@@ -128,7 +128,7 @@ CREATE TABLE users_purchases(
 	crypto_id INT NOT NULL,
 	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	amount DECIMAL(10, 8) NOT NULL,
+	amount DECIMAL(20, 8) NOT NULL,
 	txn_id VARCHAR(255) NOT NULL,
 	address VARCHAR(255) NOT NULL,
 	confirms_needed VARCHAR(255) NOT NULL,
