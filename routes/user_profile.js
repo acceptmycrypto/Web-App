@@ -57,6 +57,7 @@ router.put('/profile/addAddress', function(req, res){
     console.log(id, crypto_address);
     connection.query('UPDATE users_cryptos SET ? WHERE ?', [{crypto_address}, {id}], function (error, results, fields) {
         if (error) throw error;
+
         res.json(results);
     });
 });
