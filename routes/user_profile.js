@@ -51,4 +51,15 @@ router.get('/profile/crypto', function(req, res){
     });
 });
 
+
+router.put('/profile/addAddress?_method=PUT', function(req, res){
+    // {} = req.body
+    console.log()
+    // connection.query('UPDATE ', [id], function (error, results, fields) {
+    //     if (error) throw error;
+    //     res.json(results);
+    // });
+});
+
+
 module.exports = router;
