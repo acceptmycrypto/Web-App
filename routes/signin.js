@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -38,7 +40,7 @@ connection.connect(function(err){
       console.log("Error connecting database ... nn");
   }
   });
-  require('dotenv').config()
+  
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
