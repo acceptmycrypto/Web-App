@@ -1,6 +1,7 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import { _signUp, _login } from './services/AuthService';
 
 class SignIn extends Component {
     constructor() {
