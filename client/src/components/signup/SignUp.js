@@ -71,6 +71,7 @@ class SignUp extends Component {
         let username = e.target.children[0].children[1].value;
         let email = e.target.children[1].children[1].value;
         let password = e.target.children[2].children[1].value;
+        let cryptoProfile= e.target.children[3].children[1].selectedOption;
 
 
         console.log("This is the user name " + username);
@@ -82,36 +83,12 @@ class SignUp extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({username, email, password})
+            body: JSON.stringify({username, email, password, cryptoProfile})
         })
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
     };
-    
-
-    // When the submit button is clicked it will hit the fetch...
-
-  // handleFormSubmit(e) {
-  //   e.preventDefault();
-  //   // var self = this;
-  //   // On submit of the form, send a POST request with the data to the server.
-  //   fetch('http://localhost:3001/register', { 
-  //       method: 'POST',
-  //       data: {
-  //         userName: this.name.userName,
-  //         email: this.name.email,
-  //         password: this.name.password,
-  //         cryptoProfile: this.name.cryptoProfile,
-  //         hasAgreed: true
-  //       }
-  //     })
-  //     .then(function(response) {
-  //       return response.json()
-  //     }).then(function(body) {
-  //       console.log(body);
-  //     });
-  // };
 
     render() {
       const { selectedOption } = this.state;

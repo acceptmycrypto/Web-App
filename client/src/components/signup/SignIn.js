@@ -28,6 +28,8 @@ class SignIn extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        let email = e.target.children[0].children[1].value;
+        let password = e.target.children[1].children[1].value;
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
