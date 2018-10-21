@@ -84,29 +84,70 @@ router.post('/cryptos/search', function(req, res) {
   );
 });
 
-router.get('/crypto/comments', function (req,res) {
+
+// my code from this point down.  not too sure what's above this*****************************
+
+// this function joins crypto_comments to parents_children to users, gets relevant columns back, then feeds it all to assembleComments()
+getAllComments = (res) => {
     connection.query(
-        'SELECT * FROM crypto_comments LEFT JOIN parents_children ON crypto_comments.id = parents_children.comment_child_id ORDER BY date_commented',
-        function(err, data) {
-            if (err){
-                console.log("error during select query");
+        'SELECT c.id AS id, c.user_id AS user_id, c.crypto_id AS crypto_id, c.body AS body, c.date_commented AS date_commented, c.comment_status AS comment_status, c.points AS points, p.comment_parent_id AS comment_parent_id, u.username AS username FROM crypto_comments c LEFT JOIN parents_children p ON c.id = p.comment_child_id LEFT JOIN users u ON c.user_id = u.id ORDER BY date_commented',
+        (err, data) => {
+            if (err) {
                 console.log(err);
             } else {
-                console.log("data from select query");
                 console.log(data);
                 let assembledData = assembleComments(data);
                 res.json(assembledData);
             }
         }
     )
+}
+
+//function to take query result from mysql as input and turn it into data that can be directly set into state when returned
+assembleComments = (data) => {
+    let allComments = [];
+    let id, user_id, crypto_id, body, date_commented, comment_status, points, username, x;
+    for (x of data) {//cycle thru all returned comments
+        ({id, user_id, crypto_id, body, date_commented, comment_status, points, username} = x);//destructures x
+        if (x.comment_parent_id==null) {//if comment does not have parent id, this comment is a parent itself, therefore append info from x to allComments
+            allComments = [...allComments,{id, user_id, crypto_id, body, date_commented, comment_status, points, username, children:[]}];
+        } else {//if comment has parent id, this comment is a child
+            allComments = allComments.map(y => {
+                if (y.id===x.comment_parent_id){//find the parent of the child
+                    return ({
+                        id:y.id,//every line here except for children is the original data of the parent
+                        user_id:y.user_id,
+                        crypto_id:y.crypto_id,
+                        body:y.body,
+                        date_commented:y.date_commented,
+                        comment_status:y.comment_status,
+                        points:y.points,
+                        username:y.username,
+                        children:[...y.children,{id, user_id, crypto_id, body, date_commented, comment_status, points, username, children:[]}]
+                        //child data is appended into parent's children array
+                    });
+                } else {
+                    return y;
+                }
+            })
+        }
+    }
+    console.log(allComments);
+    return ({allComments});
+}
+
+router.get('/crypto/comments', function (req,res) {
+    getAllComments(res)
 })
 
 router.post('/crypto/submit-comment', function (req, res){
     console.log("req.body");
     console.log(req.body);
+    let user_id, crypto_id, body, comment_parent_id;
+    ({user_id, crypto_id, body, comment_parent_id} = req.body);
     connection.query(
         'INSERT INTO crypto_comments SET ?',
-        req.body,
+        [{user_id, crypto_id, body}],
         function (err, insertData){
             if (err){
                 console.log("error during submit query");
@@ -114,20 +155,24 @@ router.post('/crypto/submit-comment', function (req, res){
             } else {
                 console.log("data from submit query");
                 console.log(insertData);
-                connection.query(
-                    'SELECT * FROM crypto_comments LEFT JOIN parents_children ON crypto_comments.id = parents_children.comment_child_id ORDER BY date_commented',
-                    function (err, data){
-                        if (err){
-                            console.log("error during select query");
-                            console.log(err);
-                        } else {
-                            console.log("data from select query");
-                            console.log(data);
-                            let assembledData = assembleComments(data);
-                            res.json(assembledData);
+                if(comment_parent_id==0){//this means the submitted comment is a parent comment, can go straight to getAllComments
+                    getAllComments(res)
+                } else {//this means the submitted comment is a child comment, so must also update parents_children table
+                    connection.query(
+                        'INSERT INTO parents_children SET ?',
+                        [{comment_parent_id, comment_child_id:insertData.insertId}],//insertData contains the id of the comment newly added into crypto_comments
+                        function (err, insertData2){
+                            if (err){
+                                console.log("error during submit query 2");
+                                console.log(err);
+                            } else {
+                                console.log("data from submit query 2");
+                                console.log(insertData2);
+                                getAllComments(res)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     )
@@ -145,58 +190,10 @@ router.post('/crypto/delete-comment', function (req, res){
                 console.log("error during delete");
                 console.log(err);
             } else {
-                connection.query(
-                    'SELECT * FROM crypto_comments LEFT JOIN parents_children ON crypto_comments.id = parents_children.comment_child_id ORDER BY date_commented',
-                    function(err, data) {
-                        if (err){
-                            console.log("error during select query after delete");
-                            console.log(err);
-                        } else {
-                            console.log("data from select query after delete");
-                            console.log(data);
-                            let assembledData = assembleComments(data);
-                            res.json(assembledData);
-                        }
-                    }
-                )
+                getAllComments(res)
             }
         }
     )
 })
-
-
-
-assembleComments = (data) => {
-    //function to take query result from mysql and turn it into data that can be directly set into state when returned
-    let allComments = [];
-    let id, user_id, crypto_id, body, date_commented, comment_status, points, x;
-    let children = [];
-    for (x of data) {//cycle thru all returned comments
-        ({id, user_id, crypto_id, body, date_commented, comment_status, points} = x);
-        if (x.comment_parent_id==null) {//if comment does not have parent id, this comment is a parent itself, therefore append to allComments
-            allComments = [...allComments,{id, user_id, crypto_id, body, date_commented, comment_status, points, children:[]}];
-        } else {//if comment has parent id, this comment is a child, therefore update the appropriate parent comment's "children" key
-            allComments = allComments.map(y => {
-                if (y.id===x.comment_parent_id){
-                    return ({
-                        id:y.id,
-                        user_id:y.user_id,
-                        crypto_id:y.crypto_id,
-                        body:y.body,
-                        date_commented:y.date_commented,
-                        comment_status:y.comment_status,
-                        points:y.points,
-                        children:[...y.children,{id, user_id, crypto_id, body, date_commented, comment_status, points, children:[]}]
-                    });
-                } else {
-                    return y;
-                }
-            })
-        }
-    }
-    console.log(allComments);
-    return ({allComments});
-}
-
 
 module.exports = router;
