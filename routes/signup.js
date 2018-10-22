@@ -4,6 +4,9 @@ var router = express.Router();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+//for login/logout (authentication)
+var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 //use sendgrid
 var sgMail = require("@sendgrid/mail");
 var keys = require("../key");
@@ -65,47 +68,67 @@ connection.connect(function(err){
     }
     });
   });
+
+// Encryption: I will come back to this...Bookmarked at the moment.
+
+//   app.post('/signup', function(req, res) {
+//     db.users.findOne({
+//         username: req.body.username
+//     }, function(error, result) {
+//         if (result) return res.status(404).json({ error: 'user already exists' });
+
+//         if (!req.body.password) return res.status(401).json({ error: 'you need a password' });
+
+//         if (req.body.password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
+
+//         console.log('got to line 92')
+
+//         bcrypt.genSalt(10, function(err, salt) {
+//             bcrypt.hash(req.body.password, salt, function(err, hash) {
+//                 db.users.insert({
+//                     username: req.body.username,
+//                     password: hash
+//                 }, function(error, user) {
+
+//                 	console.log('got to line 101');
+                    
+//                     // Log any errors
+//                     if (error) {
+//                         res.send(error);
+//                     } else {
+//                         res.json({
+//                             message: 'successfully signed up'
+//                         });
+//                     }
+//                 });
+//             });
+//         });
+//     });
+// })
+// This doens't work the way it supposed to, yet. Will work on this next. 
+// I need to be able to insert info into two diffrent tables simultainously on formSubmit. 
+
+  //   let cryptos = {"crypto_id" :req.body.cryptosProfile
+  // }
+  // connection.query('INSERT INTO cryptos_id SET ?',cryptos, function (error, results, fields, next) {
+  //   if (error) {
+  //     console.log("error ocurred",error);
+  //     res.send({
+  //       "code":400,
+  //       "failed":"error ocurred"
+  //     })
+  //   }else{
+  //     console.log('The solution is: ', results);
+  //     // Redirect to next page (first user page).
+  //     res.send({
+  //       "code":200,
+  //       "success":"user registered sucessfully"
+  //         });
+  //   }
+  //   });
+  
   // router.post('/login',login.login)
-  // app.use('/api', router);
-
-// router.post('/SignUp', function(req, res) {
-//   // Get sent data.
-//   var user = req.body;
-//   // Do a MySQL query.
-//   connection.query('INSERT INTO users SET ?',
-//   { 
-//   username: user.userName,
-//   email: user.email,
-//   password: user.password,
-//   cyrptoProfil: user.cyrptoProfil,
-//   hasAgreed: user.hasAgreed
-//   },
-
-//   function(err, result) {
-//     // Neat!
-//   });
-//   res.end('Success');
-// });
-
-
-
-
-
-
-
-
-// router.post('/registered', function(req, res) {
-//   // Get sent data.
-//   // var user = req.body;
-//   // Do a MySQL query.
-//   connection.query('INSERT INTO users SET ?',req.body.username, req.body.email, req.body.password, 
-//   function(err, result) {
-//     if (error) throw error;
-//     res.json(result)
-    
-//   });
-//   res.redirect('/');
-// });
+  // app.use('/api', router)
 
 /*
 Sendgrid Example. Wait for singup to be completed before this can be integrated

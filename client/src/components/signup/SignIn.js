@@ -1,6 +1,7 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import { _signUp, _login } from './AuthService';
 
 class SignIn extends Component {
     constructor() {
@@ -28,15 +29,12 @@ class SignIn extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        let email = e.target.children[0].children[1].value;
+        let password = e.target.children[1].children[1].value;
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
     }
-
-    // hideSignUpForm = (event) => {
-    //     event.preventDefault();
-    //     this.setState({SignUp:false})
-    //   };
 
     render() {
         return (
