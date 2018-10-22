@@ -12,6 +12,9 @@ var path = require("path");
 //use session
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
+//for login/logout (authentication)
+var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 //allow the api to be accessed by other apps
 app.use(function(req, res, next) {
@@ -34,6 +37,7 @@ var userProfileRoutes = require("./routes/user_profile.js");
 var matchedFriendsRoutes = require("./routes/matched_friends.js");
 var dealsRoutes = require("./routes/deals.js");
 var signUpRoutes = require('./routes/signup.js');
+var signInRoutes = require('./routes/signin.js');
 var transactionsRoutes = require("./routes/transactions.js");
 var cryptosRankingRoutes = require("./routes/cryptos_ranking.js");
 
@@ -60,6 +64,7 @@ app.use("/", userProfileRoutes);
 app.use("/", matchedFriendsRoutes);
 app.use("/", dealsRoutes);
 app.use('/', signUpRoutes);
+app.use('/', signInRoutes);
 app.use("/", transactionsRoutes);
 app.use("/", cryptosRankingRoutes);
 
