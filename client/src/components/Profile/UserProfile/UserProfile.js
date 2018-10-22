@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
 import coinAddressValidator from "coin-address-validator";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
+import CryptoAddress from "../CryptoAddress";
 
 
 class UserProfile extends Component {
@@ -255,68 +256,12 @@ class UserProfile extends Component {
         <ProfileCard user_info={this.state.user_info} />
 
         <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
-          
-          {this.state.add_address &&
-            <div className="addressForm d-flex flex-column">
-              <form id="addAddressForm" onSubmit={this.updateCryptos}>
-                <input id="addressFormInput" type="text" name="crypto_address" placeholder="Enter address" />
 
-                <button className="addAddressButton btn btn-outline-primary btn-sm my-2">Add Address</button>
-              </form>
-            </div>
+          {this.state.add_address &&
+            <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
           }
 
         </CryptoCard>
-
-        {/* <div id="cryptoPortfolio" className="p-1 m-3">
-          <h5 id="cryptoHeader" className="blueText">CRYPTO PORTFOLIO</h5>
-
-          <label className="switch"><input type="checkbox" id="togBtn" onChange={this.handleToggleChange} /><div className="slider round"><span className="own">OWNED</span><span className="interest">INTERESTED</span></div></label>
-          <div className="cryptoWallet">
-            {(this.state.crypto_view === "interested")
-              ? this.state.user_crypto.map((y) =>
-                <div>
-                  {
-                    (y.crypto_address === null)
-                      ? <div className="mx-1 my-2 cryptos"> */}
-                        {/* <p>{y.crypto_symbol}</p> */}
-                        {/* <a className="blueText cryptoText" href={y.crypto_link} target="_blank">{y.crypto_metadata_name}</a>
-                        <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} data-id={y.id} onClick={this.handleAddressFormChange}></img>
-                      </div>
-                      : null
-                  }
-
-                </div>
-
-              )
-              : this.state.user_crypto.map((y) =>
-                <div>
-                  {
-                    (y.crypto_address !== null)
-                      ? <div className="mx-1 my-2 cryptos">
-                        <a className="blueText cryptoText" href={y.crypto_link} target="_blank">{y.crypto_metadata_name}</a>
-                        <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} data-address={y.crypto_address} data-id={y.id} src={y.crypto_logo} onClick={this.handleQRChange}></img>
-                      </div>
-                      : null
-                  }
-                </div>
-              )
-            }
-            {this.state.add_address &&
-              <div className="addressForm d-flex flex-column">
-                <form id="addAddressForm" onSubmit={this.updateCryptos}>
-                  <input id="addressFormInput" type="text" name="crypto_address" placeholder="Enter address" />
-
-                  <button className="addAddressButton btn btn-outline-primary btn-sm my-2">Add Address</button>
-                </form>
-              </div>
-            }
-          </div> */}
-
-
-        {/* </div> */}
 
       </div>
     );
