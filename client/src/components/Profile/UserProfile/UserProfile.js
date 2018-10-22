@@ -6,6 +6,7 @@ import coinAddressValidator from "coin-address-validator";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
 import CryptoAddress from "../CryptoAddress";
+import { _updateCryptoTable, _loadProfile } from "../../../services/UserProfileService";
 
 
 class UserProfile extends Component {
@@ -23,7 +24,7 @@ class UserProfile extends Component {
       current_crypto_name: null,
 
     }
-    this.updateCryptoTable = this.updateCryptoTable.bind(this);
+    
   }
 
   // updates state
@@ -184,10 +185,14 @@ class UserProfile extends Component {
       this.updateCryptoTable(id, crypto_address).then(res => {
         // update users crypto wallet address in database
 
+        //update state
         let { user_info, user_crypto, crypto_view, add_address } = res;
         this.setState({ user_info, user_crypto, crypto_view, add_address });
+
+        //set toggle button checked = false
         document.querySelector("#togBtn").checked = false;
 
+        // show all coins
         this.hideOrShowCoin("show");
       })
 
@@ -198,46 +203,14 @@ class UserProfile extends Component {
   }
 
   // update database with users new added wallet address
-  async updateCryptoTable(id, crypto_address) {
-    const settings = {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, crypto_address })
-    };
-
-    const data = await fetch("http://localhost:3001/profile/addAddress?_method=PUT", settings)
-      .then(response => response.json())
-      .then(json => {
-        return json;
-      })
-      .catch(e => {
-        return e
-      });
-
-    const userProfileData = await fetch("http://localhost:3001/profile");
-    const user_info = await userProfileData.json();
-
-    const userCryptoData = await fetch("http://localhost:3001/profile/crypto");
-    const user_crypto = await userCryptoData.json();
-    const crypto_view = await "owned";
-    const add_address = await false;
-
-    return { user_info, user_crypto, crypto_view, add_address };
-
+  updateCryptoTable = (id, crypto_address) => {
+    return _updateCryptoTable(id, crypto_address);
   }
-
 
 
   componentDidMount() {
 
-    Promise.all([
-      fetch("http://localhost:3001/profile"),
-      fetch("http://localhost:3001/profile/crypto")
-    ])
-      .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+    return _loadProfile()
       .then(([user_info, user_crypto]) => this.setState({
         user_info,
         user_crypto
