@@ -33,7 +33,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err){
   if(!err) {
-      console.log("Database is connected ... nn");
+      console.log("Database is connected ... signup");
   } else {
       console.log("Error connecting database ... nn");
   }
@@ -42,15 +42,17 @@ connection.connect(function(err){
   router.post("/register", function(req,res){
     // console.log("req",req.body);
     // var today = new Date();
-    var users={
+    let users={
       // "first_name":req.body.first_name,
       // "last_name":req.body.last_name,
       "username": req.body.username,
       "email":req.body.email,
-      "password":req.body.password,
       // "created":today,
       // "modified":today
     }
+
+    let password = req.body.password
+
     connection.query('INSERT INTO users SET ?',users, function (error, results, fields, next) {
     if (error) {
       console.log("error ocurred",error);
@@ -59,52 +61,43 @@ connection.connect(function(err){
         "failed":"error ocurred"
       })
     }else{
-      console.log('The solution is: ', results);
-      // Redirect to next page (first user page).
-      res.send({
-        "code":200,
-        "success":"user registered sucessfully"
-          });
+      connection.query('SELECT * FROM users WHERE username =',req.body.username, function(error, result) {
+        if (result) return res.status(404).json({ error: 'user already exists' });
+  
+        if (!password) return res.status(401).json({ error: 'you need a password' });
+  
+        if (password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
+  
+        // console.log('got to line 92')
+  
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(password, salt, function(err, hash) {
+              connection.query('INSERT INTO users SET ?',hash, function (error, results, fields, next) {
+                if (error) {
+                  console.log("error ocurred",error);
+                  res.send({
+                    "code":400,
+                    "failed":"error ocurred"
+                  })
+                }else{
+                  console.log('The solution is: ', results);
+                  // Redirect to next page (first user page).
+                  res.send({
+                    "code":200,
+                    "success":"user registered sucessfully"
+                      });
+                }
+                });
+            });
+        });
+    });
     }
     });
+    
   });
 
 // Encryption: I will come back to this...Bookmarked at the moment.
 
-//   app.post('/signup', function(req, res) {
-//     db.users.findOne({
-//         username: req.body.username
-//     }, function(error, result) {
-//         if (result) return res.status(404).json({ error: 'user already exists' });
-
-//         if (!req.body.password) return res.status(401).json({ error: 'you need a password' });
-
-//         if (req.body.password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
-
-//         console.log('got to line 92')
-
-//         bcrypt.genSalt(10, function(err, salt) {
-//             bcrypt.hash(req.body.password, salt, function(err, hash) {
-//                 db.users.insert({
-//                     username: req.body.username,
-//                     password: hash
-//                 }, function(error, user) {
-
-//                 	console.log('got to line 101');
-                    
-//                     // Log any errors
-//                     if (error) {
-//                         res.send(error);
-//                     } else {
-//                         res.json({
-//                             message: 'successfully signed up'
-//                         });
-//                     }
-//                 });
-//             });
-//         });
-//     });
-// })
 // This doens't work the way it supposed to, yet. Will work on this next. 
 // I need to be able to insert info into two diffrent tables simultainously on formSubmit. 
 
