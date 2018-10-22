@@ -3,7 +3,8 @@ import "./UserProfile.css";
 import FeedFriends from "../../Feed/MatchedFriends";
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import coinAddressValidator from "coin-address-validator";
-import ProfileCard from "../ProfileCard"
+import ProfileCard from "../ProfileCard";
+import CryptoCard from "../CryptoCard";
 
 
 class UserProfile extends Component {
@@ -134,7 +135,7 @@ class UserProfile extends Component {
   }
 
   handleAddressFormChange = (event) => {
-    
+
     let target = event.target;
     let parentDiv = target.parentElement.parentElement;
 
@@ -252,8 +253,22 @@ class UserProfile extends Component {
     return (
       <div className="userProfile text-center">
         <ProfileCard user_info={this.state.user_info} />
-        
-        <div id="cryptoPortfolio" className="p-1 m-3">
+
+        <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
+          
+          {this.state.add_address &&
+            <div className="addressForm d-flex flex-column">
+              <form id="addAddressForm" onSubmit={this.updateCryptos}>
+                <input id="addressFormInput" type="text" name="crypto_address" placeholder="Enter address" />
+
+                <button className="addAddressButton btn btn-outline-primary btn-sm my-2">Add Address</button>
+              </form>
+            </div>
+          }
+
+        </CryptoCard>
+
+        {/* <div id="cryptoPortfolio" className="p-1 m-3">
           <h5 id="cryptoHeader" className="blueText">CRYPTO PORTFOLIO</h5>
 
           <label className="switch"><input type="checkbox" id="togBtn" onChange={this.handleToggleChange} /><div className="slider round"><span className="own">OWNED</span><span className="interest">INTERESTED</span></div></label>
@@ -263,9 +278,9 @@ class UserProfile extends Component {
                 <div>
                   {
                     (y.crypto_address === null)
-                      ? <div className="mx-1 my-2 cryptos">
+                      ? <div className="mx-1 my-2 cryptos"> */}
                         {/* <p>{y.crypto_symbol}</p> */}
-                        <a className="blueText cryptoText" href={y.crypto_link} target="_blank">{y.crypto_metadata_name}</a>
+                        {/* <a className="blueText cryptoText" href={y.crypto_link} target="_blank">{y.crypto_metadata_name}</a>
                         <br></br>
                         <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} data-id={y.id} onClick={this.handleAddressFormChange}></img>
                       </div>
@@ -298,10 +313,10 @@ class UserProfile extends Component {
                 </form>
               </div>
             }
-          </div>
+          </div> */}
 
 
-        </div>
+        {/* </div> */}
 
       </div>
     );
