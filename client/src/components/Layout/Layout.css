@@ -1,6 +1,7 @@
 body {
   height: 100%;
   margin: 0px; /*removes default style*/
+  background-color: #dae0e6;
 }
 
 .Content {
