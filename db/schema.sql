@@ -136,6 +136,7 @@ CREATE TABLE users_purchases(
 	status_url VARCHAR(255) NULL,
 	qrcode_url VARCHAR(255) NOT NULL,
 	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
+	permission VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id),
