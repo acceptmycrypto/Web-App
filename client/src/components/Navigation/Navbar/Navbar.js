@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Notification from "../Notification";
 
 const Navbar = props => {
   return (
@@ -32,12 +33,12 @@ const Navbar = props => {
       </div>
       <div className="Nav">
         <li>
+          <Notification />
+        </li>
+        <li>
           <Link to="/crypto">
             <i className="fas fa-users" /> Community
           </Link>
-        </li>
-        <li>
-          <i className="fas fa-bell" /> Notification
         </li>
         <li>
           <Link to="/profile">Profile</Link>
