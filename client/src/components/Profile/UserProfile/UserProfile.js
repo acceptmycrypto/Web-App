@@ -3,6 +3,10 @@ import "./UserProfile.css";
 import FeedFriends from "../../Feed/MatchedFriends";
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import coinAddressValidator from "coin-address-validator";
+import ProfileCard from "../ProfileCard";
+import CryptoCard from "../CryptoCard";
+import CryptoAddress from "../CryptoAddress";
+import { _updateCryptoTable, _loadProfile } from "../../../services/UserProfileService";
 
 
 class UserProfile extends Component {
@@ -20,79 +24,48 @@ class UserProfile extends Component {
       current_crypto_name: null,
 
     }
-    this.updateCryptoTable = this.updateCryptoTable.bind(this);
+    
   }
 
-  handleChange = (event) => {
-    let target = event.target.checked;
+  // updates state
+  setCurrentState = (crypto_view, qr, add_address, users_cryptos_id, current_crypto_name) => {
+    this.setState({ crypto_view, qr, add_address, users_cryptos_id, current_crypto_name });
+  }
 
-    if (target) {
-      this.setState({
-        crypto_view: "interested",
-        qr: false,
-        add_address: false,
-        users_cryptos_id: null, 
-        current_crypto_name: null
-      });
-      let surroundingDiv = document.querySelector(".cryptoWallet");
-      let allChildren = surroundingDiv.children;
+
+  // if status is show, all coins in wallet will be shown but if status is hide, all coins but the one clicked on will be hidden
+  hideOrShowCoin = (status, parentDiv) => {
+    // status can be either "show" or "hide"
+    let surroundingDiv = document.querySelector(".cryptoWallet");
+    let allChildren = surroundingDiv.children;
+
+    if (status === "show") {
+      // displays all the user's coins
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
-
         element.style.display = "flex";
-
       }
 
-      let address = document.getElementsByClassName("address");
-
-      let qr = document.getElementsByClassName("qr");
-
-      let deleteIcon = document.getElementsByClassName("deleteIcon");
-
-
-      if (address[0] && qr[0] && deleteIcon[0] && address[0] != undefined && qr[0] != undefined && deleteIcon[0] != undefined) {
-        address[0].remove();
-        qr[0].remove();
-        deleteIcon[0].remove();
+      if (this.state.qr) { //if the QR is shown on the page
+        this.hideOrShowAddress("hide"); // will hide the QR code and Wallet address when all the coins are shown
       }
-
 
     } else {
-      this.setState({
-        crypto_view: "owned",
-        qr: false,
-        add_address: false,
-        users_cryptos_id: null, 
-        current_crypto_name: null
-      });
-      let surroundingDiv = document.querySelector(".cryptoWallet");
-      let allChildren = surroundingDiv.children;
-      for (let i = 0; i < allChildren.length; i++) {
-        let element = allChildren[i]
-        console.log(element);
-
-        element.style.display = "flex";
-      }
-    }
-
-
-  }
-
-  showQR = (event) => {
-    if (!this.state.qr) {
-      let target = event.target;
-      let parentDiv = target.parentElement.parentElement;
-      let address = target.getAttribute("data-address");
-      let surroundingDiv = target.parentElement.parentElement.parentElement;
-
-      let allChildren = surroundingDiv.children;
+      // status is hide, all coins other than what user clicked on will be hidden
       for (let i = 0; i < allChildren.length; i++) {
         let element = allChildren[i]
         if (element != parentDiv) {
           element.style.display = "none";
         }
       }
-      let remainingDiv = document.querySelector(".cryptoWallet");
+    }
+  }
+
+  // if status is show, the QR code and Wallet Address will be shown, if status is hide, the QR code and Wallet Address will be removed from DOM
+  hideOrShowAddress = (status, parentDiv, address) => {
+    if (status === "show") {
+      // the wallet address, QR code and delete button will be created and shown
+      let surroundingDiv = document.querySelector(".cryptoWallet");
 
       let qr = document.createElement("img");
       qr.classList.add("qr");
@@ -101,99 +74,91 @@ class UserProfile extends Component {
       let displayAddress = document.createElement("p");
       displayAddress.classList.add("address");
       displayAddress.innerHTML = address;
-      remainingDiv.append(qr, displayAddress);
-      // remainingDiv.appendChild(displayAddress);
+      surroundingDiv.append(qr, displayAddress);
 
+      // let icon = document.createElement("i");
+      // icon.classList.add("fas", "fa-times", "deleteIcon");
+      // icon.addEventListener("click", this.hideQR);
+      // icon.classList.add("deleteQR");
+      // surroundingDiv.insertBefore(icon, parentDiv);
 
+    } else {
+      // status = "hide"
 
-      let icon = document.createElement("i");
-      icon.classList.add("fas", "fa-times", "deleteIcon");
-      icon.addEventListener("click", this.hideQR);
-      icon.classList.add("deleteQR");
-      remainingDiv.insertBefore(icon, parentDiv);
+      console.log('hidden');
+      let address = document.querySelector(".address");
+      let qr = document.querySelector(".qr");
+      // let deleteIcon = document.querySelector(".deleteIcon");
 
-      this.setState({
-        qr: true,
-        users_cryptos_id: null, 
-        current_crypto_name: null
-      })
+      // remove wallet address, QR code, and delete icon from DOM
+      address.remove();
+      qr.remove();
+      // deleteIcon.remove();
     }
-
   }
 
-  hideQR = (event) => {
 
+  handleToggleChange = (event) => {
+    let target = event.target.checked; // checkbox has property checked = true or checked = false;
+
+    if (target) { // if checkbox is checked show interested coins
+      this.setCurrentState("interested", false, false, null, null); // crypto_view, qr, add_address, users_cryptos_id, current_crypto_name
+
+      this.hideOrShowCoin("show");
+
+    } else { // if checkbox is not checked show owned coins
+      this.setCurrentState("owned", false, false, null, null); //crypto_view, qr, add_address, users_cryptos_id, current_crypto_name
+
+      this.hideOrShowCoin("show");
+    }
+  }
+
+  handleQRChange = (event) => {
     if (this.state.qr) {
-      let target = event.target;
-      let parentDiv = target.parentElement;
+      // after click of coin, if in state qr = true then show all coins and set state
+      this.hideOrShowCoin("show");
 
-      let allChildren = parentDiv.children;
-      console.log(allChildren);
+      this.setCurrentState(this.state.crypto_view, false, this.state.add_address, null, null); //crypto_view, qr, add_address, users_cryptos_id, current_crypto_name
 
-      let address = document.getElementsByClassName("address");
-      address[0].remove();
-      let qr = document.getElementsByClassName("qr");
-      qr[0].remove();
-      let deleteIcon = document.getElementsByClassName("deleteIcon");
-      deleteIcon[0].remove();
+    } else {
+      // after click of coin, if in state qr = false then change qr = true in state and hide all other coins and show the QR and wallet address of the coin that was clicked on
+      let target = event.target; // coin that was clicked on
+      let parentDiv = target.parentElement.parentElement;
+      let address = target.getAttribute("data-address");
 
-      //note: for loop stops at i = 5 and does not finish and remove the wallet address so have to manually remove with code above 
-      for (let i = 0; i < allChildren.length; i++) {
-        let element = allChildren[i]
-        element.style.display = "flex";
+      console.log(parentDiv);
 
-        this.setState({
-          qr: false,
-          users_cryptos_id: null, 
-          current_crypto_name: null
-        })
-      }
+      this.hideOrShowCoin("hide", parentDiv);
+
+      this.hideOrShowAddress("show", parentDiv, address);
+
+      this.setCurrentState(this.state.crypto_view, true, this.state.add_address, null, null); //crypto_view, qr, add_address, users_cryptos_id, current_crypto_name
     }
-
-
   }
 
-  showAddressForm = (event) => {
+  handleAddressFormChange = (event) => {
+
     let target = event.target;
     let parentDiv = target.parentElement.parentElement;
-    let surroundingDiv = target.parentElement.parentElement.parentElement;
-    let allChildren = surroundingDiv.children;
-    let i, j, element;
+
     let users_cryptos_id = target.getAttribute("data-id");
     let current_crypto_name = target.getAttribute("data-name");
 
+
     if (this.state.add_address) {
+      // when add wallet form is hidden then show all coins
 
-      for (i = 0; i < allChildren.length; i++) {
+      this.hideOrShowCoin("show");
 
-        element = allChildren[i]
-        element.style.display = "flex";
-
-      }
-      this.setState({
-        add_address: false,
-        users_cryptos_id: null, 
-        current_crypto_name: null
-      })
+      this.setCurrentState(this.state.crypto_view, this.state.qr, false, null, null); //crypto_view, qr, add_address, users_cryptos_id, current_crypto_name
 
     } else {
+      // when add wallet address form is shown then hide other coins
 
-      for (j = 0; j < allChildren.length; j++) {
-        element = allChildren[j]
+      this.hideOrShowCoin("hide", parentDiv);
 
-        if (element != parentDiv) {
-          element.style.display = "none";
-        }
-      }
-
-      this.setState({
-        add_address: true,
-        users_cryptos_id: users_cryptos_id,
-        current_crypto_name: current_crypto_name
-      })
-
+      this.setCurrentState(this.state.crypto_view, this.state.qr, true, users_cryptos_id, current_crypto_name); //crypto_view, qr, add_address, users_cryptos_id, current_crypto_name
     }
-
   }
 
   updateCryptos = (event) => {
@@ -209,100 +174,43 @@ class UserProfile extends Component {
       validAddress = true;
 
     } else if (crypto_address > 20) {
+      // use coin-address-validator to validate the crypto address for the specific crypto selected
       validAddress = coinAddressValidator.validate(crypto_address, current_crypto_name)
     } else {
       validAddress = false;
     }
 
-    // console.log(validAddress);
-
     if (validAddress) {
-      // let {user_info, user_crypto, crypto_view} = this.updateCryptoTable(id, crypto_address).then((res)=)
 
       this.updateCryptoTable(id, crypto_address).then(res => {
+        // update users crypto wallet address in database
+
+        //update state
         let { user_info, user_crypto, crypto_view, add_address } = res;
         this.setState({ user_info, user_crypto, crypto_view, add_address });
+
+        //set toggle button checked = false
         document.querySelector("#togBtn").checked = false;
-        let surroundingDiv = document.querySelector(".cryptoWallet");
-        let allChildren = surroundingDiv.children;
-        for (let i = 0; i < allChildren.length; i++) {
-          let element = allChildren[i]
-          console.log(element);
 
-          element.style.display = "flex";
-        }
-
+        // show all coins
+        this.hideOrShowCoin("show");
       })
-      // this.setState({user_info, user_crypto, crypto_view});
-
-
-
 
     } else {
       event.target.children[0].value = "Invalid Address";
     }
 
-    // if (validAddress) {
-    //   return fetch("http://localhost:3001/profile/addAddress?_method=PUT", {
-    //     method: "POST",
-    //     headers: {
-    //       "Accept": "application/json",
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({ id, crypto_address })
-    //   }).then(res => res.json()).then(insertedAddress => {
-    //     // console.log(insertedAddress);
-
-    //   })
-    // } else {
-    //   event.target.children[0].value = "Invalid Address";
-    // }
-
   }
 
-  async updateCryptoTable(id, crypto_address) {
-    const settings = {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, crypto_address })
-    };
-
-    const data = await fetch("http://localhost:3001/profile/addAddress?_method=PUT", settings)
-      .then(response => response.json())
-      .then(json => {
-        return json;
-      })
-      .catch(e => {
-        return e
-      });
-
-    const userProfileData = await fetch("http://localhost:3001/profile");
-    const user_info = await userProfileData.json();
-
-    const userCryptoData = await fetch("http://localhost:3001/profile/crypto");
-    const user_crypto = await userCryptoData.json();
-    const crypto_view = await "owned";
-    const add_address = await false;
-
-    return { user_info, user_crypto, crypto_view, add_address };
-
-    // await console.log(user_info, user_crypto);
-    // this.setState({user_info, user_crypto, crypto_view});
+  // update database with users new added wallet address
+  updateCryptoTable = (id, crypto_address) => {
+    return _updateCryptoTable(id, crypto_address);
   }
-
-
 
 
   componentDidMount() {
 
-    Promise.all([
-      fetch("http://localhost:3001/profile"),
-      fetch("http://localhost:3001/profile/crypto")
-    ])
-      .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+    return _loadProfile()
       .then(([user_info, user_crypto]) => this.setState({
         user_info,
         user_crypto
@@ -318,71 +226,15 @@ class UserProfile extends Component {
 
     return (
       <div className="userProfile text-center">
-        {this.state.user_info.map((x) =>
-          <div id="profile" data-id={x.id} className="p-3 pb-0 ml-3 d-flex flex-column">
-            {(this.state.user_info.photo === undefined)
-              ? <i className="fas fa-user-circle my-2 py-4 px-1 shaded"></i>
-              : <img src={this.state.user_info.photo}></img>
-            }
+        <ProfileCard user_info={this.state.user_info} />
 
-            {/* <img id="responsive" data-id={x.id} clasName="my-2 justify-content-center" src={this.state.src} alt="" /> */}
-            <h5 className="my-2 blueText">{x.username}</h5>
-            <h5 className="my-2 capitalize blueText">{x.first_name}  {x.last_name}</h5>
-            <h5 className="my-2 blueText"> <i className="fas fa-map-marker-alt mr-1"></i>  {x.user_location}</h5>
-            <h5 className="my-2 blueText"> <i className="fas fa-envelope mr-1"></i> <a className="blueText" href={`mailto:${x.email}`}>{x.email}</a></h5>
-            <h5 className="my-2 font-italic blueText">{x.bio}</h5>
-          </div>
-        )}
+        <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
 
-        <div id="cryptoPortfolio" className="p-1 m-3">
-          <h5 id="cryptoHeader" className="blueText">CRYPTO PORTFOLIO</h5>
+          {this.state.add_address &&
+            <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
+          }
 
-          <label className="switch"><input type="checkbox" id="togBtn" onChange={this.handleChange} /><div className="slider round"><span className="own">OWNED</span><span className="interest">INTERESTED</span></div></label>
-          <div className="cryptoWallet">
-            {(this.state.crypto_view === "interested")
-              ? this.state.user_crypto.map((y) =>
-                <div>
-                  {
-                    (y.crypto_address === null)
-                      ? <div className="mx-1 my-2 cryptos">
-                        {/* <p>{y.crypto_symbol}</p> */}
-                        <a className="blueText cryptoText" href={y.crypto_link} target="_blank">{y.crypto_metadata_name}</a>
-                        <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} src={y.crypto_logo} data-id={y.id} onClick={this.showAddressForm}></img>
-                      </div>
-                      : null
-                  }
-
-                </div>
-
-              )
-              : this.state.user_crypto.map((y) =>
-                <div>
-                  {
-                    (y.crypto_address !== null)
-                      ? <div className="mx-1 my-2 cryptos">
-                        <a className="blueText cryptoText" href={y.crypto_link} target="_blank">{y.crypto_metadata_name}</a>
-                        <br></br>
-                        <img className="cryptoImage" data-name={y.crypto_metadata_name} data-address={y.crypto_address} data-id={y.id} src={y.crypto_logo} onClick={this.showQR}></img>
-                      </div>
-                      : null
-                  }
-                </div>
-              )
-            }
-            {this.state.add_address &&
-              <div className="addressForm d-flex flex-column">
-                <form id="addAddressForm" onSubmit={this.updateCryptos}>
-                  <input type="text" name="crypto_address" placeholder="enter your wallet address here" />
-
-                  <button>Add Address</button>
-                </form>
-              </div>
-            }
-          </div>
-
-
-        </div>
+        </CryptoCard>
 
       </div>
     );
