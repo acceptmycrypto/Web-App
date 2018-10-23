@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Transactions.css";
 import CryptoRankings from "../../CryptosRanking";
-import FeedCard from "../../UI/FeedCard/FeedCard";
+import FeedCard from "../FeedCard";
 
 class Transactions extends Component {
   constructor() {
