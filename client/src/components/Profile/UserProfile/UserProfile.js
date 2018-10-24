@@ -22,6 +22,7 @@ class UserProfile extends Component {
       qr: false,
       users_cryptos_id: null,
       current_crypto_name: null,
+      friends_array: []
 
     }
     
@@ -211,9 +212,10 @@ class UserProfile extends Component {
   componentDidMount() {
 
     return _loadProfile()
-      .then(([user_info, user_crypto]) => this.setState({
+      .then(([user_info, user_crypto, friends_array ]) => this.setState({
         user_info,
-        user_crypto
+        user_crypto,
+        friends_array
       }));
 
   }
@@ -226,7 +228,26 @@ class UserProfile extends Component {
 
     return (
       <div className="userProfile text-center">
+        <div className="d-flex justify-content-between">
         <ProfileCard user_info={this.state.user_info} />
+
+          <div className="matchedFriends p-1 mr-3">
+            <h5 id="friendHeader" className="blueText header font-15">FRIENDS</h5>
+            <div className="d-flex flex-row justify-content-around">
+              {this.state.friends_array.map((friend, i) =>
+                <div className="mx-1 my-2 d-flex flex-column w-25 m-3" key={"friend" + i}>
+                      {(friend.photo.indexOf("fa-user") !== -1)
+                          ? <i className={'fas my-2 py-4 px-1 shaded-small ' + friend.photo}></i>
+                          : <img src={friend.photo}></img>
+                      }
+                      <p>{friend.username}</p>
+
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
 
         <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
 
