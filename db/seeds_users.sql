@@ -7,13 +7,13 @@ INSERT INTO users (username, first_name, last_name, phone_number, email, passwor
 ("pk","pavan","katapali","1234567890","pk@pk.com","pk", uuid());
 
 
-INSERT INTO users_profiles (user_id, bio, user_location) VALUES
-(1,"Hi! I am Yanan","San Francisco"),
-(2,"Hey I'm Avanika","San Francisco"),
-(3,"Hello I'm Jason!","San Francisco"),
-(4,"Hey it's Simon","San Francisco"),
-(5,"This is Hooman","San Francisco"),
-(6,"Hey I am Pavan!","San Francisco");
+INSERT INTO users_profiles (user_id, bio, user_location, photo) VALUES
+(1,"Hi! I am Yanan","San Francisco", "fa-user-secret"),
+(2,"Hey I'm Avanika","San Francisco", "fa-user-circle"),
+(3,"Hello I'm Jason!","San Francisco", "fa-user-astronaut"),
+(4,"Hey it's Simon","San Francisco", "fa-user-tie"),
+(5,"This is Hooman","San Francisco", "fa-user"),
+(6,"Hey I am Pavan!","San Francisco", "fa-user-astronaut");
 
 INSERT INTO users_cryptos (user_id, crypto_id) VALUES
 (1,2),
@@ -61,9 +61,15 @@ INSERT INTO users_purchases (user_id, deal_id, crypto_id, crypto_name, amount, t
 (3, 4, 3, "DASH", 0.1266, "CPCJ5AWJ9GDYLQZWO9MOUT914M", "35gu2EBHgUJnPt9k4Epo8HaUam2gpNEMut", 2, 10000, "https://www.coinpayments.net/qrgen.php?id=CPCJ6PXR21YHHN2RMPXUURM3L7&key=20761fa87d3fc20b6564098b356c562f", false);
 
 
-INSERT INTO users_matched_friends (user_id, matched_friend_id) VALUES
-(1, 2),
-(2, 1);
+INSERT INTO users_matched_friends (user_id, matched_friend_id, user_accepted, both_accepted) VALUES
+(1, 2, 1, 1),
+(2, 1, 1, 1),
+(1, 4, 1, 0),
+(4, 1, 0, 0), 
+(1, 6, 0, 0),
+(6, 1, 0, 0),
+(1, 3, 1, 1),
+(3, 1, 1, 1);
 
 
 INSERT INTO users_cryptos(user_id, crypto_id, crypto_address) VALUES
