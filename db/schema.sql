@@ -81,7 +81,7 @@ CREATE TABLE users(
 	id INT NOT NULL AUTO_INCREMENT,
 	verified_email BOOLEAN DEFAULT FALSE,
 	-- when inserting into users table the value for email_verification_token should be uuid()
-	email_verification_token VARCHAR(255),
+	email_verification_token VARCHAR(255) NOT NULL,
 	username VARCHAR(30) NOT NULL UNIQUE,
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR (255) NOT NULL,
@@ -125,9 +125,10 @@ CREATE TABLE users_purchases(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
+	crypto_id INT NOT NULL,
 	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	amount DECIMAL(10, 8) NOT NULL,
+	amount DECIMAL(20, 8) NOT NULL,
 	txn_id VARCHAR(255) NOT NULL,
 	address VARCHAR(255) NOT NULL,
 	confirms_needed VARCHAR(255) NOT NULL,
@@ -135,8 +136,10 @@ CREATE TABLE users_purchases(
 	status_url VARCHAR(255) NULL,
 	qrcode_url VARCHAR(255) NOT NULL,
 	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
+	permission VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id),
 	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
@@ -154,14 +157,14 @@ CREATE TABLE users_matched_friends(
 CREATE TABLE crypto_comments(
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
-  crypto_id INT NOT NULL,
-  body TEXT NOT NULL,
-  date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  comment_status VARCHAR (10) DEFAULT 'normal',
-  points INT DEFAULT 0,
+  	crypto_id INT NOT NULL,
+  	body TEXT NOT NULL,
+  	date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  	comment_status VARCHAR (10) DEFAULT 'normal',
+  	points INT DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
+  	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id)
 );
 
 CREATE TABLE parents_children(
