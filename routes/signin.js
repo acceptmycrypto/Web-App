@@ -49,26 +49,26 @@ connection.connect(function(err){
     next();
 });
 
-  function verifyToken(req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decod) => {
-            if (err) {
-                res.status(403).json({
-                    message: "Wrong Token"
-                });
-            } else {
-                req.decoded = decod;
-                next();
-            }
-        });
-    } else {
-        res.status(403).json({
-            message: "No Token"
-        });
-    }
-}
+//   function verifyToken(req, res, next) {
+//     // check header or url parameters or post parameters for token
+//     var token = req.body.token || req.query.token || req.headers['x-access-token'];
+//     if (token) {
+//         jwt.verify(token, process.env.JWT_SECRET, (err, decod) => {
+//             if (err) {
+//                 res.status(403).json({
+//                     message: "Wrong Token"
+//                 });
+//             } else {
+//                 req.decoded = decod;
+//                 next();
+//             }
+//         });
+//     } else {
+//         res.status(403).json({
+//             message: "No Token"
+//         });
+//     }
+// }
 
 
 
