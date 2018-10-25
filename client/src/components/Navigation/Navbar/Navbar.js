@@ -14,7 +14,7 @@ const Navbar = props => {
         </div>
         <div className="Feed">
           <li>
-            <Link to="/feed/venues">
+            <Link to="/feed/deals">
               <i className="fas fa-dollar-sign" /> Matched Deals
             </Link>
           </li>

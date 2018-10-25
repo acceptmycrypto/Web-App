@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Modal from '../../UI/Modal/Modal'
 import Checkout from '../../Checkout/Checkout'
 import CryptoRankings from '../../CryptosRanking';
-import './Venues.css';
+import './Deals.css';
 
-class Venues extends Component {
+class Deals extends Component {
   constructor() {
     super();
 
@@ -120,4 +120,4 @@ class Venues extends Component {
   }
 }
 
-export default Venues;
+export default Deals;
