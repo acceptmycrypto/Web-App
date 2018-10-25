@@ -120,7 +120,7 @@ class Crypto extends Component {
                             <div>{ReactHtmlParser(parent.body)}</div>
                         </div>}
                         {parent.children.map(child => 
-                            <div className="childComment" id={"child"+child.id} data-id={child.id} data-parent={false}>
+                            <div className="childComment" id={"child"+child.id} key={"child"+child.id} data-id={child.id} data-parent={false}>
                                 {(child.comment_status==="deleted") && <div className="commentDeleted">
                                     <div>{child.date_commented}</div>
                                     <div>reply deleted</div>
