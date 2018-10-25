@@ -136,7 +136,7 @@ CREATE TABLE users_purchases(
 	status_url VARCHAR(255) NULL,
 	qrcode_url VARCHAR(255) NOT NULL,
 	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
-	permission VARCHAR(255) NOT NULL,
+	permission VARCHAR(255) NOT NULL DEFAULT "community",
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id),
@@ -149,6 +149,7 @@ CREATE TABLE users_matched_friends(
 	matched_friend_id INT NOT NULL,
 	date_matched TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	user_accepted BOOLEAN NOT NULL DEFAULT FALSE,
+	both_accepted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (matched_friend_id) REFERENCES users(id)

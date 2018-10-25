@@ -6,6 +6,8 @@ import coinAddressValidator from "coin-address-validator";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
 import CryptoAddress from "../CryptoAddress";
+import FriendCard from "../FriendCard";
+import ProfileFeed from "../ProfileFeed";
 import { _updateCryptoTable, _loadProfile } from "../../../services/UserProfileService";
 
 
@@ -14,7 +16,6 @@ class UserProfile extends Component {
     super();
 
     this.state = {
-      src: "./assets/images/user.png",
       crypto_view: "owned",
       user_info: [],
       user_crypto: [],
@@ -22,9 +23,10 @@ class UserProfile extends Component {
       qr: false,
       users_cryptos_id: null,
       current_crypto_name: null,
-
+      friends_array: [],
+      transactions: []
     }
-    
+
   }
 
   // updates state
@@ -211,9 +213,11 @@ class UserProfile extends Component {
   componentDidMount() {
 
     return _loadProfile()
-      .then(([user_info, user_crypto]) => this.setState({
+      .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
         user_info,
-        user_crypto
+        user_crypto,
+        friends_array,
+        transactions
       }));
 
   }
@@ -225,16 +229,30 @@ class UserProfile extends Component {
     // console.log(this.props.match.params); 
 
     return (
-      <div className="userProfile text-center">
-        <ProfileCard user_info={this.state.user_info} />
+      <div className="userProfile d-flex flex-row justify-content-between">
+        <div className="d-flex flex-column width-20">
 
-        <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
+          <ProfileCard user_info={this.state.user_info} />
 
-          {this.state.add_address &&
-            <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
-          }
+          <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
 
-        </CryptoCard>
+            {this.state.add_address &&
+              <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
+            }
+
+          </CryptoCard>
+
+
+        </div>
+
+        <div className="width-60 mx-5">
+          <ProfileFeed transactions={this.state.transactions} />
+        </div>
+
+        <div className="width-20 mr-3">
+
+          <FriendCard friends_array={this.state.friends_array} />
+        </div>
 
       </div>
     );
