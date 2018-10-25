@@ -68,11 +68,11 @@ connection.connect(function(err){
   
         if (password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
   
-        // console.log('got to line 92')
+        // console.log(result)
   
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(password, salt, function(err, hash) {
-              connection.query('INSERT INTO users SET ?',hash, function (error, results, fields, next) {
+              connection.query('INSERT INTO users SET password=? WHERE username=? ',[hash, req.body.username], function (error, results, fields, next) {
                 if (error) {
                   console.log("error ocurred",error);
                   res.send({
