@@ -73,6 +73,17 @@ router.get('/profile/friends', function (req, res) {
 
 });
 
+router.get("/profile/user/transactions", function(req, res) {
+    connection.query(
+      "SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE users.id =? AND payment_received = ?",
+      [id, 1], //1 is true for payment received //community means any user on acceptmycrypto platform
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -91,5 +102,7 @@ function shuffle(array) {
 
   return array;
 }
+
+
 
 module.exports = router;
