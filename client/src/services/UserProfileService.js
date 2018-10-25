@@ -33,9 +33,10 @@ export const _loadProfile = () => {
   return Promise.all([
     fetch("http://localhost:3001/profile"),
     fetch("http://localhost:3001/profile/crypto"),
-    fetch("http://localhost:3001/profile/friends")
+    fetch("http://localhost:3001/profile/friends"), 
+    fetch("http://localhost:3001/profile/user/transactions")
   ])
-    .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+    .then(([res1, res2, res3, res4]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json()]));
 }
 
 
