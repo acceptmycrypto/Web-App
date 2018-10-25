@@ -7,6 +7,7 @@ import SignIn from "./components/signup/SignIn";
 import Profile from "./components/Profile/UserProfile";
 import Crypto from "./components/Crypto";
 import FeedDeals from "./components/Feed/Deals";
+import DealItem from "./components/Feed/Deals/DealItem";
 import FeedFriends from "./components/Feed/MatchedFriends";
 import FeedTransactions from "./components/Feed/Transactions";
 import Layout from "./components/Layout";
@@ -22,7 +23,10 @@ class App extends Component {
             <Route path="/SignUp" component={SignUp} />
             <Route path="/profile" component={Profile} />
             <Route path="/crypto" component={Crypto} />
-            <Route path="/feed/deals" component={FeedDeals} />
+
+            <Route exact path="/feed/deals" component={FeedDeals} />
+            <Route path='/feed/deals/:deal_name' component={DealItem}/>
+
             <Route path="/feed/friends" component={FeedFriends} />
             <Route path="/feed/transactions" component={FeedTransactions} />
           <Layout />

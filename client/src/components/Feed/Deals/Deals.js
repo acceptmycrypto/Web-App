@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from "react-router-dom";
 import Modal from '../../UI/Modal/Modal'
 import Checkout from '../../Checkout/Checkout'
 import CryptoRankings from '../../CryptosRanking';
@@ -110,7 +111,6 @@ class Deals extends Component {
                       </form>
                     </div>
                   </div>
-
               </div>
             ))}
           </div>
