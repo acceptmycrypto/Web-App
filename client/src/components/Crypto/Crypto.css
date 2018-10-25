@@ -44,7 +44,7 @@ button {
     height: 30px;
 }
 
-#textarea {
+#textarea, .replyArea {
     -moz-appearance: textfield-multiline;
     -webkit-appearance: textarea;
     border: 1px solid gray;
