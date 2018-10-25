@@ -1,8 +1,8 @@
 /* Start of CSS for User Profile Card */
 #profile{
-    width: 18em;
-    /* min-width: fit-content; */
-    max-width: 18em;
+    /* width: 18em; */
+    
+    /* max-width: 18em; */
     border: rgb(22, 190, 182) 2px solid;
     border-radius: 5px;
 }
@@ -20,7 +20,7 @@ i{
     color: rgb(22, 190, 182);
 }
 
-.shaded{
+.user-icon-shaded{
     display: inline-block;
     color: white;
     background-image: linear-gradient(-85deg, #49cdb7, #1ab7db); 
