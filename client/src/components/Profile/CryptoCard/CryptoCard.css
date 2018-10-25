@@ -1,3 +1,79 @@
+/* Start of CSS for Crypto Portfolio */
+#cryptoPortfolio{
+  
+  /* width: 18em;
+  max-width: 18em; */
+
+  border: rgb(22, 190, 182) 2px solid;
+
+  border-radius: 5px;
+}
+
+.header{
+  font-weight: bold;
+}
+
+.link:hover{
+  color: #0d5045;
+}
+
+.cryptoImage{
+  width: 70%;
+  cursor: pointer;
+ 
+}
+
+.cryptoText{
+  font-size: 15px;
+}
+
+
+.cryptoWallet{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+}
+
+
+
+.deleteQR{
+  position: absolute;
+  top: 0;
+  right: 10%;
+  cursor: pointer;
+  
+}
+
+.address{
+  display: inline-block;
+  word-break: break-all;
+}
+
+.qr{
+  width: 100%;
+}
+
+#addressFormInput{
+  width: 100%;
+}
+
+#addAddressForm{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.addAddressButton{
+  width: fit-content;
+  margin: 0 auto;
+}
+
+
+/* End of CSS for Crypto Portfolio */
+
+
 /* Start of CSS for Owned vs Interested Slider */
 
 .switch {

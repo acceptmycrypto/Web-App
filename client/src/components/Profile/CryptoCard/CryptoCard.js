@@ -4,7 +4,7 @@ import "./CryptoCard.css";
 const CryptoCard = props => {
 
     return (
-        <div id="cryptoPortfolio" className="p-1 m-3">
+        <div id="cryptoPortfolio" className="p-1 m-3 text-center w-100">
             <h5 id="cryptoHeader" className="blueText header font-15">CRYPTO PORTFOLIO</h5>
 
             <label className="switch"><input type="checkbox" id="togBtn" onChange={props.handleToggleChange} /><div className="slider round"><span className="own">OWNED</span><span className="interest">INTERESTED</span></div></label>
