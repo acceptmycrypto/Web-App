@@ -107,7 +107,7 @@ class Crypto extends Component {
             <div>
                 <h1>ABC</h1>
                 {this.state.allComments.map(parent => 
-                    <div className="parentComment" id={"parent"+parent.id} data-id={parent.id} data-parent={true}>
+                    <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
                         {(parent.comment_status==="deleted") && <div className="commentDeleted">
                             <div>{parent.date_commented}</div>
                             <div>comment deleted</div>
