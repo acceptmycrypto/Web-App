@@ -27,7 +27,9 @@ class Transactions extends Component {
     return (
       <div className="transactions-content">
         <CryptoRankings />
-        <FeedCard transactions={this.state.transactions}/>
+        <div className="w-50">
+          <FeedCard transactions={this.state.transactions} />
+        </div>
       </div>
     );
   }
