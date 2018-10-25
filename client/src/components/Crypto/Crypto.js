@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import "./Crypto.css";
+
 
 class Crypto extends Component {
     constructor() {
         super();
         this.state = {
-            allComments:[]
+            allComments:[],
+            comment:{
+                placeHolder:"Say something!",
+                color:"gray"
+            }
         }
     }
 
@@ -14,15 +20,17 @@ class Crypto extends Component {
         event.preventDefault();
         let id, user_id, crypto_id, body, comment_parent_id;//prep all the data to send into fetch body
         id = event.target.getAttribute("id");//this id distinguishes commentForm on the bottom with replyForms when you click reply.  this id has nothing to do with ids in the db tables
-        if (id==="commentForm"){
+        if (id==="commentForm"){//if this is commentForm
             comment_parent_id = 0;
-        } else {
+        } else {//if this is a replyForm
             comment_parent_id = event.target.getAttribute("data-id");
         }
         user_id = 1; //hardcoding user for now
         crypto_id = 1;//hardcoding crypto for now
-        body = event.target.children[0].value;//save the comment text into body
-        event.target.children[0].value = "";//comment text has to be cleared before form becomes display=none
+        body = event.target.children[0].innerText;//save the comment text into body
+        console.log("body");
+        console.log(body);
+        event.target.children[0].innerText = "";//comment text has to be cleared regardless of commentForm or replyForm
         return fetch("http://localhost:3001/crypto/submit-comment", {
             method: 'POST',
             headers: {
@@ -32,10 +40,16 @@ class Crypto extends Component {
             body: JSON.stringify({user_id, crypto_id, body, comment_parent_id})
         }).then(res => res.json()).then(allComments => {
             console.log(allComments);
-            if (id!=="commentForm"){//if current form is a reply form
+            
+            this.setState({//reset the appearance of the commentForm regardless
+                comment:{
+                    placeHolder:"Say something!",
+                    color:"gray"
+                }
+            });
+            if (id!=="commentForm"){
                 let replyForm = document.getElementById(id);
                 replyForm.style.display = "none";//hides reply form
-                replyForm.children[0].removeAttribute("autofocus");//remove attribute to return this form to original condition
             }
             return this.setState(allComments)
         })
@@ -43,9 +57,9 @@ class Crypto extends Component {
 
     //this function sends id of comment to delete, then sets returned json into state
     deleteComment = (event) => {
-        let id, parentStatus;//prep all the data to send into fetch body
-        id = event.target.parentElement.parentElement.getAttribute("data-id");//this id IS same as the id from the crypto_comments table
-        // parentStatus = event.target.parentElement.getAttribute("data-parent");
+        let id;//prep all the data to send into fetch body
+        id = event.target.parentElement.parentElement.parentElement.getAttribute("data-id");
+        // this id IS same as the id from the crypto_comments table
         return fetch("http://localhost:3001/crypto/delete-comment", {
             method: 'POST',
             headers: {
@@ -63,10 +77,20 @@ class Crypto extends Component {
     //this function displays the replyForm when reply button is clicked, then cursor automatically appears in form
     displayReplyForm = (event) => {
         let id;
-        id = event.target.parentElement.parentElement.getAttribute("data-id");
+        id = event.target.parentElement.parentElement.parentElement.getAttribute("data-id");
         let replyForm = document.getElementById("replyForm"+id);
         replyForm.style.display = "block";
-        replyForm.children[0].setAttribute("autofocus","autofocus");
+        replyForm.children[0].focus();
+    }
+
+    //this function removes placeholder text and changes text color to black when comment area is clicked
+    removePlaceholder = () => {
+        this.setState({
+            comment:{
+                placeHolder:"",
+                color:"black"
+            }
+        });
     }
 
     componentDidMount() {
@@ -83,46 +107,45 @@ class Crypto extends Component {
             <div>
                 <h1>ABC</h1>
                 {this.state.allComments.map(parent => 
-                    <div className="parentComment" id={"parent"+parent.id} data-id={parent.id} data-parent={true}>
-                        {(parent.comment_status==="deleted") && <div className="commentDeleted">{parent.date_commented}
+                    <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
+                        {(parent.comment_status==="deleted") && <div className="commentDeleted">
+                            <div>{parent.date_commented}</div>
                             <div>comment deleted</div>
                         </div>}
-                        {(parent.comment_status==="locked") && <div>{parent.date_commented} - {parent.username}
-                            <button onClick={this.deleteComment}>Delete</button>
-                            <div>{parent.body}</div>
-                        </div>}
-                        {(parent.comment_status==="normal") && <div>{parent.date_commented} - {parent.username}
-                            
-                            <button onClick={this.deleteComment}>Delete</button>
-                            <button onClick={this.displayReplyForm}>Reply</button>
-                            <div>{parent.body}</div>
+                        {(parent.comment_status==="normal") && <div>
+                            <div>{parent.date_commented} - {parent.username}
+                                <button onClick={this.deleteComment}>Delete</button>
+                                <button onClick={this.displayReplyForm}>Reply</button>
+                            </div>
+                            <div>{ReactHtmlParser(parent.body)}</div>
                         </div>}
                         {parent.children.map(child => 
-                            <div className="childComment" id={"child"+child.id} data-id={child.id} data-parent={false}>
-                                {(child.comment_status==="deleted") && <div className="commentDeleted">{child.date_commented}
+                            <div className="childComment" id={"child"+child.id} key={"child"+child.id} data-id={child.id} data-parent={false}>
+                                {(child.comment_status==="deleted") && <div className="commentDeleted">
+                                    <div>{child.date_commented}</div>
                                     <div>reply deleted</div>
                                 </div>}
-                                {(child.comment_status==="normal") && <div>{child.date_commented} - {child.username}
-                                    <button onClick={this.deleteComment}>Delete</button>
+                                {(child.comment_status==="normal") && <div>
+                                    <div>{child.date_commented} - {child.username}
+                                        <button onClick={this.deleteComment}>Delete</button>
+                                    </div>
                                     <div>{child.body}</div>
                                 </div>}
                             </div>
                         )}
                         <form className="replyForm" onSubmit={this.addComment} id={"replyForm"+parent.id} data-id={parent.id}>
-                            <textarea name="body" rows="4" cols="50" placeholder="Say something back!"></textarea>
+                            <div className="replyArea" id={"replyArea"+parent.id} name="body" contentEditable="true"></div>
                             <div className="buttonDiv"><button>Submit</button></div>
                         </form>
                     </div>
                 )}
                 <form onSubmit={this.addComment} id="commentForm">
-                    <textarea name="body" rows="4" cols="50" placeholder="Say something!"></textarea>
-                    <div className="buttonDiv"><button>Submit</button></div>
+                    <div id="textarea" className={this.state.comment.color} name="body" contentEditable="true" onClick={this.removePlaceholder}>{this.state.comment.placeHolder}</div>
+                    <div className="buttonDiv"><button disabled={this.state.commentPlaceHolder==="Say something!"}>Submit</button></div>
                 </form>
             </div>
         );
     }
 }
-
-
 
 export default Crypto;

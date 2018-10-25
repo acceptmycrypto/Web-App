@@ -136,6 +136,25 @@ assembleComments = (data) => {
     return ({allComments});
 }
 
+//this function converts new lines from the fake text box into line breaks, and urls into a tags.
+convertURL = (str) => {
+    let res = '';
+    let res2 = '';
+    let arr = str.split('\n');
+    res = arr.map(x => {
+        let arr2 = x.split(' ');
+        res2 = arr2.map(y => {
+            if (y.includes('http')){
+                return `<a href='${y}' target='_blank'>${y}</a>`;
+            } else {
+                return y;
+            }
+        })
+        return res2.join(' ')
+    })
+    return res.join('<br/>');
+}
+
 router.get('/crypto/comments', function (req,res) {
     getAllComments(res)
 })
@@ -145,6 +164,7 @@ router.post('/crypto/submit-comment', function (req, res){
     console.log(req.body);
     let user_id, crypto_id, body, comment_parent_id;
     ({user_id, crypto_id, body, comment_parent_id} = req.body);
+    body = convertURL(body);
     connection.query(
         'INSERT INTO crypto_comments SET ?',
         [{user_id, crypto_id, body}],
