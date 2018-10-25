@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modal from '../../UI/Modal/Modal'
 import Checkout from '../../Checkout/Checkout'
 import CryptoRankings from '../../CryptosRanking';
@@ -86,7 +86,7 @@ class Deals extends Component {
           <div id="right" className="row column">
             {this.state.deals.map(deal => (
               <div key={deal.id} className="col-sm-4 deal">
-
+                <Link to={`/feed/deals/${deal.deal_name}`} >
                   <div className="card">
                     <div className="card-body">
                       <img
@@ -111,6 +111,7 @@ class Deals extends Component {
                       </form>
                     </div>
                   </div>
+                </Link>
               </div>
             ))}
           </div>
