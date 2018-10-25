@@ -1,9 +1,11 @@
-a {
+/* Simon please add a class to your a tags so that it won't affect other pages */
+/* Also it seems that you are not using this anywhere so I commented it out for now */
+/* a {
   color: black;
 }
 a:link {
   text-decoration: none;
-}
+} */
 
 .venues-content {
   display: flex;
