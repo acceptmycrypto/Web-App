@@ -6,6 +6,8 @@ import coinAddressValidator from "coin-address-validator";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
 import CryptoAddress from "../CryptoAddress";
+import FriendCard from "../FriendCard";
+import ProfileFeed from "../ProfileFeed";
 import { _updateCryptoTable, _loadProfile } from "../../../services/UserProfileService";
 
 
@@ -14,7 +16,6 @@ class UserProfile extends Component {
     super();
 
     this.state = {
-      src: "./assets/images/user.png",
       crypto_view: "owned",
       user_info: [],
       user_crypto: [],
@@ -22,10 +23,10 @@ class UserProfile extends Component {
       qr: false,
       users_cryptos_id: null,
       current_crypto_name: null,
-      friends_array: []
-
+      friends_array: [],
+      transactions: []
     }
-    
+
   }
 
   // updates state
@@ -212,10 +213,11 @@ class UserProfile extends Component {
   componentDidMount() {
 
     return _loadProfile()
-      .then(([user_info, user_crypto, friends_array ]) => this.setState({
+      .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
         user_info,
         user_crypto,
-        friends_array
+        friends_array,
+        transactions
       }));
 
   }
@@ -227,35 +229,30 @@ class UserProfile extends Component {
     // console.log(this.props.match.params); 
 
     return (
-      <div className="userProfile text-center">
-        <div className="d-flex justify-content-between">
-        <ProfileCard user_info={this.state.user_info} />
+      <div className="userProfile d-flex flex-row justify-content-between">
+        <div className="d-flex flex-column width-20">
 
-          <div className="matchedFriends p-1 mr-3">
-            <h5 id="friendHeader" className="blueText header font-15">FRIENDS</h5>
-            <div className="d-flex flex-row justify-content-around">
-              {this.state.friends_array.map((friend, i) =>
-                <div className="mx-1 my-2 d-flex flex-column w-25 m-3" key={"friend" + i}>
-                      {(friend.photo.indexOf("fa-user") !== -1)
-                          ? <i className={'fas my-2 py-4 px-1 shaded-small ' + friend.photo}></i>
-                          : <img src={friend.photo}></img>
-                      }
-                      <p>{friend.username}</p>
+          <ProfileCard user_info={this.state.user_info} />
 
-                </div>
-              )}
-            </div>
+          <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
 
-          </div>
+            {this.state.add_address &&
+              <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
+            }
+
+          </CryptoCard>
+
+
         </div>
 
-        <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
+        <div className="width-60 mx-5">
+          <ProfileFeed transactions={this.state.transactions} />
+        </div>
 
-          {this.state.add_address &&
-            <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
-          }
+        <div className="width-20 mr-3">
 
-        </CryptoCard>
+          <FriendCard friends_array={this.state.friends_array} />
+        </div>
 
       </div>
     );
