@@ -22,11 +22,6 @@ const options = [
 class SignUp extends Component {
     constructor() {
         super();
-
-        // When the submit button is pressed:
-
-        // this.state = { user: {} };
-        // this.onSubmit = this.handleSubmit.bind(this);
         
         this.state = {
             // name: '',
@@ -144,7 +139,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20">Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
+                  <button className="FormField__Button mr-20" onSubmit={this.handleSubmit}>Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
               </div>
             </form>
           </div>

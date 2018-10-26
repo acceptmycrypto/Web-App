@@ -60,7 +60,7 @@ connection.connect(function(err){
         "code":400,
         "failed":"error ocurred"
       })
-    }else{
+    // }else{
       connection.query('SELECT * FROM users WHERE username =',req.body.username, function(error, result) {
         if (result) return res.status(404).json({ error: 'user already exists' });
   

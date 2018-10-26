@@ -34,7 +34,24 @@ class SignIn extends Component {
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
-    }
+
+
+    return fetch("http://localhost:3001/signin", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email, password})
+            
+        })
+
+        console.log('The form was submitted with the following data:');
+        console.log(this.state);
+       
+    };
+    
+
 
     render() {
         return (
@@ -62,7 +79,7 @@ class SignIn extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
+                  <button className="FormField__Button mr-20"onSubmit={this.handleSubmit}>Sign In<link to="/feed/venues"/></button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
             </form>
           </div>   
