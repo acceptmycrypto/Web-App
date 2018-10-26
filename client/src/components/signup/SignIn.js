@@ -34,21 +34,6 @@ class SignIn extends Component {
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
-
-
-    return fetch("http://localhost:3001/signin", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-            
-        })
-
-        console.log('The form was submitted with the following data:');
-        console.log(this.state);
-       
     };
     
 
