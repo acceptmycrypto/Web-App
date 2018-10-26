@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Modal from '../../UI/Modal/Modal'
 import Checkout from '../../Checkout/Checkout'
 import CryptoRankings from '../../CryptosRanking';
+import { _loadDeals } from "../../../services/DealServices";
 import './Deals.css';
 
 class Deals extends Component {
@@ -19,13 +20,12 @@ class Deals extends Component {
   }
 
   //Another way to fetch api with promise using es6 syntax so we can call multiple api routes
-  async componentDidMount() {
-    const dealsList = await fetch("http://localhost:3001/api/deals");
-    const deals = await dealsList.json();
-
-    const venuesList = await fetch("http://localhost:3001/api/venues_cryptos");
-    const cryptosAccepted = await venuesList.json();
-    this.setState({deals, cryptosAccepted});
+  componentDidMount() {
+    return _loadDeals()
+      .then(result => this.setState({
+        deals: result.deals,
+        cryptosAccepted: result.cryptosAccepted
+      }))
   }
 
   showAcceptedCryptos = (venue) => {
@@ -75,6 +75,10 @@ class Deals extends Component {
     this.setState({purchasing: false})
   }
 
+  convertToPercentage = (priceInDollar, priceInCrypto) => {
+    return parseInt(((priceInDollar - priceInCrypto) / priceInDollar) * 100)
+  }
+
   render() {
     return (
       <div>
@@ -83,18 +87,36 @@ class Deals extends Component {
         </Modal>
         <div className="venues-content">
           <CryptoRankings />
-          <div id="right" className="row column">
+
+          <div id="right" className="grid">
             {this.state.deals.map(deal => (
-              <div key={deal.id} className="col-sm-4 deal">
-                <Link to={`/feed/deals/${deal.deal_name}`} >
-                  <div className="card">
-                    <div className="card-body">
-                      <img
-                        className="card-img-top"
-                        src={deal.deal_image}
-                        alt="deal"
-                      />
-                      <h5 className="card-title">{deal.deal_name}</h5>
+              <div key={deal.id} className="deal">
+                <Link to={`/feed/deals/${deal.deal_name}`} style={{ textDecoration: 'none', color: "black" }} >
+
+
+                    <div className="deal-info">
+                      <img className="deal-image" src={deal.deal_image} alt="deal"/>
+                      <div className="mt-1">{deal.deal_name}</div>
+                      <small className="deal-description">{deal.deal_description}</small>
+                      <div><small>Offered by: {deal.venue_name}</small></div>
+                    </div>
+
+                    <div className="deal-price">
+                      <div className="price-differ">
+                        <div>
+                          <div className="purchase-method">Dollar</div>
+                          <strike>${deal.pay_in_dollar}</strike>
+                        </div>
+                        <div>
+                          <div className="purchase-method">Cryptocurrency</div>
+                          <strong className="pay_in_crypto">${deal.pay_in_crypto}
+                          <small className="discount">{this.convertToPercentage(deal.pay_in_dollar, deal.pay_in_crypto)}% OFF</small>
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
+
+                      {/* <h5 className="card-title">{deal.deal_name}</h5>
                       <p className="card-text">{deal.deal_description}</p>
                       <div>Pay in dollar: ${deal.pay_in_dollar}</div>
                       <div>Pay in crypto: ${deal.pay_in_crypto}</div>
@@ -108,13 +130,14 @@ class Deals extends Component {
                           })}
                         </select>
                         <button data-dealid={deal.id} data-amount={deal.pay_in_crypto} className="btn btn-primary btn-sm">Pay With My Crypto</button>
-                      </form>
-                    </div>
-                  </div>
+                      </form> */}
+
                 </Link>
               </div>
+
             ))}
           </div>
+
         </div>
       </div>
     );

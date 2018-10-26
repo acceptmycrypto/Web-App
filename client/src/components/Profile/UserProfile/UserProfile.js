@@ -226,7 +226,7 @@ class UserProfile extends Component {
   render() {
     console.log(this.state);
     // console.log(this.props.location.pathname);
-    // console.log(this.props.match.params); 
+    // console.log(this.props.match.params);
 
     return (
       <div className="userProfile d-flex flex-row justify-content-between">
