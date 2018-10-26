@@ -34,6 +34,7 @@
     "jsonwebtoken": "^8.3.0",
     "method-override": "^3.0.0",
     "mysql": "^2.16.0",
+    "redirect": "^0.2.0",
     "request": "^2.88.0",
     "xmlhttprequest": "^1.8.0"
   }

@@ -1,6 +1,6 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter as Redirect, Router, Route, Link, NavLink } from 'react-router-dom';
 // import { _login } from './AuthService';
 
 class SignIn extends Component {
@@ -10,8 +10,19 @@ class SignIn extends Component {
         this.state = {
             email: '',
             password: '',
-            SignUp: false
+            SignUp: false,
+            redirect: false
         };
+        // setRedirect = () => {
+        //     this.setState({
+        //       redirect: true
+        //     })
+        //   }
+        //   renderRedirect = () => {
+        //     if (this.state.redirect) {
+        //       return <Redirect to='/feed/venues'>
+        //     }
+        //   }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -79,7 +90,8 @@ class SignIn extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20"onSubmit={this.handleSubmit}>Sign In<link to="/feed/venues"/></button> <Link to="/" className="FormField__Link">Create an account</Link>
+              {/* {this.renderRedirect()} */}
+                  <button className="FormField__Button mr-20"onSubmit={this.handleSubmit} onClick={this.setRedirect}>Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
             </form>
           </div>   

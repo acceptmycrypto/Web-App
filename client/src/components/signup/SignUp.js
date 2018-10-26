@@ -1,7 +1,7 @@
 // import React from "react";
 import "./SignUp.css";
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter as Redirect, Router, Route, Link, NavLink } from 'react-router-dom';
 import Select from 'react-select'
 // import { _signUp } from './AuthService';
 
@@ -32,8 +32,19 @@ class SignUp extends Component {
             // location: '',
             // birthday: '',
             cryptoProfile: options,
-            hasAgreed: false
+            hasAgreed: false,
+            redirect: false
         };
+        // setRedirect = () => {
+        //   this.setState({
+        //     redirect: true
+        //   })
+        // }
+        // renderRedirect = () => {
+        //   if (this.state.redirect) {
+        //     return <Redirect to='/feed/venues'>
+        //   }
+        // }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -139,7 +150,8 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20" onSubmit={this.handleSubmit}>Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
+              {/* {this.renderRedirect()} */}
+                  <button className="FormField__Button mr-20" onSubmit={this.handleSubmit} onClick={this.setRedirect}>Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
               </div>
             </form>
           </div>
