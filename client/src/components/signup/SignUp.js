@@ -3,7 +3,7 @@ import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import Select from 'react-select'
-import { _signUp, _login } from './AuthService';
+// import { _signUp } from './AuthService';
 
 const options = [
   { value: 'Bitcoin', label: 'Bitcoin (BTC)' },

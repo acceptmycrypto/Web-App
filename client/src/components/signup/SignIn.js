@@ -1,7 +1,7 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
-import { _signUp, _login } from './AuthService';
+// import { _login } from './AuthService';
 
 class SignIn extends Component {
     constructor() {
@@ -34,6 +34,21 @@ class SignIn extends Component {
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
+
+
+    return fetch("http://localhost:3001/signin", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email, password})
+            
+        })
+
+        console.log('The form was submitted with the following data:');
+        console.log(this.state);
+       
     };
     
 
