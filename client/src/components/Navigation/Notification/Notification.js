@@ -38,8 +38,8 @@ showDropdownMenu(event) {
           
           { this.state.displayMenu ? (
           <ul className="ul_notif">
-            <li><a className="active_notif" href="/notifications">Notification Placeholder</a></li>
-            <li><a className="all_notif" href="/">All Notifications</a></li>
+            <li><a className="active_notif" href="/">Notification Placeholder</a></li>
+            <li><a className="all_notif" href="/notifications">All Notifications</a></li>
           </ul>
         ):
         (

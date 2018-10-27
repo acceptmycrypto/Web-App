@@ -67,6 +67,7 @@ app.use('/', signUpRoutes);
 app.use('/', signInRoutes);
 app.use("/", transactionsRoutes);
 app.use("/", cryptosRankingRoutes);
+app.use("/", notificationRoutes);
 
 path.join(__dirname, "public");
 
