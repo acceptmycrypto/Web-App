@@ -60,15 +60,16 @@ connection.connect(function(err){
         "code":400,
         "failed":"error ocurred"
       })
-    // }else{
-      connection.query('SELECT * FROM users WHERE username =',req.body.username, function(error, result) {
+    }
+  
+      connection.query('SELECT * FROM users WHERE username = ?',req.body.username, function(error, result) {
         if (result) return res.status(404).json({ error: 'user already exists' });
   
         if (!password) return res.status(401).json({ error: 'you need a password' });
   
         if (password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
   
-        // console.log(result)
+        console.log(result)
   
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(password, salt, function(err, hash) {
@@ -91,7 +92,7 @@ connection.connect(function(err){
             });
         });
     });
-    }
+    
     });
     
   });
