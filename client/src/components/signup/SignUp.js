@@ -31,7 +31,7 @@ class SignUp extends Component {
             // phoneNum: '',
             // location: '',
             // birthday: '',
-            cryptoProfile: options,
+            cryptoProfile: selectedOptions,
             hasAgreed: false,
             redirect: false
         };
@@ -61,12 +61,12 @@ class SignUp extends Component {
         console.log (name);
     };
     state = {
-      selectedOption: null,
+      selectedOptions: null,
     };
 
-    handleDropdownChange = (selectedOption) => {
-      this.setState({ selectedOption });
-      console.log(`Option selected:`, selectedOption);
+    handleDropdownChange = (selectedOptions) => {
+      this.setState({ selectedOptions });
+      console.log(`Option selected:`, selectedOptions);
     }
 
     handleSubmit(e) {
@@ -140,7 +140,7 @@ class SignUp extends Component {
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">Crypto Profile</label>
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
-                <Select value={selectedOption} onChange={this.handleDropdownChange} options={options} isMulti={true} autoBlur={false} />
+                <Select value={selectedOptions} onChange={this.handleDropdownChange} options={options} isMulti={true} autoBlur={false} />
               </div>
               
               <div className="FormField">
