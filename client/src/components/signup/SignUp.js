@@ -31,7 +31,7 @@ class SignUp extends Component {
             // phoneNum: '',
             // location: '',
             // birthday: '',
-            cryptoProfile: selectedOptions,
+            cryptoProfile: options,
             hasAgreed: false,
             redirect: false
         };
@@ -74,7 +74,7 @@ class SignUp extends Component {
         let username = e.target.children[0].children[1].value;
         let email = e.target.children[1].children[1].value;
         let password = e.target.children[2].children[1].value;
-        let cryptoProfile= e.target.children[3].children[1].selectedOption;
+        let cryptoProfile= e.target.children[3].children[1].selectedOptions;
 
 
         console.log("This is the user name " + username);
@@ -94,7 +94,7 @@ class SignUp extends Component {
     };
 
     render() {
-      const { selectedOption } = this.state;
+      const { selectedOptions } = this.state;
         return (
             <div className="App">
             <div className="App__Aside"></div>

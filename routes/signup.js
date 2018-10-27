@@ -39,63 +39,55 @@ connection.connect(function(err){
   }
   });
 
-  router.post("/register", function(req,res){
+  //this worked
+    // router.post("/register", function(req,res){
+
+    //   var ob = Object.assign({}, req.body, {more: 'stuff'});
+    //   console.log('---------line 43---------');
+    //   console.log(req.body);
+    //   console.log('--------line 45----------');
+
+
+    //   res.json(ob);
+    //   // res.send('hi'); //works
+    // });
+
+  router.post("/register", function(req,res) {
+
     // console.log("req",req.body);
     // var today = new Date();
-    let users={
-      // "first_name":req.body.first_name,
-      // "last_name":req.body.last_name,
-      "username": req.body.username,
-      "email":req.body.email,
-      // "created":today,
-      // "modified":today
-    }
 
-    let password = req.body.password
+    bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(req.body.password, salt, function(err, hash) {
+              
+              let users={
+                "first_name":req.body.first_name,
+                "last_name":req.body.last_name,
+                "username": req.body.username,
+                "email":req.body.email,
+                "password": hash
+                // "created":today,
+                // "modified":today
+              }
 
-    connection.query('INSERT INTO users SET ?',users, function (error, results, fields, next) {
-    if (error) {
-      console.log("error ocurred",error);
-      res.send({
-        "code":400,
-        "failed":"error ocurred"
-      })
-    }
-  
-      connection.query('SELECT * FROM users WHERE username = ?',req.body.username, function(error, result) {
-        if (result) return res.status(404).json({ error: 'user already exists' });
-  
-        if (!password) return res.status(401).json({ error: 'you need a password' });
-  
-        if (password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
-  
-        console.log(result)
-  
-        bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(password, salt, function(err, hash) {
-              connection.query('INSERT INTO users SET password=? WHERE username=? ',[hash, req.body.username], function (error, results, fields, next) {
+              // res.json(users);
+              connection.query('INSERT INTO users SET ?',[users], function (error, results, fields, next) {
                 if (error) {
                   console.log("error ocurred",error);
                   res.send({
                     "code":400,
                     "failed":"error ocurred"
                   })
-                }else{
-                  console.log('The solution is: ', results);
-                  // Redirect to next page (first user page).
-                  res.send({
-                    "code":200,
-                    "success":"user registered sucessfully"
-                      });
                 }
-                });
-            });
-        });
-    });
-    
+
+                res.json(results)
+
+              });
     });
     
   });
+    
+});
 
 // This doens't work the way it supposed to, yet. Will work on this next. 
 // I need to be able to insert info into two diffrent tables simultainously on formSubmit. 

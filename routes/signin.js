@@ -42,12 +42,12 @@ connection.connect(function(err){
   });
   
 
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
-    next();
-});
+//   app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+//     next();
+// });
 
   function verifyToken(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -78,7 +78,8 @@ connection.connect(function(err){
 // This will be changed to mysql once I get back to it. This is basically a place holder (bookmark) right now...
 
 app.post('/signin', verifyToken, function(req, res) {
-    connection.query('SELECT * FROM users WHERE username =',req.body.username,
+    console.log("first post");
+    connection.query('SELECT * FROM users WHERE username =?',req.body.username,
      function(error, result) {
         if (!result) return res.status(404).json({ error: 'user not found' });
 
@@ -88,7 +89,7 @@ app.post('/signin', verifyToken, function(req, res) {
             _id: result._id,
             username: result.username
         };
-
+            console.log("second post");
         var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });
 
         return res.json({

@@ -56,6 +56,7 @@ class SignIn extends Component {
             body: JSON.stringify({email, password})
             
         })
+        
 
         console.log('The form was submitted with the following data:');
         console.log(this.state);
