@@ -100,8 +100,8 @@ connection.connect(function(err){
 // This doens't work the way it supposed to, yet. Will work on this next. 
 // I need to be able to insert info into two diffrent tables simultainously on formSubmit. 
 
-  //   let cryptos = {"crypto_id" :req.body.cryptosProfile
-  // }
+  //   let cryptos = req.body.cryptosProfile;
+  // 
   // connection.query('INSERT INTO cryptos_id SET ?',cryptos, function (error, results, fields, next) {
   //   if (error) {
   //     console.log("error ocurred",error);
