@@ -151,7 +151,7 @@ class SignUp extends Component {
 
               <div className="FormField">
               {/* {this.renderRedirect()} */}
-                  <button className="FormField__Button mr-20" onSubmit={this.handleSubmit} onClick={this.setRedirect}>Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
+                  <button className="FormField__Button mr-20" onSubmit={this.handleSubmit}>Sign Up</button> <Link to="/" className="FormField__Link">I'm already member</Link>
               </div>
             </form>
           </div>
