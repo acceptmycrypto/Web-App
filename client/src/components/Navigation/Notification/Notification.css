@@ -1,113 +1,73 @@
-body
+.dropdown_notif {
+    position: relative;
+    display: inline-block;
+}
+.dropdown_notif .num_notif
 {
+   position: absolute;
+   top: -5px;
+   right: -15px;
+   padding: 1px;
+   width: 15px;;
+   height: 15px;
+   border-radius: 50%;
+   background: #66DAC7;
+   color: #fff;
+   line-height: 15px;
+   font-family: sans-serif;
+   text-align: center;
+}
+.ul_notif {
+    position: absolute;
+    list-style-type: none;
     margin: 0;
     padding: 0;
-    background: 2E4158;
-}
-.box
-{
+    top:25px;
+    right:0px;
+    width: 200px;
+    border-radius: 10px;
+    background-color: white;
+    font-weight:bold;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    box-shadow: 10px 8px 16px 10px rgba(0,0,0,0.2);
+    z-index: 1;
 }
-.notifications
+.ul_notif li
 {
-    width: 60px;
-    height: 60px;
-    background: #fff;
-    border-radius: 30px;
-    box-sizing: border-box;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .2)
+   list-style: none;
+   border-bottom: 1px solid rgba(0, 0, 0, .1);
+   /* padding: 8px; */
+   /* display: flex; */
 }
-.notifications :hover
-{
-    width: 300px;
-    height: 60px;
-    text-align: left;
-    padding: 0 15px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    background: #66DAC7;
-    transform: translateY(-100%);
-    z-index: 100;
+.ul_notif li .all_notif {
+   text-align: center;
+   font-size: 10px;
+   cursor: pointer;
 }
-.notifications .fas
-{
-    color: #cecece;
-    line-height: 50px;
-    font-size: 30px;    
+.ul_notif li a {
+    color: #000;
+    text-decoration: none;
 }
-.notifications :hover .fas
-{
-    color: #fff;    
+.ul_notif :first-child {
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
 }
-.notifications .num
-{
-    position: absolute;
-    top: 0;
-    right: -5px;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #66DAC7;
-    color: #fff;
-    line-height: 25px;
-    font-family: sans-serif;
-    text-align: center;
-}
-.notifications :hover .num
-{
-    position: relative;
-    background: transparent;
-    color: #fff;
-    font-size: 24px;
-    top: -4px;
-}
-.notifications :hover .num :after
-{
-    content: ' Notification'    
-}
-ul
-{
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 0;
-    padding: 15px;
-    width: 100%;
-    background: #fff;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
-    box-sizing: border-box;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    display: none; 
-}
-.notifications :hover ul
-{
-    display: block;
-}
-ul li
-{
-    list-style: none;
-    border-bottom: 1px solid rgba(0, 0, 0, .1);
-    padding: 8px 0;
-    display: flex;
-}
-ul li :last-child
-{
+.ul_notif li:last-child {
     border-bottom: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
-ul li .text
-{
-    position: relative;
-    font-family: sans-serif;
-    top: 3px;
-    cursor: pointer;
+.ul_notif li:hover {
+    background-color: #66DAC7;
+    color: #fff;
 }
-ul li :hover .text
-{
-    font-weight: bold;
-    color: #66DAC7;
+.button{
+    width:15px;
+    height:15px;
+    padding:5px;
+    border-radius:15px;
+    background: #fff;
+    box-sizing: border-box;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, .2) */
+
 }
