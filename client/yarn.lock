@@ -6990,6 +6990,10 @@ react-select@^2.1.0:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
+react-stepzilla@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/react-stepzilla/-/react-stepzilla-4.7.3.tgz#ca4a912651f8ce97946790ecd43fe686625201df"
+
 react-timestamp@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/react-timestamp/-/react-timestamp-4.4.0.tgz#9fd6d48929924dc9b0b9665fe56bee9fb26fda74"

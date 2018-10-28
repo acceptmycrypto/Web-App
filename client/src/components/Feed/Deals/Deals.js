@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Modal from '../../UI/Modal/Modal'
+import PurchaseOrder from './PurchaseOrder';
 import Checkout from '../../Checkout/Checkout'
 import CryptoRankings from '../../CryptosRanking';
 import { _loadDeals } from "../../../services/DealServices";
@@ -85,6 +86,7 @@ class Deals extends Component {
         <Modal showModal={this.state.purchasing} closeModal={this.closePaymentHander}>
           {this.state.purchasing ? <Checkout transactionInfo={this.state.transactionInfo} paidIn={this.state.paidIn}/>: null}
         </Modal>
+
         <div className="venues-content">
           <CryptoRankings />
 
@@ -116,12 +118,9 @@ class Deals extends Component {
                       </div>
                     </div>
 
-                      {/* <h5 className="card-title">{deal.deal_name}</h5>
-                      <p className="card-text">{deal.deal_description}</p>
-                      <div>Pay in dollar: ${deal.pay_in_dollar}</div>
-                      <div>Pay in crypto: ${deal.pay_in_crypto}</div>
-                      <div>Offered by: {deal.venue_name}</div>
-                      <div>Accepted: {this.showAcceptedCryptos(deal.venue_name)[0].join(', ')}</div>
+                      {/* <PurchaseOrder cryptocurrencies={this.showAcceptedCryptos(deal.venue_name)[0]}/> */}
+
+                      {/* <div>Accepted: {this.showAcceptedCryptos(deal.venue_name)[0].join(', ')}</div>
                       <form onSubmit={this.createPaymentHandler}>
                         <label htmlFor="crypto_payment">Select Your crypto payment</label> <br/>
                         <select id="selectCrypto">

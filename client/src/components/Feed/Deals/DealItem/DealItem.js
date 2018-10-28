@@ -3,13 +3,19 @@ import { _loadDealItem } from "../../../../services/DealServices";
 import "./DealItem.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import StepZilla from "react-stepzilla";
+import CustomizeOrder from "../CustomizeOrder";
+import ShipOrder from "../ShipOrder";
+import PurchaseOrder from "../PurchaseOrder";
+import { debug } from "util";
 
 class DealItem extends Component {
   constructor() {
     super();
 
     this.state = {
-      dealItem: []
+      dealItem: [],
+      acceptedCryptos: []
     };
   }
 
@@ -18,12 +24,23 @@ class DealItem extends Component {
     //return the param value
     const { deal_name } = this.props.match.params;
 
-    return _loadDealItem(deal_name).then(dealItem =>
-      this.setState({ dealItem })
-    );
+    return _loadDealItem(deal_name).then(dealItem => {
+      debugger
+      this.setState({
+        dealItem: dealItem[0],
+        acceptedCryptos: dealItem[1]
+      })
+
+    });
   }
 
   render() {
+    const steps = [
+      { name: "Customizing", component: <CustomizeOrder /> },
+      { name: "Shipping", component: <ShipOrder /> },
+      { name: "Payment", component: <PurchaseOrder /> }
+    ];
+
     return (
       <div>
         {/* {this.state.dealItem.map(item => (
@@ -55,7 +72,14 @@ class DealItem extends Component {
                   ))}
                 </Carousel>
               </div>
-              <div className="deal-checkout-container" />
+
+              <div className="deal-checkout-container">
+
+                <div className="step-progress">
+                  <StepZilla steps={steps} />
+                </div>
+
+              </div>
             </div>
           </div>
         ))}
@@ -65,7 +89,3 @@ class DealItem extends Component {
 }
 
 export default DealItem;
-
-//Note
-//create a new query to push the image array into the deal_image
-//
