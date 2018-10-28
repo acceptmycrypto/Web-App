@@ -63,11 +63,11 @@ connection.connect(function(err){
 }
 
 
-app.get('/', function(req, res) {
-    res.send('routes available: signin : post -> /signin, signup : post -> /signup');
-});
+// router.get('/', function(req, res) {
+//     res.send('routes available: signin : post -> /signin, signup : post -> /signup');
+// });
 
-app.post('/signin', verifyToken, function(req, res) {
+router.post('/signin', verifyToken, function(req, res) {
     console.log("first post");
     connection.query('SELECT * FROM users WHERE username =?',req.body.username,
      function(error, result) {

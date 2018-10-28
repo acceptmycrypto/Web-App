@@ -1,7 +1,7 @@
 import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Redirect, Router, Route, Link, NavLink } from 'react-router-dom';
-// import { _login } from './AuthService';
+import { _login } from './AuthService';
 
 class SignIn extends Component {
     constructor() {
@@ -27,7 +27,10 @@ class SignIn extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+    getToken = () => {
+        return localStorage.getItem('token');
+      }
+      
     handleChange(e) {
         let target = e.target;
         let value = target.type === 'checkbox' ? target.checked : target.value;
@@ -37,25 +40,43 @@ class SignIn extends Component {
           [name]: value
         });
     }
-
+    
     handleSubmit(e) {
         e.preventDefault();
         let email = e.target.children[0].children[1].value;
         let password = e.target.children[1].children[1].value;
 
+        return _login(email, password).then(res => {
+            if (res.token){
+              this.setState({logged_in: true}, function(){
+                localStorage.setItem('token', res.token);
+              });
+            }else{
+              alert('you were not logged in')
+            }
+          });
+        }
+      
+        logout = (event) => {
+          event.preventDefault();
+          
+          this.setState({logged_in: false}, function(){
+            localStorage.removeItem('token');
+          });
+
         console.log('The form was submitted with the following data:');
         console.log(this.state);
+       
 
-
-    return fetch("http://localhost:3001/signin", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
+    // return fetch("http://localhost:3001/signin", {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({email, password})
             
-        })
+    //     })
         
 
         console.log('The form was submitted with the following data:');
@@ -92,7 +113,7 @@ class SignIn extends Component {
 
               <div className="FormField">
               {/* {this.renderRedirect()} */}
-                  <button className="FormField__Button mr-20"onSubmit={this.handleSubmit} onClick={this.setRedirect}>Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
+                  <button className="FormField__Button mr-20"onSubmit={this.handleSubmit}>Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
             </form>
           </div>   
