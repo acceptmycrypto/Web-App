@@ -44,6 +44,7 @@ connection.connect(function(err){
   function verifyToken(req, res, next) {
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    console.log(token);
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decod) => {
             if (err) {
@@ -59,17 +60,18 @@ connection.connect(function(err){
         res.status(403).json({
             message: "No Token"
         });
+        console.log(token);
     }
 }
 
 
-// router.get('/', function(req, res) {
+// router.get('/signin', function(req, res) {
 //     res.send('routes available: signin : post -> /signin, signup : post -> /signup');
 // });
 
 router.post('/signin', verifyToken, function(req, res) {
     console.log("first post");
-    connection.query('SELECT * FROM users WHERE username =?',req.body.username,
+    connection.query('SELECT * FROM users WHERE email =?',req.body.email,
      function(error, result) {
         if (!result) return res.status(404).json({ error: 'user not found' });
 
