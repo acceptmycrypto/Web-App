@@ -71,7 +71,9 @@ connection.connect(function(err){
 }
 
 
-
+app.get('/', function(req, res) {
+    res.send('routes available: signin : post -> /signin, signup : post -> /signup');
+});
 
 
 
@@ -86,8 +88,8 @@ app.post('/signin', verifyToken, function(req, res) {
         if (!bcrypt.compareSync(req.body.password, result.password)) return res.status(401).json({ error: 'incorrect password ' });
 
         var payload = {
-            _id: result._id,
-            username: result.username
+            email: result.email,
+            password: result.password
         };
             console.log("second post");
         var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });
