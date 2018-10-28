@@ -40,6 +40,7 @@ connection.connect(function(err){
       console.log("Error connecting database ... nn");
   }
   });
+  
 
   function verifyToken(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -69,9 +70,9 @@ connection.connect(function(err){
 //     res.send('routes available: signin : post -> /signin, signup : post -> /signup');
 // });
 
-router.post('/signin', verifyToken, function(req, res) {
+router.post('/signin', function(req, res) {
     console.log("first post");
-    connection.query('SELECT * FROM users WHERE email =?',req.body.email,
+    connection.query('SELECT * FROM users WHERE email ?',[req.body.email],
      function(error, result) {
         if (!result) return res.status(404).json({ error: 'user not found' });
 

@@ -10,12 +10,12 @@ export const _signUp = (username, email, password) => {
 }
 
 export const _login = (email, password) => {
-	return fetch("http://localhost:3001/signin", {
+	return fetch("http://localhost:3001/signin/", {
 	    method: 'POST',
 	    headers: {
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
 	    },
-	    body: JSON.stringify({email, password})
-	  }).then(res => res.json())
-}
+			body: JSON.stringify({email, password})
+		})
+	}

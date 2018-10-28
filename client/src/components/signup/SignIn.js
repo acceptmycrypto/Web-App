@@ -27,9 +27,9 @@ class SignIn extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    getToken = () => {
-        return localStorage.getItem('token');
-      }
+    // getToken = () => {
+    //     return localStorage.getItem('token');
+    //   }
       
     handleChange(e) {
         let target = e.target;
@@ -45,6 +45,8 @@ class SignIn extends Component {
         e.preventDefault();
         let email = e.target.children[0].children[1].value;
         let password = e.target.children[1].children[1].value;
+        console.log(email)
+        console.log(password)
 
         return _login(email, password).then(res => {
             if (res.token){
@@ -57,32 +59,17 @@ class SignIn extends Component {
           });
         }
       
-        logout = (event) => {
-          event.preventDefault();
+    //     logout = (event) => {
+    //       event.preventDefault();
           
-          this.setState({logged_in: false}, function(){
-            localStorage.removeItem('token');
-          });
+    //       this.setState({logged_in: false}, function(){
+    //         localStorage.removeItem('token');
+    //       });
 
-        console.log('The form was submitted with the following data:');
-        console.log(this.state);
+    //     console.log('The form was submitted with the following data:');
+    //     console.log(this.state);
        
-
-    // return fetch("http://localhost:3001/signin", {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({email, password})
-            
-    //     })
-        
-
-        console.log('The form was submitted with the following data:');
-        console.log(this.state);
-       
-    };
+    // };
     
 
 
@@ -112,8 +99,7 @@ class SignIn extends Component {
               </div>
 
               <div className="FormField">
-              {/* {this.renderRedirect()} */}
-                  <button className="FormField__Button mr-20"onSubmit={this.handleSubmit}>Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
+                  <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
             </form>
           </div>   
