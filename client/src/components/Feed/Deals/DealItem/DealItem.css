@@ -12,6 +12,7 @@
   background-image: linear-gradient(-85deg, #49cdb7, #1ab7db);
   width: 100%;
   height: 23%;
+  border-radius: 5px 5px 0 0;
 }
 
 .deal-main-info {
@@ -29,7 +30,8 @@
 
 .deal-checkout-container {
   padding: 5px;
-
+  position: relative;
+  background-color: #1ab7db;
   height: 100%;
   width: 100%;
 }

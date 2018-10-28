@@ -95,7 +95,7 @@ class Deals extends Component {
 
 
                     <div className="deal-info">
-                      <img className="deal-image" src={deal.deal_image} alt="deal"/>
+                      <img className="deal-image" src={deal.featured_deal_image} alt="deal"/>
                       <div className="mt-1">{deal.deal_name}</div>
                       <small className="deal-description">{deal.deal_description}</small>
                       <div><small>Offered by: {deal.venue_name}</small></div>

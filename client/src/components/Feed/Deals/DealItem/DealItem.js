@@ -48,9 +48,11 @@ class DealItem extends Component {
                   width={"55%"}
                   showStatus={false}
                 >
-                  <div className="deal-item-image">
-                    <img src={item.deal_image} />
-                  </div>
+                  {this.state.dealItem[0].deal_image.map(img => (
+                    <div className="deal-item-image">
+                      <img src={img} />
+                    </div>
+                  ))}
                 </Carousel>
               </div>
               <div className="deal-checkout-container" />
@@ -63,3 +65,7 @@ class DealItem extends Component {
 }
 
 export default DealItem;
+
+//Note
+//create a new query to push the image array into the deal_image
+//
