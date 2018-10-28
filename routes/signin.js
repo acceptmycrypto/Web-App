@@ -40,14 +40,6 @@ connection.connect(function(err){
       console.log("Error connecting database ... nn");
   }
   });
-  
-
-//   app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
-//     next();
-// });
 
   function verifyToken(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -74,10 +66,6 @@ connection.connect(function(err){
 app.get('/', function(req, res) {
     res.send('routes available: signin : post -> /signin, signup : post -> /signup');
 });
-
-
-
-// This will be changed to mysql once I get back to it. This is basically a place holder (bookmark) right now...
 
 app.post('/signin', verifyToken, function(req, res) {
     console.log("first post");
