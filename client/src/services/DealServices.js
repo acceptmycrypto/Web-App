@@ -7,3 +7,10 @@ export async function _loadDeals() {
 
   return {deals, cryptosAccepted}
 }
+
+export async function _loadDealItem (deal_name) {
+  const dealItemArr = await fetch(`http://localhost:3001/api/deals/${deal_name}`);
+  const dealItem = await dealItemArr.json();
+
+  return dealItem
+}
