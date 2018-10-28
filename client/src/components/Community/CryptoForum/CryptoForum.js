@@ -13,6 +13,7 @@ class CryptoForum extends Component {
                 color:"gray"
             },
             cryptoId:0,
+            cryptoName:""
         }
     }
     
@@ -95,8 +96,8 @@ class CryptoForum extends Component {
     }
 
     componentDidMount() {
-        this.setState({cryptoId:1})
-        let cryptoId = 1;
+        let cryptoId = this.props.match.params.crypto_id;
+        this.setState({cryptoId})
         return fetch(`http://localhost:3001/forum/${cryptoId}`)
         .then((res) => res.json())
         .then(allComments => {
@@ -108,7 +109,7 @@ class CryptoForum extends Component {
     render() {
         return (
             <div>
-                <h1>{this.state.allCryptos[this.state.cryptoId-1].crypto_metadata_name}</h1>
+                <h1>{"CryptoId="+this.state.cryptoId}</h1>
                 {this.state.allComments.map(parent => 
                     <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
                         {(parent.comment_status==="deleted") && <div className="commentDeleted">

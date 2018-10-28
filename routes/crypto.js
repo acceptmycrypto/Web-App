@@ -155,6 +155,7 @@ assembleComments = (data) => {
     console.log("allComments156");
     console.log(allComments);
     return ({allComments});
+    
 }
 
 //this function converts new lines from the fake text box into line breaks, and urls into a tags.
@@ -178,7 +179,7 @@ convertURL = (str) => {
 
 router.get('/forum/:crypto_id', function (req,res) {
     console.log("req.params.crypto_id ");
-    console.log(req.params.crypto_id);
+    console.log(req);
     getAllComments(res, req.params.crypto_id)
 })
 
