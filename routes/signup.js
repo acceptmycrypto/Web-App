@@ -31,39 +31,135 @@ var connection = mysql.createConnection({
   database: 'crypto_db'
 });
 
-connection.connect(function(err){
-  if(!err) {
-      console.log("Database is connected ... signup");
-  } else {
-      console.log("Error connecting database ... nn");
-  }
-  });
-
-  //this worked
-    // router.post("/register", function(req,res){
-
-    //   var ob = Object.assign({}, req.body, {more: 'stuff'});
-    //   console.log('---------line 43---------');
-    //   console.log(req.body);
-    //   console.log('--------line 45----------');
 
 
-    //   res.json(ob);
-    //   // res.send('hi'); //works
-    // });
+router.post('/register', function(req, res) {
+  console.log(req.body);
 
-  router.post("/register", function(req,res) {
-    // var today = new Date();
-    console.log(req.body);
-    //First we make a query to see if user exists in the database
-    connection.query('Select * from users where email = ?', [req.body.email], function (error, results, fields) {
-      if (error) {
-        console.log("error ocurred: ", error);
-      }
+//First we make a query to see if user exists in the database
+  connection.query(
+    'SELECT * FROM users WHERE email = ?',
+    [req.body.email],
+    function(error, result, fields) {
+      if (error) throw error;
 
-      res.json(results)
+//if we find the user exists in the database, we send "User already exists" to the client
+      if (result) return res.status(404).json({ error: 'User already exists' });
+      console.log("successfully query", result);
 
-    });
+      bcrypt.genSalt(10, function(err, salt) {
+
+        bcrypt.hash(req.body.password, salt, function(err, password_hash) {
+
+//1) insert into users table
+          connection.query('INSERT INTO users (email, password, username, email_verification_token) VALUES (?, ?, ?, ?)',
+          [req.body.email, password_hash, req.body.username, uuid()],
+          function (error, results, fields) {
+            if (error) {
+              res.send(error);
+            } else {
+              res.json({
+                  message: "We sent you an email for email verification. Please confirm your email."
+              });
+              console.log("new user created", results);
+            }
+          });
+
+        });
+
+      });
+
+    }
+  );
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//sign up
+  // router.post("/register", function(req,res) {
+  //   // var today = new Date();
+  //   console.log(req.body);
+
+  //   //First we make a query to see if user exists in the database
+  //   connection.query('SELECT * FROM users WHERE email = ?', [req.body.email], function (error, result, fields) {
+
+  //     //if we find the user exists in the database, we send "User already exists" to the client
+  //     if (result) return res.status(404).json({ error: 'User already exists' });
+
+  //     if (error) console.log(error);
+  //     console.log("line 58")
+  //     //if user doesn't exist, then we hash their password
+  //     bcrypt.genSalt(10, function(err, salt) {
+  //       bcrypt.hash(req.body.password, salt, function(err, password_hash) {
+
+  //         //1) insert into users table
+  //         connection.query('INSERT INTO users (email, password, username, email_verification_token) VALUES (?, ?, ?, ?)',
+  //         [req.body.email, password_hash, req.body.username, uuid()],
+  //         function (error, results, fields) {
+  //           if (error) {
+  //             res.send(error);
+  //           } else {
+  //             res.json({
+  //                 message: "We sent you an email for email verification. Please confirm your email."
+  //             });
+  //             console.log("new user created", results);
+  //           }
+  //         });
+
+
+  //         //2)Find the user_id from the user's email
+  //         // connection.query(
+  //         //   'SELECT * from users where email = ?',
+  //         //   [req.body.email],
+  //         //   function(error, userInfo, fields) {
+  //         //     if (error) throw error;
+
+  //         //     let query = 'SELECT * FROM crypto_info WHERE crypto_name IN (' + req.body.cryptoProfile.join() + ')';
+  //         //     connection.query(query),
+  //         //     function (error, cryptoInfo, fields) {
+  //         //         if (error) console.log(error);
+  //         //         console.log(cryptoInfo);
+  //         //       }
+  //         //     });
+
+
+  //             //insert into users_cryptos table
+  //             // connection.query('INSERT INTO users_cryptos (user_id, crypto_id) VALUES (?, ?)',
+  //             // [userInfo.id, 'crypto_id'],
+  //             // function (error, results, fields, next) {
+  //             //   if (error) {
+  //             //     res.send(error);
+  //             //   } else {
+  //             //     res.json({
+  //             //         message: "We sent you an email for email verification. Please confirm your email."
+  //             //     });
+  //             //   }
+  //             // });
+
+  //           }
+  //         );
+
+  //       });
+  //     });
+
+  //   });
 
   //   bcrypt.genSalt(10, function(err, salt) {
   //           bcrypt.hash(req.body.password, salt, function(err, hash) {
@@ -95,7 +191,7 @@ connection.connect(function(err){
 
   // });
 
-});
+// });
 
 // This doens't work the way it supposed to, yet. Will work on this next.
 // I need to be able to insert info into two diffrent tables simultainously on formSubmit.
