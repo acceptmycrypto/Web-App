@@ -67,7 +67,7 @@ class SignUp extends Component {
   //function to handle when user clicks submit button to register
   handleSubmit(e) {
     e.preventDefault();
-
+    
     let username = e.target.children[0].children[1].value;
     let email = e.target.children[1].children[1].value;
     let password = e.target.children[2].children[1].value;

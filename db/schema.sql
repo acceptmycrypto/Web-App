@@ -81,14 +81,13 @@ CREATE TABLE users(
 	id INT NOT NULL AUTO_INCREMENT,
 	verified_email BOOLEAN DEFAULT FALSE,
 	-- when inserting into users table the value for email_verification_token should be uuid()
-	-- Change back to not null when code is further along...
-	email_verification_token VARCHAR(255) DEFAULT NULL,
+	email_verification_token VARCHAR(255) NOT NULL,
 	username VARCHAR(30) NOT NULL UNIQUE,
-	first_name VARCHAR(255) DEFAULT NULL,
-	last_name VARCHAR (255) DEFAULT NULL,
-	phone_number VARCHAR(100) DEFAULT NULL,
+	first_name VARCHAR(255) NULL,
+	last_name VARCHAR (255) NULL,
+	phone_number VARCHAR(100) NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
-	password VARCHAR(255) DEFAULT NULL,
+	password VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
 );
