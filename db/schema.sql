@@ -173,3 +173,16 @@ CREATE TABLE parents_children(
 	FOREIGN KEY (comment_child_id) REFERENCES crypto_comments(id)
 );
 
+CREATE TABLE notifications (
+	id INT NOT NULL AUTO_INCREMENT,
+	unread BOOLEAN NOT NULL DEFAULT TRUE,
+	user_id INT NOT NULL,
+	matched_friend_id INT NOT NULL,
+	venue_id INT NOT NULL,
+	deal_id INT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (matched_friend_id) REFERENCES users_matched_friends(id)
+	FOREIGN KEY (venue_id) REFERENCES venues(id)
+	FOREIGN KEY (deal_id) REFERENCES deals(id)
+);
+

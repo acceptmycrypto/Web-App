@@ -35,10 +35,11 @@ var connection = mysql.createConnection({
     database: 'crypto_db'   
 });
 
-id = 1;
 
 router.get('/notification', function(req, res){
-    connection.query('', [id], function (error, results, fields) {
+    connection.query(
+        'SELECT notifications.id, notifications.unread, users.id, users.username, venues.venue_name, deals.deal_name, deals.deal_description',
+        function (error, results, fields) {
         if (error) throw error;
         res.json(results);
     });
