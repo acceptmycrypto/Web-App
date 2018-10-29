@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./UserProfile.css";
-import FeedFriends from "../../Feed/MatchedFriends";
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import coinAddressValidator from "coin-address-validator";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
@@ -249,8 +248,7 @@ class UserProfile extends Component {
           <ProfileFeed transactions={this.state.transactions} />
         </div>
 
-        <div className="width-20 mr-3">
-
+        <div className="width-20 mr-3">       
           <FriendCard friends_array={this.state.friends_array} />
         </div>
 
