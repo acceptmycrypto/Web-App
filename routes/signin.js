@@ -9,6 +9,7 @@ var methodOverride = require('method-override');
 //for login/logout (authentication)
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var keys = require("../key");
 //use sendgrid
 // var sgMail = require("@sendgrid/mail");
 // var keys = require("../key");
@@ -33,57 +34,48 @@ var connection = mysql.createConnection({
   database: 'crypto_db'
 });
 
-connection.connect(function(err){
-  if(!err) {
-      console.log("Database is connected ... signin");
-  } else {
-      console.log("Error connecting database ... nn");
-  }
-  });
-  
 
-  function verifyToken(req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-    console.log(token);
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decod) => {
-            if (err) {
-                res.status(403).json({
-                    message: "Wrong Token"
-                });
-            } else {
-                req.decoded = decod;
-                next();
-            }
-        });
-    } else {
-        res.status(403).json({
-            message: "No Token"
-        });
-        console.log(token);
-    }
+function verifyToken(req, res, next) {
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  console.log(token);
+  if (token) {
+      jwt.verify(token, keys.JWT_SECRET, (err, decod) => {
+          if (err) {
+              res.status(403).json({
+                  message: "Wrong Token"
+              });
+          } else {
+              req.decoded = decod;
+              next();
+          }
+      });
+  } else {
+      res.status(403).json({
+          message: "No Token"
+      });
+      console.log(token);
+  }
 }
 
-
-// router.get('/signin', function(req, res) {
-//     res.send('routes available: signin : post -> /signin, signup : post -> /signup');
-// });
-
 router.post('/signin', function(req, res) {
-    console.log("first post");
-    connection.query('SELECT * FROM users WHERE email ?',[req.body.email],
-     function(error, result) {
-        if (!result) return res.status(404).json({ error: 'user not found' });
+  var email = req.body.email;
 
-        if (!bcrypt.compareSync(req.body.password, result.password)) return res.status(401).json({ error: 'incorrect password ' });
+    connection.query('SELECT * FROM users WHERE email = ?',
+    [email],
+     function(error, result, fields) {
+      if (error) console.log(error);
+
+      if (!result) return res.status(404).json({ error: 'user not found' });
+
+      if (!bcrypt.compareSync(req.body.password, result[0].password)) return res.status(401).json({ error: 'incorrect password ' });
 
         var payload = {
             email: result.email,
-            password: result.password
+            _id: result.id
         };
-            console.log("second post");
-        var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });
+
+        var token = jwt.sign(payload, keys.JWT_SECRET, { expiresIn: '4h' });
 
         return res.json({
             message: 'successfuly authenticated',
@@ -91,5 +83,6 @@ router.post('/signin', function(req, res) {
         });
     });
 })
+
 
 module.exports = router;

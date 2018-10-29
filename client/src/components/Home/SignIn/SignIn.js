@@ -13,19 +13,8 @@ class SignIn extends Component {
             SignUp: false,
             redirect: false
         };
-        // setRedirect = () => {
-        //     this.setState({
-        //       redirect: true
-        //     })
-        //   }
-        //   renderRedirect = () => {
-        //     if (this.state.redirect) {
-        //       return <Redirect to='/feed/venues'>
-        //     }
-        //   }
-
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleLogin.bind(this);
     }
     // getToken = () => {
     //     return localStorage.getItem('token');
@@ -41,23 +30,25 @@ class SignIn extends Component {
         });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        let email = e.target.children[0].children[1].value;
-        let password = e.target.children[1].children[1].value;
-        console.log(email)
-        console.log(password)
+    handleLogin(e) {
+      e.preventDefault();
+      let email = e.target.children[0].children[1].value;
+      let password = e.target.children[1].children[1].value;
 
+      if (!email || !password) {
+        alert("please enter in the required fields");
+      } else {
         return _login(email, password).then(res => {
             if (res.token){
-              this.setState({logged_in: true}, function(){
-                localStorage.setItem('token', res.token);
-              });
+              localStorage.setItem('token', res.token);
+              console.log(res.token);
+              alert("You're login");
             }else{
-              alert('you were not logged in')
+              console.log("Login error: ", res);
             }
           });
-        }
+      }
+    }
 
     //     logout = (event) => {
     //       event.preventDefault();
@@ -70,7 +61,6 @@ class SignIn extends Component {
     //     console.log(this.state);
 
     // };
-
 
 
     render() {
@@ -87,7 +77,7 @@ class SignIn extends Component {
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                 </div> */}
             <div className="FormCenter">
-            <form onSubmit={this.handleSubmit} className="FormFields">
+            <form onSubmit={this.handleLogin} className="FormFields">
             <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
                 <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} />

@@ -103,6 +103,7 @@ router.post('/register', function(req, res) {
                       function(error, results, fields) {
                         if (error) throw error;
                         res.json(results); //Redirect user to the matched deal page
+                        //TODO: rediect user to the matched deal page
                       }
                     );
 
@@ -114,9 +115,13 @@ router.post('/register', function(req, res) {
             }
           });
 
-        });
+//2) insert selected cryptos into users_cryptos table
+        //========================================================
+        //TODO Insert the selected cryptos to users_cryptos table
 
-      });
+        });//bcrypt.hash closing bracket
+
+      }); //bcrypt.getsalt closing bracket
 
     }
   );

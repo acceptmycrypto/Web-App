@@ -17,5 +17,6 @@ export const _login = (email, password) => {
 	      'Content-Type': 'application/json'
 	    },
 			body: JSON.stringify({email, password})
-		})
-	}
+		}).then(res => res.json())
+  }
+  

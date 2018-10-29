@@ -67,7 +67,7 @@ class SignUp extends Component {
   //function to handle when user clicks submit button to register
   handleSubmit(e) {
     e.preventDefault();
-    
+
     let username = e.target.children[0].children[1].value;
     let email = e.target.children[1].children[1].value;
     let password = e.target.children[2].children[1].value;
@@ -79,8 +79,9 @@ class SignUp extends Component {
       alert("Please enter in the required field!");
     } else {
       return _signUp(username, email, password, cryptoProfile).then(res => {
-        console.log(username, email, password, cryptoProfile);
-        // console.log("after user has signed up: ", res.message);
+        console.log("message sent from server if success: ", res);
+        //TODO
+        //prompt users to check their email
       });
     }
   }
@@ -200,8 +201,8 @@ class SignUp extends Component {
                     name="hasAgreed"
                     value={this.state.hasAgreed}
                     onChange={this.handleChange}
-                  />{" "}
-                  I agree all statements in{" "}
+                  />
+                  I agree all statements in
                   <a href="#" className="FormField__TermsLink">
                     terms of service
                   </a>
@@ -212,10 +213,10 @@ class SignUp extends Component {
                 {/* {this.renderRedirect()} */}
                 <button
                   className="FormField__Button mr-20"
-                  onSubmit={this.handleSubmit}
+
                 >
                   Sign Up
-                </button>{" "}
+                </button>
                 <Link to="/" className="FormField__Link">
                   I'm already member
                 </Link>
