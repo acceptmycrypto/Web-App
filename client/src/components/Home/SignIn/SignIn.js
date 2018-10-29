@@ -14,7 +14,7 @@ class SignIn extends Component {
             redirect: false
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleLogin.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
     }
     // getToken = () => {
     //     return localStorage.getItem('token');
