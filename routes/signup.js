@@ -92,7 +92,7 @@ router.post('/register', function(req, res) {
                     if (error) throw error;
 
                     //if user is verified already then send a message to user that the account is verified
-                    if (result.verified_email === 0) {
+                    if (result.verified_email === 1) {
                       res.json("Your email has been verified, please login.")
                     }
 
