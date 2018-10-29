@@ -12,9 +12,10 @@
    height: 15px;
    border-radius: 50%;
    background: #66DAC7;
-   color: #fff;
-   line-height: 15px;
+   color: #2E4158;
+   line-height: 13px;
    font-family: sans-serif;
+   font-weight: bold;
    text-align: center;
 }
 .ul_notif {
@@ -24,7 +25,7 @@
     padding: 0;
     top:25px;
     right:0px;
-    width: 200px;
+    width: 300px;
     border-radius: 10px;
     background-color: white;
     font-weight:bold;
@@ -32,34 +33,42 @@
     box-shadow: 10px 8px 16px 10px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.ul_notif li
+/* .ul_notif:hover {
+    background-color: #66DAC7;
+    color: #fff;
+    cursor: pointer;
+} */
+.li_notif
 {
    list-style: none;
    border-bottom: 1px solid rgba(0, 0, 0, .1);
-   /* padding: 8px; */
-   /* display: flex; */
+   margin: 0;
+   padding: 10px;
+   display: flex;
 }
-.ul_notif li .all_notif {
+.li_notif:hover {
+    background-color: #66DAC7;
+    cursor: pointer;
+}
+.li_notif:hover a {
+    color: #fff;
+}
+.li_notif .all_notif {
    text-align: center;
    font-size: 10px;
-   cursor: pointer;
 }
-.ul_notif li a {
+.li_notif a {
     color: #000;
     text-decoration: none;
 }
-.ul_notif :first-child {
+.li_notif:first-child {
    border-top-left-radius: 10px;
    border-top-right-radius: 10px;
 }
-.ul_notif li:last-child {
+.li_notif:last-child {
     border-bottom: none;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-}
-.ul_notif li:hover {
-    background-color: #66DAC7;
-    color: #fff;
 }
 .button{
     width:15px;
@@ -69,5 +78,4 @@
     background: #fff;
     box-sizing: border-box;
     /* box-shadow: 0 2px 5px rgba(0, 0, 0, .2) */
-
 }
