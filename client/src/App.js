@@ -5,6 +5,7 @@ import SignUp from "./components/signup/SignUp";
 import SignIn from "./components/signup/SignIn";
 
 import Profile from "./components/Profile/UserProfile";
+import Friend from "./components/Profile/FriendProfile"
 import Crypto from "./components/Crypto";
 import FeedDeals from "./components/Feed/Deals";
 import DealItem from "./components/Feed/Deals/DealItem";
@@ -21,7 +22,8 @@ class App extends Component {
           <Layout />
             <Route exact path="/" component={SignIn} />
             <Route path="/SignUp" component={SignUp} />
-            <Route path="/profile" component={Profile} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/profile/:id" component={Friend} />
             <Route path="/crypto" component={Crypto} />
 
             <Route exact path="/feed/deals" component={FeedDeals} />
