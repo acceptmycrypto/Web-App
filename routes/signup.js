@@ -53,47 +53,55 @@ connection.connect(function(err){
     // });
 
   router.post("/register", function(req,res) {
-
-    // console.log("req",req.body);
     // var today = new Date();
+    console.log(req.body);
+    //First we make a query to see if user exists in the database
+    connection.query('Select * from users where email = ?', [req.body.email], function (error, results, fields) {
+      if (error) {
+        console.log("error ocurred: ", error);
+      }
 
-    bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(req.body.password, salt, function(err, hash) {
-              
-              let users={
-                "first_name":req.body.first_name,
-                "last_name":req.body.last_name,
-                "username": req.body.username,
-                "email":req.body.email,
-                "password": hash
-                // "created":today,
-                // "modified":today
-              }
+      res.json(results)
 
-              // res.json(users);
-              connection.query('INSERT INTO users SET ?',[users], function (error, results, fields, next) {
-                if (error) {
-                  console.log("error ocurred",error);
-                  res.send({
-                    "code":400,
-                    "failed":"error ocurred"
-                  })
-                }
-
-                res.json(results)
-
-              });
     });
-    
-  });
-    
+
+  //   bcrypt.genSalt(10, function(err, salt) {
+  //           bcrypt.hash(req.body.password, salt, function(err, hash) {
+
+  //             let users={
+  //               "first_name":req.body.first_name,
+  //               "last_name":req.body.last_name,
+  //               "username": req.body.username,
+  //               "email":req.body.email,
+  //               "password": hash
+  //               // "created":today,
+  //               // "modified":today
+  //             }
+
+  //             // res.json(users);
+  //             connection.query('INSERT INTO users SET ?',[users], function (error, results, fields, next) {
+  //               if (error) {
+  //                 console.log("error ocurred",error);
+  //                 res.send({
+  //                   "code":400,
+  //                   "failed":"error ocurred"
+  //                 })
+  //               }
+
+  //               res.json(results)
+
+  //             });
+  //   });
+
+  // });
+
 });
 
-// This doens't work the way it supposed to, yet. Will work on this next. 
-// I need to be able to insert info into two diffrent tables simultainously on formSubmit. 
+// This doens't work the way it supposed to, yet. Will work on this next.
+// I need to be able to insert info into two diffrent tables simultainously on formSubmit.
 
   //   let cryptos = req.body.cryptosProfile;
-  // 
+  //
   // connection.query('INSERT INTO cryptos_id SET ?',cryptos, function (error, results, fields, next) {
   //   if (error) {
   //     console.log("error ocurred",error);
@@ -110,7 +118,7 @@ connection.connect(function(err){
   //         });
   //   }
   //   });
-  
+
   // router.post('/login',login.login)
   // app.use('/api', router)
 

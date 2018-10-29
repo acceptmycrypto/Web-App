@@ -3,7 +3,7 @@ import "./SignUp.css";
 import React, { Component } from 'react';
 import { BrowserRouter as Redirect, Router, Route, Link, NavLink } from 'react-router-dom';
 import Select from 'react-select'
-// import { _signUp } from './AuthService';
+import { _signUp } from '../../services/AuthService';
 
 const options = [
   { value: 'Bitcoin', label: 'Bitcoin (BTC)' },
@@ -22,7 +22,7 @@ const options = [
 class SignUp extends Component {
     constructor() {
         super();
-        
+
         this.state = {
             // name: '',
             username: '',
@@ -103,7 +103,7 @@ class SignUp extends Component {
                   <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
                   <NavLink to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
-  
+
                 {/* <div className="FormTitle">
                     <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                 </div> */}
@@ -142,7 +142,7 @@ class SignUp extends Component {
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
                 <Select value={selectedOptions} onChange={this.handleDropdownChange} options={options} isMulti={true} autoBlur={false} />
               </div>
-              
+
               <div className="FormField">
                 <label className="FormField__CheckboxLabel">
                     <input className="FormField__Checkbox" type="checkbox" name="hasAgreed" value={this.state.hasAgreed} onChange={this.handleChange} /> I agree all statements in <a href="#" className="FormField__TermsLink">terms of service</a>
@@ -156,11 +156,11 @@ class SignUp extends Component {
             </form>
           </div>
           </div>
-              
+
             </div>
         );
     };
-   
+
 };
 
 export default SignUp;
