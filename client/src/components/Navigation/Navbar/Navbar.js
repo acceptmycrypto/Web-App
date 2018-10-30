@@ -32,7 +32,7 @@ const Navbar = props => {
       </div>
       <div className="Nav">
         <li>
-          <Link to="/crypto">
+          <Link to="/community">
             <i className="fas fa-users" /> Community
           </Link>
         </li>

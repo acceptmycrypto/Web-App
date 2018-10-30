@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import "./Crypto.css";
+import "./CryptoForum.css";
 
 
-class Crypto extends Component {
+class CryptoForum extends Component {
     constructor() {
         super();
         this.state = {
@@ -11,10 +11,12 @@ class Crypto extends Component {
             comment:{
                 placeHolder:"Say something!",
                 color:"gray"
-            }
+            },
+            cryptoId:0,
+            cryptoName:""
         }
     }
-
+    
     //this function sends new comment information to backend, resets the comment form, then sets returned json into state
     addComment = (event) => {
         event.preventDefault();
@@ -26,7 +28,7 @@ class Crypto extends Component {
             comment_parent_id = event.target.getAttribute("data-id");
         }
         user_id = 1; //hardcoding user for now
-        crypto_id = 1;//hardcoding crypto for now
+        crypto_id = this.state.cryptoId;
         body = event.target.children[0].innerText;//save the comment text into body
         console.log("body");
         console.log(body);
@@ -94,18 +96,20 @@ class Crypto extends Component {
     }
 
     componentDidMount() {
-        return fetch("http://localhost:3001/crypto/comments")
+        let cryptoId = this.props.match.params.crypto_id;
+        this.setState({cryptoId})
+        return fetch(`http://localhost:3001/forum/${cryptoId}`)
         .then((res) => res.json())
         .then(allComments => {
             console.log(allComments);
-            return this.setState(allComments)
+            this.setState(allComments)
         })
     }
 
     render() {
         return (
             <div>
-                <h1>ABC</h1>
+                <h1>{"CryptoId="+this.state.cryptoId}</h1>
                 {this.state.allComments.map(parent => 
                     <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
                         {(parent.comment_status==="deleted") && <div className="commentDeleted">
@@ -148,4 +152,4 @@ class Crypto extends Component {
     }
 }
 
-export default Crypto;
+export default CryptoForum;
