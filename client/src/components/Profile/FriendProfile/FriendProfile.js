@@ -21,7 +21,6 @@ class FriendProfile extends Component {
       current_crypto_name: null,
       friends_array: [],
       transactions: [],
-      param_id: null
     }
 
   }
@@ -142,13 +141,9 @@ class FriendProfile extends Component {
   
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     
-    await this.setState({
-      param_id: this.props.match.params.id
-    });
-
-    return await _loadFriendProfile(this.state.param_id)
+    return  _loadFriendProfile(this.props.match.params.id)
       .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
         user_info,
         user_crypto,
