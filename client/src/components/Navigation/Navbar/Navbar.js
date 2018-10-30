@@ -67,8 +67,7 @@ class Navbar extends Component {
 
                 <div class="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
                   <Link class="dropdown-item" to="/profile">Profile</Link>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <Link class="dropdown-item" to="/settings">Settings</Link>
                 </div>
               </div>
             </Link>
