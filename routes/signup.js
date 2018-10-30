@@ -76,13 +76,15 @@ router.post('/register', function(req, res) {
                   function(error, result, fields) {
                     if (error) throw error;
                     userID = result[0].id;
+
                     //use sendgrid to send email
+                    let link = "http://localhost:3001/email-verify/" + userID + "/" + result[0].email_verification_token;
+
                     const email_verification = {
                       to: req.body.email,
                       from: 'simon@acceptmycrypto.com',
-                      subject: 'Please click the link below to verify your email!',
-                      text: 'Thank You for signing up! Go to this url to complete the registration.',
-                      html: `<a href="http://localhost:3001/email-verify/${userID}/${result.email_verification_token}>Verify My Email</a>`
+                      subject: 'Please click the link below to verify your email.',
+                      html: `<a href=${link}>Verify Email</a>`
                     };
                     sgMail.send(email_verification);
                   }
@@ -132,7 +134,6 @@ router.post('/register', function(req, res) {
 
  //Once the user clicks on the email verification, we get the id and email verification params
 router.get('/email-verify/:user_id/:email_verification_token', function(req, res) {
-  console.log("params: ", req.params);
   connection.query(
     'SELECT * FROM users WHERE id = ?',
     [req.params.user_id],
@@ -140,20 +141,21 @@ router.get('/email-verify/:user_id/:email_verification_token', function(req, res
       if (error) throw error;
 
       //if user is verified already then send a message to user that the account is verified
-      if (result.verified_email === 1) {
-        res.json("Your email has been verified, please login.")
-      }
+      if (result[0].verified_email === 1) {
+        res.send("Your account has been verified, please login.")
+      } else {
+        //update verified email to true
+        connection.query(
+          'UPDATE users SET ? WHERE ?',
+          [{verified_email: 1}, {id: req.params.user_id}],
+          function(error, results, fields) {
+            if (error) throw error;
+            res.send("Your email has been verified, please login.")
+            //TODO: rediect user to the matched deal page
+          }
+        );
 
-      //update verified email to true
-      connection.query(
-        'UPDATE users SET ? WHERE ?',
-        [{verified_email: 1}, {id: req.params.user_id}],
-        function(error, results, fields) {
-          if (error) throw error;
-          res.json(results); //Redirect user login page
-          //TODO: rediect user to the matched deal page
-        }
-      );
+      }
 
     }
   );
