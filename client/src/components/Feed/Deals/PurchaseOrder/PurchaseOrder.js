@@ -13,8 +13,8 @@ const PurchaseOrder = props => {
           </select>
           <button data-dealid={deal.id} data-amount={deal.pay_in_crypto} className="btn btn-primary btn-sm">Pay With My Crypto</button>
         </form> */}
-        test
-        {props.cryptocurrencies}
+        testing checkout page
+       {console.log(props.cryptos)}
       </div>
   );
 }
