@@ -36,7 +36,7 @@ var connection = mysql.createConnection({
 
 router.post('/register', function(req, res) {
   console.log(req.body);
-
+  var selectedCryptos = req.body.cryptoProfile;
 //First we make a query to see if user exists in the database
   connection.query(
     'SELECT * FROM users WHERE email = ?',
@@ -45,7 +45,7 @@ router.post('/register', function(req, res) {
       if (error) throw error;
 
 //if we find the user exists in the database, we send "User already exists" to the client
-      // if (result) return res.status(404).json({ error: 'User already exists' });
+      if (result) return res.status(404).json({ error: 'User already exists' });
       console.log("successfully query", result);
 
       bcrypt.genSalt(10, function(err, salt) {
@@ -64,19 +64,22 @@ router.post('/register', function(req, res) {
                   message: "We sent you an email for email verification. Please confirm your email."
               });
 
+              let userID;
+
               //query the new inserted user to get the user-id and email verification code
               connection.query(
                 'SELECT * FROM users WHERE email = ?',
                 [req.body.email],
                 function(error, result, fields) {
                   if (error) throw error;
+                  userID = result.id;
                    //use sendgrid to send email
                   const email_verification = {
                     to: req.body.email,
                     from: 'simon@acceptmycrypto.com',
                     subject: 'Please click the link below to verify your email!',
                     text: 'Thank You for signing up! Go to this url to complete the registration.',
-                    html: `<a href="http://localhost:3001/email-verify/${result.id}/${result.email_verification_token}>Verify My Email</a>`
+                    html: `<a href="http://localhost:3001/email-verify/${userID}/${result.email_verification_token}>Verify My Email</a>`
                   };
                   sgMail.send(email_verification);
                 }
@@ -102,7 +105,7 @@ router.post('/register', function(req, res) {
                       [{verified_email: 1}, {id: req.params.user_id}],
                       function(error, results, fields) {
                         if (error) throw error;
-                        res.json(results); //Redirect user to the matched deal page
+                        res.json(results); //Redirect user login page
                         //TODO: rediect user to the matched deal page
                       }
                     );
@@ -118,6 +121,17 @@ router.post('/register', function(req, res) {
 //2) insert selected cryptos into users_cryptos table
         //========================================================
         //TODO Insert the selected cryptos to users_cryptos table
+        //required fields: crypto_id, user_id
+        //1) get a list of crypto_id from the given crypto_name
+        // connection.query(
+        //   'SELECT * FROM crypto_info ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name where crypto_name = ?',
+        //   selectedCryptos,
+        //   function(error, results, fields) {
+        //     if (error) throw error;
+        //     res.json(results);
+        //   }
+        // );
+
 
         });//bcrypt.hash closing bracket
 
