@@ -45,6 +45,7 @@ class SignIn extends Component {
               alert("You're login");
             }else{
               console.log("Login error: ", res);
+              alert(res.err);
             }
           });
       }
