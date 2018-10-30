@@ -1,77 +1,11 @@
-
-/* Start of CSS for Crypto Portfolio */
-#cryptoPortfolio{
-    width: 16%;
-    /* min-width: fit-content; */
-    max-width: 16%;
-    /* border:#0D6FCB 2px solid; */
-    border: rgb(22, 190, 182) 2px solid;
-
-    border-radius: 5px;
-}
-
-#cryptoHeader{
-    font-weight: bold;
-}
-
-a:hover{
-    color: #0d5045;
-}
-
-.cryptoImage{
-    width: 70%;
-    cursor: pointer;
-   
-}
-
-.cryptoText{
+.font-15{
     font-size: 15px;
 }
 
-
-.cryptoWallet{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    position: relative;
+.width-20{
+    width: 20%;
 }
 
-
-
-.deleteQR{
-    position: absolute;
-    top: 0;
-    right: 10%;
-    cursor: pointer;
-    
+.width-60{
+    width: 60%;
 }
-
-.address{
-    display: inline-block;
-    word-break: break-all;
-}
-
-.qr{
-    width: 100%;
-}
-
-#addressFormInput{
-    width: 100%;
-}
-
-#addAddressForm{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.addAddressButton{
-    width: fit-content;
-    margin: 0 auto;
-}
-
-
-/* End of CSS for Crypto Portfolio */
-
-
