@@ -5,3 +5,5 @@ exports.coinpayment = {
 };
 
 exports.sendgrid = process.env.SENDGRID_API_KEY;
+
+exports.JWT_SECRET = process.env.JWT_SECRET;
