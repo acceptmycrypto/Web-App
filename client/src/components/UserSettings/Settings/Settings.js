@@ -28,27 +28,27 @@ class Settings extends Component {
 
             // </div>
 
-            <form class="form">
-                <ol class="nodes">
-                    <li class="node">
-                        <input class="form__radio" type="radio" id="r1" name="radio-set" checked/>
-                        <label class="form__label" for="r1"><span class="indicator">1</span></label>
+            <form className="form">
+                <ol className="nodes">
+                    <li className="node">
+                        <input className="form__radio" type="radio" id="r1" name="radio-set" checked/>
+                        <label className="form__label" for="r1"><span className="indicator">1</span></label>
                     </li>
-                    <li class="node">
-                        <input class="form__radio" type="radio" id="r2" name="radio-set" />
-                        <label class="form__label" for="r2"><span class="indicator">2</span></label>
+                    <li className="node">
+                        <input className="form__radio" type="radio" id="r2" name="radio-set" />
+                        <label className="form__label" for="r2"><span className="indicator">2</span></label>
                     </li>
-                    <li class="node">
-                        <input class="form__radio" type="radio" id="r3" name="radio-set"/>
-                        <label class="form__label" for="r3"><span class="indicator">3</span></label>
+                    <li className="node">
+                        <input className="form__radio" type="radio" id="r3" name="radio-set"/>
+                        <label className="form__label" for="r3"><span className="indicator">3</span></label>
                     </li>
-                    <li class="node">
-                        <input class="form__radio" type="radio" id="r4" name="radio-set"/>
-                        <label class="form__label" for="r4"><span class="indicator">4</span></label>
+                    <li className="node">
+                        <input className="form__radio" type="radio" id="r4" name="radio-set"/>
+                        <label className="form__label" for="r4"><span className="indicator">4</span></label>
                     </li>
-                    <li class="node">
-                        <input class="form__radio" type="radio" id="r5" name="radio-set"/>
-                        <label class="form__label" for="r5"><span class="indicator">5</span></label>
+                    <li className="node">
+                        <input className="form__radio" type="radio" id="r5" name="radio-set"/>
+                        <label className="form__label" for="r5"><span className="indicator">5</span></label>
                     </li>
                 </ol>
             </form>
