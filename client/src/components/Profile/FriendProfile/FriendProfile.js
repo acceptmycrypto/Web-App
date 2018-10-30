@@ -21,6 +21,7 @@ class FriendProfile extends Component {
       current_crypto_name: null,
       friends_array: [],
       transactions: [],
+      param_id: null
     }
 
   }
@@ -83,7 +84,7 @@ class FriendProfile extends Component {
     } else {
       // status = "hide"
 
-      console.log('hidden');
+      // console.log('hidden');
       let address = document.querySelector(".address");
       let qr = document.querySelector(".qr");
       // let deleteIcon = document.querySelector(".deleteIcon");
@@ -124,7 +125,7 @@ class FriendProfile extends Component {
       let parentDiv = target.parentElement.parentElement;
       let address = target.getAttribute("data-address");
 
-      console.log(parentDiv);
+      // console.log(parentDiv);
 
       this.hideOrShowCoin("hide", parentDiv);
 
@@ -135,23 +136,33 @@ class FriendProfile extends Component {
   }
 
 
-  componentDidMount() {
+  // fixes component rerendering issue
+  componentWillReceiveProps(nextProps) {
+    window.location.reload();
   
-    return _loadFriendProfile(this.props.match.params.id)
+  }
+
+  async componentDidMount() {
+    
+    await this.setState({
+      param_id: this.props.match.params.id
+    });
+
+    return await _loadFriendProfile(this.state.param_id)
       .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
         user_info,
         user_crypto,
         friends_array,
         transactions
-      }));
+      }), console.log("done"));
 
   }
 
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     // console.log(this.props.location.pathname);
-    console.log(this.props.match.params.id);
+    // console.log(this.props.match.params.id);
 
     return (
       <div className="userProfile d-flex flex-row justify-content-between">
@@ -172,8 +183,7 @@ class FriendProfile extends Component {
         </div>
 
         <div className="width-20 mr-3">
-
-          <FriendCard friends_array={this.state.friends_array} />
+          <FriendCard friends_array={this.state.friends_array}/>
         </div>
 
       </div>
