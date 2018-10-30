@@ -45,7 +45,12 @@ router.post('/register', function(req, res) {
       if (error) throw error;
 
 //if we find the user exists in the database, we send "User already exists" to the client
-      if (result) return res.status(404).json({ error: 'User already exists' });
+      if (result[0]) return res.status(404).json({ error: 'User already exists' });
+
+      if (!req.body.password) return res.status(401).json({ error: 'you need a password' });
+
+      if (req.body.password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
+      
       console.log("successfully query", result);
 
       bcrypt.genSalt(10, function(err, salt) {
