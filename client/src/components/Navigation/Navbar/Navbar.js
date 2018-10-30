@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 class Navbar extends Component {
@@ -59,18 +59,16 @@ class Navbar extends Component {
             <i className="fas fa-bell" /> Notification
         </li>
           <li>
-            <Link to="/profile">
-              <div class="dropdown show m-0 p-0">
-                <a class="dropdown-toggle picture-toggle m-0 p-0"  id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="dropdown show m-0 p-0">
+                <div className="dropdown-toggle picture-toggle m-0 p-0"  id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i className={'fas mt-1 pt-1 px-2 user-icon-navbar ' + this.state.photo}></i>
-                </a>
+                </div>
 
-                <div class="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
-                  <Link class="dropdown-item" to="/profile">Profile</Link>
-                  <Link class="dropdown-item" to="/settings">Settings</Link>
+                <div className="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
+                  <Link className="dropdown-item" to="/profile">Profile</Link>
+                  <Link className="dropdown-item" to="/settings">Settings</Link>
                 </div>
               </div>
-            </Link>
           </li>
         </div>
       </header>
