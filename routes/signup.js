@@ -50,17 +50,15 @@ router.post('/register', function(req, res) {
       if (!req.body.password) return res.status(401).json({ error: 'you need a password' });
 
       if (req.body.password.length <= 5) return res.status(401).json({ error: 'password length must be greater than 5' });
-      
-      console.log("successfully query", result);
 
       bcrypt.genSalt(10, function(err, salt) {
-
         bcrypt.hash(req.body.password, salt, function(err, password_hash) {
+//1) insert the new user into users table
 
-//1) insert into users table
           connection.query('INSERT INTO users (email, password, username, email_verification_token) VALUES (?, ?, ?, ?)',
           [req.body.email, password_hash, req.body.username, uuidv4()],
           function (error, results, fields) {
+
             if (error) {
               console.log(error)
             } else {
@@ -69,74 +67,59 @@ router.post('/register', function(req, res) {
                   message: "We sent you an email for email verification. Please confirm your email."
               });
 
-              let userID;
+              let UserID; //make a available to be resused when insert into users_cryptos table
 
-              //query the new inserted user to get the user-id and email verification code
-              connection.query(
-                'SELECT * FROM users WHERE email = ?',
-                [req.body.email],
-                function(error, result, fields) {
-                  if (error) throw error;
-                  userID = result.id;
-                   //use sendgrid to send email
-                  const email_verification = {
-                    to: req.body.email,
-                    from: 'simon@acceptmycrypto.com',
-                    subject: 'Please click the link below to verify your email!',
-                    text: 'Thank You for signing up! Go to this url to complete the registration.',
-                    html: `<a href="http://localhost:3001/email-verify/${userID}/${result.email_verification_token}>Verify My Email</a>`
-                  };
-                  sgMail.send(email_verification);
-                }
-              );
-
-              //Once the user clicks on the email verification, we get the id and email verification params
-              router.get('/email-verify/:user_id/:email_verification_token', function(req, res) {
-                console.log("params: ", req.params);
+                //query the new inserted user to get the user-id and email verification code
                 connection.query(
-                  'SELECT * FROM users WHERE id = ?',
-                  [req.params.user_id],
+                  'SELECT * FROM users WHERE email = ?',
+                  [req.body.email],
                   function(error, result, fields) {
                     if (error) throw error;
+                    userID = result[0].id;
+                    //use sendgrid to send email
+                    const email_verification = {
+                      to: req.body.email,
+                      from: 'simon@acceptmycrypto.com',
+                      subject: 'Please click the link below to verify your email!',
+                      text: 'Thank You for signing up! Go to this url to complete the registration.',
+                      html: `<a href="http://localhost:3001/email-verify/${userID}/${result.email_verification_token}>Verify My Email</a>`
+                    };
+                    sgMail.send(email_verification);
+                  }
+                );
 
-                    //if user is verified already then send a message to user that the account is verified
-                    if (result.verified_email === 1) {
-                      res.json("Your email has been verified, please login.")
+                //insert selected cryptos into users_cryptos table
+                connection.query(
+                  "SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name WHERE crypto_name IN (?)",
+                  [selectedCryptos],
+                  function(error, results, fields) {
+                    if (error) throw error;
+                    const userID_cryptoID = [];
+
+                    const cryptoIDs = results.map(crypto => {
+                      return crypto["id"]
+                    })
+
+                    for (let i = 0; i < cryptoIDs.length; i++) {
+                      let innerArr = [];
+                      innerArr.push(userID, cryptoIDs[i]);
+                      userID_cryptoID.push(innerArr);
                     }
 
-                    //update verified email to true
+                //Now we insert the userID_cryptoID array into the users_cryptos table
                     connection.query(
-                      'UPDATE users SET ? WHERE ?',
-                      [{verified_email: 1}, {id: req.params.user_id}],
-                      function(error, results, fields) {
+                      'INSERT INTO users_cryptos (user_id, crypto_id) VALUES ?',
+                      [userID_cryptoID],
+                      function(error, user_cryptos, fields) {
                         if (error) throw error;
-                        res.json(results); //Redirect user login page
-                        //TODO: rediect user to the matched deal page
                       }
                     );
 
                   }
                 );
-              });
 
-              console.log("new user created", results);
             }
           });
-
-//2) insert selected cryptos into users_cryptos table
-        //========================================================
-        //TODO Insert the selected cryptos to users_cryptos table
-        //required fields: crypto_id, user_id
-        //1) get a list of crypto_id from the given crypto_name
-        // connection.query(
-        //   'SELECT * FROM crypto_info ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name where crypto_name = ?',
-        //   selectedCryptos,
-        //   function(error, results, fields) {
-        //     if (error) throw error;
-        //     res.json(results);
-        //   }
-        // );
-
 
         });//bcrypt.hash closing bracket
 
@@ -147,6 +130,34 @@ router.post('/register', function(req, res) {
 });
 
 
+ //Once the user clicks on the email verification, we get the id and email verification params
+router.get('/email-verify/:user_id/:email_verification_token', function(req, res) {
+  console.log("params: ", req.params);
+  connection.query(
+    'SELECT * FROM users WHERE id = ?',
+    [req.params.user_id],
+    function(error, result, fields) {
+      if (error) throw error;
+
+      //if user is verified already then send a message to user that the account is verified
+      if (result.verified_email === 1) {
+        res.json("Your email has been verified, please login.")
+      }
+
+      //update verified email to true
+      connection.query(
+        'UPDATE users SET ? WHERE ?',
+        [{verified_email: 1}, {id: req.params.user_id}],
+        function(error, results, fields) {
+          if (error) throw error;
+          res.json(results); //Redirect user login page
+          //TODO: rediect user to the matched deal page
+        }
+      );
+
+    }
+  );
+});
 
 
 
