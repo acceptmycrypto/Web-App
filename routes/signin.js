@@ -71,9 +71,10 @@ router.post('/signin', function(req, res) {
       if (!bcrypt.compareSync(req.body.password, result[0].password)) return res.status(401).json({ error: 'incorrect password ' });
 
         var payload = {
-            email: result.email,
-            _id: result.id
+            email: result[0].email,
+            _id: result[0].id
         };
+
 
         var token = jwt.sign(payload, keys.JWT_SECRET, { expiresIn: '4h' });
 
