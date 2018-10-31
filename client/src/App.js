@@ -43,7 +43,7 @@ class App extends Component {
             <Route exact path="/community" component={Community} />
             <Route path="/forum/:crypto_id" component={CryptoForum} />
             {/* <Route path="/feed/venues" component={FeedVenues} /> */}
-            <Route exact path="/feed/deals" component={FeedDeals} /> */}
+            <Route exact path="/feed/deals" component={FeedDeals} /> 
             <Route path='/feed/deals/:deal_name' component={DealItem}/>
 
             <Route path="/feed/friends" component={FeedFriends} />
