@@ -187,12 +187,14 @@ class SignUp extends Component {
                   Your Cryptocurrency Portfolio
                 </label>
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
-                <Select
+                <Select 
+                  required
                   value={selectedOptions}
                   onChange={this.handleDropdownChange}
                   options={options}
                   isMulti={true}
                   autoBlur={false}
+                  
                 />
               </div>
 
