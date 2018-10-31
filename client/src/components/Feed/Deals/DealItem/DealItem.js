@@ -7,7 +7,6 @@ import StepZilla from "react-stepzilla";
 import CustomizeOrder from "../CustomizeOrder";
 import ShipOrder from "../ShipOrder";
 import PurchaseOrder from "../PurchaseOrder";
-import Select from 'react-select';
 
 class DealItem extends Component {
   constructor() {
@@ -15,7 +14,8 @@ class DealItem extends Component {
 
     this.state = {
       dealItem: null,
-      acceptedCryptos: null
+      acceptedCryptos: null,
+      selectedOption: {value: "BTC", label: "Bitcoin (BTC)", logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"}
     };
   }
 
@@ -24,12 +24,10 @@ class DealItem extends Component {
     //return the param value
     const { deal_name } = this.props.match.params;
 
-
     return _loadDealItem(deal_name).then(dealItem => {
       let venue_name = dealItem[0].venue_name;
-      let acceptedCryptos = dealItem[1][venue_name];
+      let acceptedCryptos = dealItem[1];
 
-      console.log(dealItem);
       this.setState({
         dealItem: dealItem[0],
         acceptedCryptos
@@ -37,18 +35,34 @@ class DealItem extends Component {
     });
   }
 
+  handleSelectedCrypto = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
+
+  cryptoOptions() {
+    let options = [];
+    this.state.acceptedCryptos.map(crypto => {
+
+      let optionObj = {};
+      optionObj.value = crypto.crypto_symbol;
+      optionObj.label = crypto.crypto_name + " " + "(" + crypto.crypto_symbol + ")";
+      optionObj.logo = crypto.crypto_logo;
+      options.push(optionObj);
+    })
+
+    return options
+  }
+
   render() {
 
-    const options = [
-      { value: 'chocolate', label: 'Chocolate' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'vanilla', label: 'Vanilla' }
-    ];
-    
     const steps = [
       { name: "Customizing", component: <CustomizeOrder /> },
       { name: "Shipping", component: <ShipOrder /> },
-      { name: "Payment", component: <PurchaseOrder cryptos={this.state.acceptedCryptos}/> }
+      { name: "Payment", component: <PurchaseOrder
+                                      cryptos={this.state.dealItem && this.cryptoOptions()}
+                                      cryptoSelected={this.state.selectedOption}
+                                      selectCrypto={this.handleSelectedCrypto}/> }
     ];
 
     return (
@@ -64,7 +78,6 @@ class DealItem extends Component {
           <li>{item.venue_link}</li>
         </ul>
        ))} */}
-
         <div className="deal-container">
           <div className="deal-header" />
 

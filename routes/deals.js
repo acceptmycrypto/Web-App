@@ -70,55 +70,24 @@ router.get('/api/deals/:deal_name', function(req, res) {
         'SELECT * FROM cryptos_venues LEFT JOIN venues ON venues.id = cryptos_venues.venue_id LEFT JOIN crypto_metadata ON crypto_metadata.id = cryptos_venues.crypto_id LEFT JOIN crypto_info ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name WHERE venue_name = ?',
         [venue_name],
         function(error, results, fields) {
+
           if (error) throw error;
 
-          let venue = '';
-          let crypto = '';
-          let cryptoSymbol = '';
-          let cryptocurrencies = [];
-          let crypto_symbols = [];
-          let crypto_logos = [];
-          let newObj = {};
+          let venue = [];
 
-          results.map((venueObj) => {
+          for (venueObj in results) {
+            let cryptoName = results[venueObj].crypto_name;
+            let cryptoSymbol = results[venueObj].crypto_symbol;
+            let cryptoLogo = results[venueObj].crypto_logo;
 
-            if (venueObj.venue_name !== venue) {
-              venue = venueObj.venue_name;
-              crypto = venueObj.crypto_name;
-              cryptoSymbol = venueObj.crypto_symbol;
-              cryptoLogo = venueObj.crypto_logo;
+            let acceptedCrypto = {};
+            acceptedCrypto.crypto_name = cryptoName; //{crypto_name: "bitcoin"}
+            acceptedCrypto.crypto_symbol = cryptoSymbol; //{crypto_name: "btc", crypto_symbol: "btc"}
+            acceptedCrypto.crypto_logo = cryptoLogo;
 
-              //when it's a new venue_name, empty the arrays
-              cryptocurrencies = [];
-              cryptocurrencies.push(crypto);
-
-              crypto_symbols = [];
-              crypto_symbols.push(cryptoSymbol);
-
-              crypto_logos = [];
-              crypto_logos.push(cryptoLogo);
-
-              newObj[venueObj.venue_name] = [cryptocurrencies, crypto_symbols, crypto_logos];
-
-            } else {
-              crypto = venueObj.crypto_name;
-              cryptocurrencies.push(crypto);
-
-              cryptoSymbol = venueObj.crypto_symbol;
-              crypto_symbols.push(cryptoSymbol);
-
-              cryptoLogo = venueObj.crypto_logo;
-              crypto_logos.push(cryptoLogo);
-
-              newObj[venueObj.venue_name] = [cryptocurrencies, crypto_symbols, crypto_logos];
-            }
-
-            return newObj;
-          });
-
-          //push the acceptedCrypto object to the newDealItem list
-          newDealItem.push(newObj);
-
+            venue.push(acceptedCrypto);
+          }
+          newDealItem.push(venue);
           res.json(newDealItem);
         }
       );
