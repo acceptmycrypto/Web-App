@@ -21,6 +21,7 @@ class FriendProfile extends Component {
       current_crypto_name: null,
       friends_array: [],
       transactions: [],
+      redirect: false
     }
 
   }
@@ -143,13 +144,19 @@ class FriendProfile extends Component {
 
   componentDidMount() {
     
-    return  _loadFriendProfile(this.props.match.params.id)
-      .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
-        user_info,
-        user_crypto,
-        friends_array,
-        transactions
-      }));
+    return  _loadFriendProfile(this.props.match.params.id, localStorage.getItem('token')).then(res => {
+
+
+      let { user_info, user_crypto, friends_array, transactions, redirect } = res;
+     
+      this.setState({ user_info, user_crypto, friends_array, transactions, redirect });
+      // .then(([user_info, user_crypto, friends_array, transactions, redirect]) => this.setState({
+      //   user_info,
+      //   user_crypto,
+      //   friends_array,
+      //   transactions,
+      //   redirect
+      });
 
   }
 
@@ -158,9 +165,9 @@ class FriendProfile extends Component {
     // console.log(this.state.user_info[0]);
     // console.log(this.props.location.pathname);
     // console.log(this.props.match.params.id);
-    // if(this.state.user_info[0] && this.props.match.params.id == this.state.user_info[0].id){
-    //     return <Redirect to='/profile'/>
-    // }
+    if(this.state.redirect){
+        return <Redirect to='/profile'/>
+    }
     return (
       
       <div className="userProfile d-flex flex-row justify-content-between">
