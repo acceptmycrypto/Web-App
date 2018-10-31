@@ -61,12 +61,12 @@ function verifyToken(req, res, next) {
 router.post('/signin', function(req, res) {
   var email = req.body.email;
 
-    connection.query('SELECT * FROM users WHERE email = ?',
-    [email],
+    connection.query('SELECT * FROM users WHERE email = ? AND verified_email = ?',
+    [email, 1],
      function(error, result, fields) {
       if (error) console.log(error);
-
-      if (!result) return res.status(404).json({ error: 'user not found' });
+      console.log(result);
+      if (!result[0]) return res.status(404).json({ error: 'user not found' });
 
       if (!bcrypt.compareSync(req.body.password, result[0].password)) return res.status(401).json({ error: 'incorrect password ' });
 
