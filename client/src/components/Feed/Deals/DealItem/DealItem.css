@@ -199,6 +199,7 @@ ol.progtrckr li.progtrckr-done:hover:before {
   bottom: 0%;
   margin: 20px 0px;
   width: 95%;
+  z-index: 0;
 }
 
 /* overriding the default color of the react-stepzilla */

@@ -61,25 +61,35 @@ router.post("/checkout", function(req, res) {
         res.json(paymentInfo);
 
         connection.query(
-          "INSERT INTO users_purchases SET ?",
-          {
-            user_id: req.body.user_id,
-            deal_id: req.body.deal_id,
-            crypto_name: req.body.crypto_name,
-            amount: paymentInfo.amount,
-            txn_id: paymentInfo.txn_id, //coinpayment transaction address
-            address: paymentInfo.address, //coinpayment temporary address
-            confirms_needed: paymentInfo.confirms_needed,
-            timeout: paymentInfo.timeout, //in seconds
-            status_url: paymentInfo.status_url,
-            qrcode_url: paymentInfo.qrcode_url
-          },
-          function(err, transactionInitiated) {
-            if (err) {
-              console.log(err);
-            }
+          'SELECT crypto_info.id FROM crypto_info LEFT JOIN crypto_metadata ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name WHERE crypto_name = ?',
+          [req.body.crypto_name],
+          function(error, cryptoID, fields) {
+            if (error) console.log(error);
+            console.log("Crypto ID", cryptoID);
+            connection.query(
+              "INSERT INTO users_purchases SET ?",
+              {
+                user_id: req.body.user_id,
+                deal_id: req.body.deal_id,
+                crypto_id: cryptoID[0].id,
+                amount: paymentInfo.amount,
+                txn_id: paymentInfo.txn_id, //coinpayment transaction address
+                address: paymentInfo.address, //coinpayment temporary address
+                confirms_needed: paymentInfo.confirms_needed,
+                timeout: paymentInfo.timeout, //in seconds
+                status_url: paymentInfo.status_url,
+                qrcode_url: paymentInfo.qrcode_url
+              },
+              function(err, transactionInitiated) {
+                if (err) {
+                  console.log(err);
+                }
+              }
+            );
+
           }
         );
+
       }
     }
   );

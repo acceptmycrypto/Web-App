@@ -1,0 +1,8 @@
+.send-payment {
+  display: flex;
+}
+
+.send-payment img {
+  height: 100px;
+  width: 100px;
+}

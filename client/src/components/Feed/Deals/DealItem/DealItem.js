@@ -153,7 +153,10 @@ class DealItem extends Component {
         cryptos={this.state.dealItem && this.cryptoOptions()}
         cryptoSelected={this.state.selectedOption}
         selectCrypto={this.handleSelectedCrypto}
-        SubmitPayment={this.createPaymentHandler}/> }
+        SubmitPayment={this.createPaymentHandler}
+        transactionInfo={this.state.transactionInfo}
+        paidIn={this.state.paidIn}
+        paymentButtonClicked={this.state.purchasing}/> }
     ];
 
     return (

@@ -3,11 +3,22 @@ import "./Checkout.css";
 
 const Checkout = props => (
   <div>
-    <h1>Scan QR code or copy/paste payment address into wallet</h1>
-    <p>Please send {props.transactionInfo.amount} {props.paidIn} to the below address</p>
-    <img src={props.transactionInfo.qrcode_url} alt="QR code"/>
-    <p>AcceptMyCrpto Payment Address: {props.transactionInfo.address}</p>
-    <p>If no payment received in {props.transactionInfo.timeout} seconds, the purchase order will be canceled.</p>
+
+    <p>Scan QR code or copy/paste payment address into wallet</p>
+    <p>Please send <strong>{props.showTransaction.amount} {props.showPaidIn}</strong> to the below address</p>
+
+    <div className="send-payment">
+      <div>
+        <img src={props.showTransaction.qrcode_url} alt="QR code"/>
+      </div>
+
+      <div>
+        <p>AcceptMyCrpto Payment Address:</p>
+        <p>{props.showTransaction.address}</p>
+        <p>If no payment received in {props.showTransaction.timeout} seconds, the purchase order will be canceled.</p>
+      </div>
+    </div>
+
   </div>
 );
 
