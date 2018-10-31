@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./FriendProfile.css";
-import {  Link } from "react-router-dom";
+import {  Link, Redirect } from "react-router-dom";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
 import FriendCard from "../FriendCard";
@@ -149,17 +149,20 @@ class FriendProfile extends Component {
         user_crypto,
         friends_array,
         transactions
-      }), console.log("done"));
+      }));
 
   }
 
 
   render() {
-    // console.log(this.state);
+    // console.log(this.state.user_info[0]);
     // console.log(this.props.location.pathname);
     // console.log(this.props.match.params.id);
-
+    // if(this.state.user_info[0] && this.props.match.params.id == this.state.user_info[0].id){
+    //     return <Redirect to='/profile'/>
+    // }
     return (
+      
       <div className="userProfile d-flex flex-row justify-content-between">
         <div className="d-flex flex-column width-20">
 
