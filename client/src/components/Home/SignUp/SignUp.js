@@ -137,6 +137,7 @@ class SignUp extends Component {
                   name="username"
                   value={this.state.username}
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               <div className="FormField">
@@ -151,6 +152,7 @@ class SignUp extends Component {
                   name="email"
                   value={this.state.email}
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               <div className="FormField">
@@ -165,6 +167,7 @@ class SignUp extends Component {
                   name="password"
                   value={this.state.password}
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               {/* <div className="FormField">
