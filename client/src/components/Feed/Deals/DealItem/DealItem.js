@@ -54,6 +54,10 @@ class DealItem extends Component {
     return options
   }
 
+  convertToPercentage = (priceInDollar, priceInCrypto) => {
+    return parseInt(((priceInDollar - priceInCrypto) / priceInDollar) * 100)
+  }
+
   render() {
 
     const steps = [
@@ -79,7 +83,34 @@ class DealItem extends Component {
         </ul>
        ))} */}
         <div className="deal-container">
-          <div className="deal-header" />
+          <div className="deal-header">
+            <div className="deal-item-header">
+            <div className="deal-item-name">
+              <strong>{this.state.dealItem && this.state.dealItem.deal_name}</strong> <br/>
+              <small> Offered By: {this.state.dealItem && this.state.dealItem.venue_name}</small>
+            </div>
+
+            <div className="deal-item-cost">
+              <strong>Pay in Crypto:  ${this.state.dealItem && this.state.dealItem.pay_in_crypto}</strong>  <small className="deal-item-discount">
+              {this.state.dealItem && this.convertToPercentage(this.state.dealItem.pay_in_dollar, this.state.dealItem.pay_in_crypto)}% OFF</small> <br/>
+              <small>Pay in Dollar:  ${this.state.dealItem && this.state.dealItem.pay_in_dollar} <br/></small>
+            </div>
+
+            </div>
+            <div className="deal-item-summary">
+              <div className="customize-item-summary">
+                Customize
+              </div>
+
+              <div className="customize-item-shipping">
+                Shipping
+              </div>
+
+              <div className="customize-item-payment">
+                Payment
+              </div>
+            </div>
+          </div>
 
           <div className="deal-main-info">
             <div className="deal-images-container">

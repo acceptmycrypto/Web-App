@@ -13,7 +13,54 @@
   width: 100%;
   height: 23%;
   border-radius: 5px 5px 0 0;
+  display: flex;
+  color: white;
 }
+
+.deal-item-header {
+  width: 50%;
+  display: flex;
+  padding: 20px;
+}
+
+.deal-item-name {
+  width: 50%;
+}
+
+.deal-item-cost {
+  width: 50%;
+}
+
+.deal-item-discount {
+  background-color: #e63e43;
+  border:  #e63e43 1px solid;
+  font-size: 12px;
+  border-radius: 5px;
+  margin: 0 7px;
+  padding: 0 5px;
+}
+
+.deal-item-summary {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.customize-item-summary {
+  width: 20%;
+}
+
+.customize-item-shipping {
+  width: 60%;
+}
+
+.customize-item-payment {
+  width: 20%;
+}
+
+
 
 .deal-main-info {
   display: flex;

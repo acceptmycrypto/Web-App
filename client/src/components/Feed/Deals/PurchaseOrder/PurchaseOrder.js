@@ -17,7 +17,7 @@ const PurchaseOrder = props => {
         </div>
       </form>
 
-      {console.log(props.cryptos)}
+      
       <div className="crypto_logo">
         <img src={props.cryptoSelected.logo} alt="cryptoLogo" />
       </div>

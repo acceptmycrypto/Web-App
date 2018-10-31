@@ -107,7 +107,7 @@ class Deals extends Component {
                       <div className="price-differ">
                         <div>
                           <div className="purchase-method">Dollar</div>
-                          <strike>${deal.pay_in_dollar}</strike>
+                          <div>${deal.pay_in_dollar}</div>
                         </div>
                         <div>
                           <div className="purchase-method">Cryptocurrency</div>
