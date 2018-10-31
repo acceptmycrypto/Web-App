@@ -7,7 +7,7 @@ import CryptoCard from "../CryptoCard";
 import CryptoAddress from "../CryptoAddress";
 import FriendCard from "../FriendCard";
 import ProfileFeed from "../ProfileFeed";
-import { _updateCryptoTable, _loadProfile } from "../../../services/UserProfileService";
+import { _updateCryptoTable, _loadProfile, _verifyUser } from "../../../services/UserProfileService";
 
 
 class UserProfile extends Component {
@@ -210,14 +210,29 @@ class UserProfile extends Component {
 
 
   componentDidMount() {
+    // await _verifyUser(localStorage.getItem('token')).then((data) => this.setState({
+    //   temp_user: data.user
 
-    return _loadProfile()
-      .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
-        user_info,
-        user_crypto,
-        friends_array,
-        transactions
-      }));
+    // }));
+    return _loadProfile(localStorage.getItem('token')).then(res => {
+      // console.log(res);
+
+      let { user_info, user_crypto, friends_array, transactions } = res;
+      // console.log(user_info, user_crypto, friends_array, transactions);
+     
+      this.setState({ user_info, user_crypto, friends_array, transactions });
+      
+    });
+
+
+
+
+      // .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
+      //   user_info,
+      //   user_crypto,
+      //   friends_array,
+      //   transactions
+      // }));
 
   }
 
