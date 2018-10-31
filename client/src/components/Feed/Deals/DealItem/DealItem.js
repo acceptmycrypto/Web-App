@@ -15,7 +15,14 @@ class DealItem extends Component {
     this.state = {
       dealItem: null,
       acceptedCryptos: null,
-      selectedOption: {value: "BTC", label: "Bitcoin (BTC)", logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"}
+      selectedOption: {value: "BTC", label: "Bitcoin (BTC)", logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"},
+      selectedSize: null,
+      selectedColor: null,
+      fullName: null,
+      address: null,
+      city: null,
+      zipcode: null,
+      shippingState: null
     };
   }
 
@@ -58,11 +65,50 @@ class DealItem extends Component {
     return parseInt(((priceInDollar - priceInCrypto) / priceInDollar) * 100)
   }
 
+  handleCustomizingSize = event => {
+    this.setState({selectedSize: event.target.value})
+  }
+
+  handleCustomizingColor = event => {
+    this.setState({selectedColor: event.target.value})
+  }
+
+  handleFullNameInput= event => {
+    this.setState({fullName: event.target.value})
+  }
+
+  handleAddressInput= event => {
+    this.setState({address: event.target.value})
+  }
+
+  handleCityInput= event => {
+    this.setState({city: event.target.value})
+  }
+
+  handleZipcodeInput= event => {
+    this.setState({zipcode: event.target.value})
+  }
+
+
+  handleShippingStateInput= event => {
+    this.setState({shippingState: event.target.value})
+  }
+
   render() {
 
     const steps = [
-      { name: "Customizing", component: <CustomizeOrder /> },
-      { name: "Shipping", component: <ShipOrder /> },
+      { name: "Customizing",
+        component: <CustomizeOrder
+                    handle_CustomizingSize={this.handleCustomizingSize}
+                    handle_CustomizingColor={this.handleCustomizingColor}/>},
+      { name: "Shipping",
+        component:
+        <ShipOrder
+        handle_ShippingFullName={this.handleFullNameInput}
+        handle_ShippingAddress={this.handleAddressInput}
+        handle_ShippingCity={this.handleCityInput}
+        handle_ShippingZipcode={this.handleZipcodeInput}
+        handle_ShippingState={this.handleShippingStateInput}/> },
       { name: "Payment", component: <PurchaseOrder
                                       cryptos={this.state.dealItem && this.cryptoOptions()}
                                       cryptoSelected={this.state.selectedOption}
@@ -85,29 +131,40 @@ class DealItem extends Component {
         <div className="deal-container">
           <div className="deal-header">
             <div className="deal-item-header">
-            <div className="deal-item-name">
-              <strong>{this.state.dealItem && this.state.dealItem.deal_name}</strong> <br/>
-              <small> Offered By: {this.state.dealItem && this.state.dealItem.venue_name}</small>
-            </div>
 
-            <div className="deal-item-cost">
-              <strong>Pay in Crypto:  ${this.state.dealItem && this.state.dealItem.pay_in_crypto}</strong>  <small className="deal-item-discount">
-              {this.state.dealItem && this.convertToPercentage(this.state.dealItem.pay_in_dollar, this.state.dealItem.pay_in_crypto)}% OFF</small> <br/>
-              <small>Pay in Dollar:  ${this.state.dealItem && this.state.dealItem.pay_in_dollar} <br/></small>
-            </div>
+              <div className="deal-item-name">
+                <strong>{this.state.dealItem && this.state.dealItem.deal_name}</strong> <br/>
+                <small> Offered By: {this.state.dealItem && this.state.dealItem.venue_name}</small>
+              </div>
+
+              <div className="deal-item-cost">
+                <strong>Pay in Crypto:  ${this.state.dealItem && this.state.dealItem.pay_in_crypto}</strong>  <small className="deal-item-discount">
+                {this.state.dealItem && this.convertToPercentage(this.state.dealItem.pay_in_dollar, this.state.dealItem.pay_in_crypto)}% OFF</small> <br/>
+                <small>Pay in Dollar:  ${this.state.dealItem && this.state.dealItem.pay_in_dollar} <br/></small>
+              </div>
 
             </div>
             <div className="deal-item-summary">
               <div className="customize-item-summary">
-                Customize
+                <strong>Customizing</strong> <br/>
+                <small>{this.state.selectedSize}</small> <br/>
+                <small>{this.state.selectedColor}</small> <br/>
               </div>
 
               <div className="customize-item-shipping">
-                Shipping
+                <strong>Shipping</strong> <br/>
+                <small>{this.state.fullName}</small> <br/>
+                <small>{this.state.address}</small> <br/>
+                <small>{this.state.city} </small>
+                <small>{this.state.zipcode} </small>
+                <small>{this.state.shippingState}</small>
               </div>
 
               <div className="customize-item-payment">
-                Payment
+              <div className="crypto_logo">
+                <strong>Payment</strong>
+                <img src={this.state.selectedOption.logo} alt="cryptoLogo" />
+              </div>
               </div>
             </div>
           </div>

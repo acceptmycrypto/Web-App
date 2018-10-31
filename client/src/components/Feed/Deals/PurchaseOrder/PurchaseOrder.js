@@ -16,11 +16,6 @@ const PurchaseOrder = props => {
       />
         </div>
       </form>
-
-      
-      <div className="crypto_logo">
-        <img src={props.cryptoSelected.logo} alt="cryptoLogo" />
-      </div>
     </div>
   );
 };

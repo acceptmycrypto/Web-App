@@ -11,7 +11,7 @@
 .deal-header {
   background-image: linear-gradient(-85deg, #49cdb7, #1ab7db);
   width: 100%;
-  height: 23%;
+  height: 25%;
   border-radius: 5px 5px 0 0;
   display: flex;
   color: white;
@@ -60,7 +60,9 @@
   width: 20%;
 }
 
-
+.crypto_logo img {
+  margin-top: 10px;
+}
 
 .deal-main-info {
   display: flex;
