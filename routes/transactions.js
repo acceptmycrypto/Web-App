@@ -46,11 +46,11 @@ router.get("/api/transactions/community/payment_received", function(req, res) {
 router.post("/checkout", function(req, res) {
   //Inserting to user_purchases table, this doens't mean purchase is successful
   //Need to listen to IPA when payment has recieved and then update payment_recieved to true
-
+  console.log(req.body);
   client.createTransaction(
     {
       currency1: "USD",
-      currency2: req.body.crypto_name, // The currency the buyer will be sending.
+      currency2: req.body.crypto_symbol, // The currency the buyer will be sending.
       amount: req.body.amount // Expected amount to pay, where the price is expressed in currency1
     },
     function(err, paymentInfo) {

@@ -15,14 +15,17 @@ class DealItem extends Component {
     this.state = {
       dealItem: null,
       acceptedCryptos: null,
-      selectedOption: {value: "BTC", label: "Bitcoin (BTC)", logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"},
+      selectedOption: {value: "BTC", label: "Bitcoin (BTC)", logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png", name: "Bitcoin"},
       selectedSize: null,
       selectedColor: null,
       fullName: null,
       address: null,
       city: null,
       zipcode: null,
-      shippingState: null
+      shippingState: null,
+      transactionInfo: null,
+      paidIn: "",
+      purchasing: false
     };
   }
 
@@ -45,8 +48,10 @@ class DealItem extends Component {
   handleSelectedCrypto = (selectedOption) => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
+    console.log("Deal Item: ", this.state.dealItem);
   }
 
+  //set the options to delect crypto from
   cryptoOptions() {
     let options = [];
     this.state.acceptedCryptos.map(crypto => {
@@ -55,6 +60,8 @@ class DealItem extends Component {
       optionObj.value = crypto.crypto_symbol;
       optionObj.label = crypto.crypto_name + " " + "(" + crypto.crypto_symbol + ")";
       optionObj.logo = crypto.crypto_logo;
+      optionObj.name = crypto.crypto_name;
+
       options.push(optionObj);
     })
 
@@ -94,13 +101,45 @@ class DealItem extends Component {
     this.setState({shippingState: event.target.value})
   }
 
+  createPaymentHandler = (event) => {
+    event.preventDefault();
+    //info needed to insert into user_purchases table
+    //deal_id, crypto_name, amount, and user_id
+    let deal_id = this.state.dealItem.deal_id;
+    let amount = this.state.dealItem.pay_in_crypto;
+    let user_id = '4' //hardcoded user_id for now. Need to grab user_id dynamically
+    let crypto_symbol = this.state.selectedOption.value;
+    let crypto_name = this.state.selectedOption.name;
+
+    console.log("called from create payment", deal_id, amount, user_id, crypto_symbol, crypto_name);
+
+    return fetch('http://localhost:3001/checkout', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ crypto_name, crypto_symbol, deal_id, user_id, amount })
+    })
+      .then(res => res.json())
+      .then(transactionInfo => {
+        this.setState(
+          { transactionInfo,
+            paidIn: crypto_symbol,
+            purchasing: true
+          });
+        console.log("Transaction Info: ", this.state.transactionInfo);
+      });
+  };
+
   render() {
 
     const steps = [
       { name: "Customizing",
-        component: <CustomizeOrder
-                    handle_CustomizingSize={this.handleCustomizingSize}
-                    handle_CustomizingColor={this.handleCustomizingColor}/>},
+        component:
+        <CustomizeOrder
+        handle_CustomizingSize={this.handleCustomizingSize}
+        handle_CustomizingColor={this.handleCustomizingColor}/>},
       { name: "Shipping",
         component:
         <ShipOrder
@@ -109,10 +148,12 @@ class DealItem extends Component {
         handle_ShippingCity={this.handleCityInput}
         handle_ShippingZipcode={this.handleZipcodeInput}
         handle_ShippingState={this.handleShippingStateInput}/> },
-      { name: "Payment", component: <PurchaseOrder
-                                      cryptos={this.state.dealItem && this.cryptoOptions()}
-                                      cryptoSelected={this.state.selectedOption}
-                                      selectCrypto={this.handleSelectedCrypto}/> }
+      { name: "Payment", component:
+        <PurchaseOrder
+        cryptos={this.state.dealItem && this.cryptoOptions()}
+        cryptoSelected={this.state.selectedOption}
+        selectCrypto={this.handleSelectedCrypto}
+        SubmitPayment={this.createPaymentHandler}/> }
     ];
 
     return (
@@ -130,42 +171,41 @@ class DealItem extends Component {
        ))} */}
         <div className="deal-container">
           <div className="deal-header">
-            <div className="deal-item-header">
 
+            <div className="deal-item-header">
               <div className="deal-item-name">
                 <strong>{this.state.dealItem && this.state.dealItem.deal_name}</strong> <br/>
                 <small> Offered By: {this.state.dealItem && this.state.dealItem.venue_name}</small>
               </div>
-
               <div className="deal-item-cost">
                 <strong>Pay in Crypto:  ${this.state.dealItem && this.state.dealItem.pay_in_crypto}</strong>  <small className="deal-item-discount">
                 {this.state.dealItem && this.convertToPercentage(this.state.dealItem.pay_in_dollar, this.state.dealItem.pay_in_crypto)}% OFF</small> <br/>
                 <small>Pay in Dollar:  ${this.state.dealItem && this.state.dealItem.pay_in_dollar} <br/></small>
               </div>
-
             </div>
+
             <div className="deal-item-summary">
-              <div className="customize-item-summary">
-                <strong>Customizing</strong> <br/>
-                <small>{this.state.selectedSize}</small> <br/>
-                <small>{this.state.selectedColor}</small> <br/>
-              </div>
+                <div className="customize-item-summary">
+                  <strong>Customizing</strong> <br/>
+                  <small>{this.state.selectedSize}</small> <br/>
+                  <small>{this.state.selectedColor}</small> <br/>
+                </div>
 
-              <div className="customize-item-shipping">
-                <strong>Shipping</strong> <br/>
-                <small>{this.state.fullName}</small> <br/>
-                <small>{this.state.address}</small> <br/>
-                <small>{this.state.city} </small>
-                <small>{this.state.zipcode} </small>
-                <small>{this.state.shippingState}</small>
-              </div>
+                <div className="customize-item-shipping">
+                  <strong>Shipping</strong> <br/>
+                  <small>{this.state.fullName}</small> <br/>
+                  <small>{this.state.address}</small> <br/>
+                  <small>{this.state.city} </small>
+                  <small>{this.state.zipcode} </small>
+                  <small>{this.state.shippingState}</small>
+                </div>
 
-              <div className="customize-item-payment">
-              <div className="crypto_logo">
-                <strong>Payment</strong>
-                <img src={this.state.selectedOption.logo} alt="cryptoLogo" />
-              </div>
-              </div>
+                <div className="customize-item-payment">
+                  <div className="crypto_logo">
+                    <strong>Payment</strong> <br/>
+                    <img src={this.state.selectedOption.logo} alt="cryptoLogo" />
+                  </div>
+                </div>
             </div>
           </div>
 
@@ -174,14 +214,15 @@ class DealItem extends Component {
               <Carousel
                 className="react-carousel"
                 width={"55%"}
-                showStatus={false}
-              >
+                showStatus={false}>
+
                 {this.state.dealItem &&
-                  this.state.dealItem.deal_image.map(img => (
-                    <div className="deal-item-image">
-                      <img src={img} />
-                    </div>
-                  ))}
+                this.state.dealItem.deal_image.map(img => (
+                  <div className="deal-item-image">
+                    <img src={img} />
+                  </div>
+                ))}
+
               </Carousel>
             </div>
 
