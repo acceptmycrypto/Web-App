@@ -23,12 +23,15 @@ class App extends Component {
           <Layout />
             <Route exact path="/" component={SignIn} />
             <Route path="/SignUp" component={SignUp} />
+
+            {/* Redirects to profile page when id matches user id, hard coded user id 1 for now */}
+            {/* <Redirect exact from='profile/1' exact to='profile' /> */}
+
             <Route exact path="/profile" component={Profile} />
 
             <Route path="/profile/:id" component={ (props) => < Friend {...props}/>} />
 
-            {/* Redirects to profile page when id matches user id, hard coded user id 1 for now */}
-            <Redirect from='profile/1' to='/profile' />
+            
             <Route path ="/settings" component={Settings} />
             <Route path="/crypto" component={Crypto} />
 
