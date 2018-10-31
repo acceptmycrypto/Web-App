@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import { BrowserRouter as Switch, Route, Link, Redirect } from "react-router-dom";
 
-import SignUp from "./components/signup/SignUp";
-import SignIn from "./components/signup/SignIn";
+import SignUp from "./components/Home/SignUp";
+import SignIn from "./components/Home/SignIn";
 
 import Profile from "./components/Profile/UserProfile";
 import Friend from "./components/Profile/FriendProfile";
 import Settings from "./components/UserSettings/Settings"
-import Crypto from "./components/Crypto";
+
+
+import Community from "./components/Community";
+import CryptoForum from "./components/Community/CryptoForum"
+// import FeedVenues from "./components/Feed/Venues";
+
 import FeedDeals from "./components/Feed/Deals";
 import DealItem from "./components/Feed/Deals/DealItem";
 import FeedFriends from "./components/Feed/MatchedFriends";
@@ -35,7 +40,10 @@ class App extends Component {
             <Route path ="/settings" component={Settings} />
             <Route path="/crypto" component={Crypto} />
 
-            <Route exact path="/feed/deals" component={FeedDeals} />
+            <Route exact path="/community" component={Community} />
+            <Route path="/forum/:crypto_id" component={CryptoForum} />
+            {/* <Route path="/feed/venues" component={FeedVenues} /> */}
+            <Route exact path="/feed/deals" component={FeedDeals} /> */}
             <Route path='/feed/deals/:deal_name' component={DealItem}/>
 
             <Route path="/feed/friends" component={FeedFriends} />

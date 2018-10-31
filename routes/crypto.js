@@ -29,36 +29,36 @@ router.get('/', function(req, res) {
   res.redirect('/cryptos');
 });
 
-router.get('/cryptos', function(req, res) {
-  connection.query(
-    'SELECT crypto_id, count(venue_id) as total FROM cryptos_venues GROUP BY crypto_id',
-    function(err, venues_count, fields) {
-      for (var i in venues_count) {
-        connection.query(
-          'UPDATE crypto_metadata SET ? WHERE ?',
-          [
-            { venues_count: venues_count[i].total },
-            { id: venues_count[i].crypto_id }
-          ],
-          function(err, res) {
-            if (err) {
-              console.log(err);
-            }
-          }
-        );
-      }
+// router.get('/cryptos', function(req, res) {
+//   connection.query(
+//     'SELECT crypto_id, count(venue_id) as total FROM cryptos_venues GROUP BY crypto_id',
+//     function(err, venues_count, fields) {
+//       for (var i in venues_count) {
+//         connection.query(
+//           'UPDATE crypto_metadata SET ? WHERE ?',
+//           [
+//             { venues_count: venues_count[i].total },
+//             { id: venues_count[i].crypto_id }
+//           ],
+//           function(err, res) {
+//             if (err) {
+//               console.log(err);
+//             }
+//           }
+//         );
+//       }
 
-      connection.query(
-        'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
-        function(err, data, fields) {
-          res.render('pages/index', {
-            cryptos: data
-          });
-        }
-      );
-    }
-  );
-});
+//       connection.query(
+//         'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
+//         function(err, data, fields) {
+//           res.render('pages/index', {
+//             cryptos: data
+//           });
+//         }
+//       );
+//     }
+//   );
+// });
 
 //crypto detail
 router.get('/cryptos/:crypto', function(req, res) {
@@ -87,10 +87,30 @@ router.post('/cryptos/search', function(req, res) {
 
 // my code from this point down.  not too sure what's above this*****************************
 
-// this function joins crypto_comments to parents_children to users, gets relevant columns back, then feeds it all to assembleComments()
-getAllComments = (res) => {
+router.get('/community', function(req, res) {
     connection.query(
-        'SELECT c.id AS id, c.user_id AS user_id, c.crypto_id AS crypto_id, c.body AS body, c.date_commented AS date_commented, c.comment_status AS comment_status, c.points AS points, p.comment_parent_id AS comment_parent_id, u.username AS username FROM crypto_comments c LEFT JOIN parents_children p ON c.id = p.comment_child_id LEFT JOIN users u ON c.user_id = u.id ORDER BY date_commented',
+        'SELECT * FROM crypto_info',
+        (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
+                res.json({allCryptos:data});
+            }
+        }
+    );
+});
+
+
+
+
+
+
+
+// this function joins crypto_comments to parents_children to users, gets relevant columns back, then feeds it all to assembleComments()
+getAllComments = (res, crypto_id) => {
+    connection.query(
+        `SELECT c.id AS id, c.user_id AS user_id, c.crypto_id AS crypto_id, c.body AS body, c.date_commented AS date_commented, c.comment_status AS comment_status, c.points AS points, p.comment_parent_id AS comment_parent_id, u.username AS username FROM crypto_comments c LEFT JOIN parents_children p ON c.id = p.comment_child_id LEFT JOIN users u ON c.user_id = u.id WHERE crypto_id=${crypto_id} ORDER BY date_commented`,
         (err, data) => {
             if (err) {
                 console.log(err);
@@ -132,8 +152,10 @@ assembleComments = (data) => {
             })
         }
     }
+    console.log("allComments156");
     console.log(allComments);
     return ({allComments});
+    
 }
 
 //this function converts new lines from the fake text box into line breaks, and urls into a tags.
@@ -155,8 +177,10 @@ convertURL = (str) => {
     return res.join('<br/>');
 }
 
-router.get('/crypto/comments', function (req,res) {
-    getAllComments(res)
+router.get('/forum/:crypto_id', function (req,res) {
+    console.log("req.params.crypto_id ");
+    console.log(req);
+    getAllComments(res, req.params.crypto_id)
 })
 
 router.post('/crypto/submit-comment', function (req, res){
@@ -176,7 +200,7 @@ router.post('/crypto/submit-comment', function (req, res){
                 console.log("data from submit query");
                 console.log(insertData);
                 if(comment_parent_id==0){//this means the submitted comment is a parent comment, can go straight to getAllComments
-                    getAllComments(res)
+                    getAllComments(res, crypto_id)
                 } else {//this means the submitted comment is a child comment, so must also update parents_children table
                     connection.query(
                         'INSERT INTO parents_children SET ?',
@@ -188,7 +212,7 @@ router.post('/crypto/submit-comment', function (req, res){
                             } else {
                                 console.log("data from submit query 2");
                                 console.log(insertData2);
-                                getAllComments(res)
+                                getAllComments(res, crypto_id)
                             }
                         }
                     )
@@ -210,7 +234,7 @@ router.post('/crypto/delete-comment', function (req, res){
                 console.log("error during delete");
                 console.log(err);
             } else {
-                getAllComments(res)
+                getAllComments(res, crypto_id)
             }
         }
     )

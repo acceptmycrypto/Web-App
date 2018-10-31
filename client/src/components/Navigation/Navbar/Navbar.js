@@ -71,10 +71,23 @@ class Navbar extends Component {
               </div>
           </li>
         </div>
-      </header>
-    );
-  }
+      <div className="Nav">
+        <li>
+          <Link to="/community">
+            <i className="fas fa-users" /> Community
+          </Link>
+        </li>
+        <li>
+          <i className="fas fa-bell" /> Notification
+        </li>
+        <li>
+          <Link to="/profile">Profile</Link>
+        </li>
+      </div>
+    </header>
+  );
 };
+}
 
 export default Navbar;
 

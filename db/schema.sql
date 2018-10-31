@@ -71,7 +71,7 @@ CREATE TABLE userQueries (
 
 CREATE TABLE admin_users (
 	id INT NOT NULL AUTO_INCREMENT,
-	email VARCHAR(255) NOT NULL UNIQUE,
+	email VARCHAR(255) UNIQUE,
 	password VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
 );
@@ -83,11 +83,11 @@ CREATE TABLE users(
 	-- when inserting into users table the value for email_verification_token should be uuid()
 	email_verification_token VARCHAR(255) NOT NULL,
 	username VARCHAR(30) NOT NULL UNIQUE,
-	first_name VARCHAR(255) NOT NULL,
-	last_name VARCHAR (255) NOT NULL,
+	first_name VARCHAR(255) NULL,
+	last_name VARCHAR (255) NULL,
 	phone_number VARCHAR(100) NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
-	password VARCHAR(30) BINARY NOT NULL,
+	password VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
 );
