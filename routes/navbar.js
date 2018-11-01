@@ -6,6 +6,8 @@ var methodOverride = require('method-override');
 
 var bodyParser = require('body-parser');
 
+var verifyToken =  require ("./utils/validation");
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -35,12 +37,13 @@ var connection = mysql.createConnection({
     database: 'crypto_db'
 });
 
-var id  = 1;
-router.get('/navbar/photo', function (req, res) {
+
+router.post('/navbar/photo',verifyToken, function (req, res) {
+    var id = req.decoded._id;
     connection.query('SELECT users_profiles.photo FROM users_profiles LEFT JOIN users ON users.id = users_profiles.user_id WHERE users.id = ?;', [id], function (error, results, fields) {
         if (error) throw error;
-        console.log(results);
-        res.json(results);
+        // console.log("photo:", results[0].photo);
+        res.json(results[0].photo);
     });
 });
 
