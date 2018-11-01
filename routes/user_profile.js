@@ -79,7 +79,7 @@ var connection = mysql.createConnection({
 router.post('/profile', verifyToken, function (req, res) {
     // var decoded = jwt.decode(token);
     // console.log(decoded);
-    var id = req.decoded._id
+    var id = req.decoded._id;
     connection.query('SELECT users.id, users.username, users.first_name, users.last_name, users.email, users_profiles.bio, users_profiles.photo, users_profiles.user_location, users_profiles.birthday  FROM users LEFT JOIN users_profiles ON users.id = users_profiles.user_id WHERE users.id = ?;', [id], function (error, results, fields) {
         if (error) throw error;
         res.json(results);
@@ -87,7 +87,7 @@ router.post('/profile', verifyToken, function (req, res) {
 });
 
 router.post('/profile/crypto', verifyToken, function (req, res) {
-    var id = req.decoded._id
+    var id = req.decoded._id;
     connection.query('SELECT users_cryptos.id, users_cryptos.user_id, users_cryptos.crypto_id, users_cryptos.crypto_address, crypto_info.crypto_metadata_name, crypto_info.crypto_logo, crypto_info.crypto_link, crypto_metadata.crypto_symbol, crypto_metadata.crypto_price   FROM users_cryptos LEFT JOIN crypto_info ON users_cryptos.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name WHERE users_cryptos.user_id = ?;', [id], function (error, results, fields) {
         if (error) throw error;
         res.json(results);
@@ -106,7 +106,7 @@ router.put('/profile/addAddress', function (req, res) {
 });
 
 router.post('/profile/friends', verifyToken, function (req, res) {
-    var id = req.decoded._id
+    var id = req.decoded._id;
     connection.query('SELECT users.id, users.username, users.first_name, users.last_name, users_profiles.photo, users_profiles.user_location FROM users LEFT JOIN users_profiles ON users.id = users_profiles.user_id WHERE users.id IN (SELECT matched_friend_id AS id FROM users_matched_friends WHERE user_id = ? AND both_accepted = 1)', [id], function (error, results, fields) {
         var shuffledfriendsArray = shuffle(results);
 
@@ -119,9 +119,9 @@ router.post('/profile/friends', verifyToken, function (req, res) {
 });
 
 router.post("/profile/user/transactions", verifyToken, function(req, res) {
-    var id = req.decoded._id
+    var id = req.decoded._id;
     connection.query(
-      "SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE users.id =? AND payment_received = ? ORDER BY users_purchases.date_purchased DESC",
+      'SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE users.id =? AND payment_received = ? ORDER BY users_purchases.date_purchased DESC',
       [id, 1], //1 is true for payment received //community means any user on acceptmycrypto platform
       function(error, results, fields) {
         if (error) throw error;
