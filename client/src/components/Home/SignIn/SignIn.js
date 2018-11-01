@@ -32,6 +32,9 @@ class SignIn extends Component {
 
     handleLogin(e) {
       e.preventDefault();
+
+      const { history } = this.props;
+
       let email = e.target.children[0].children[1].value;
       let password = e.target.children[1].children[1].value;
 
@@ -42,7 +45,8 @@ class SignIn extends Component {
             if (res.token){
               localStorage.setItem('token', res.token);
               console.log(res.token);
-              alert("You're login");
+              //redirect user to the feed/deals
+              history.push('/feed/deals');
             }else{
               console.log("Login error: ", res);
               alert(res.err);
