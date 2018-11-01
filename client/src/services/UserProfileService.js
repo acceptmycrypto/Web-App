@@ -1,15 +1,15 @@
 
-export async function _updateCryptoTable (id, crypto_address){
-        const settings = {
+export async function _updateCryptoTable (crypto_address,id, token){
+        const crypto_settings = {
             method: "POST",
             headers: {
               "Accept": "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id, crypto_address })
+            body: JSON.stringify({crypto_address, id, token})
           };
       
-          const data = await fetch("http://localhost:3001/profile/addAddress?_method=PUT", settings)
+          const data = await fetch("http://localhost:3001/profile/addAddress?_method=PUT", crypto_settings)
             .then(response => response.json())
             .then(json => {
               return json;
@@ -17,11 +17,21 @@ export async function _updateCryptoTable (id, crypto_address){
             .catch(e => {
               return e
             });
+
+        const user_settings  = {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({token})
+        };
+          
       
-          const userProfileData = await fetch("http://localhost:3001/profile");
+          const userProfileData = await fetch("http://localhost:3001/profile", user_settings);
           const user_info = await userProfileData.json();
       
-          const userCryptoData = await fetch("http://localhost:3001/profile/crypto");
+          const userCryptoData = await fetch("http://localhost:3001/profile/crypto", user_settings);
           const user_crypto = await userCryptoData.json();
           const crypto_view = await "owned";
           const add_address = await false;
