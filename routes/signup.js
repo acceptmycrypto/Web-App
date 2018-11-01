@@ -77,6 +77,17 @@ router.post('/register', function(req, res) {
                     if (error) throw error;
                     userID = result[0].id;
 
+                    let photo = ['fa-user-secret', 'fa-user-circle', 'fa-user-astronaut', 'fa-user-tie', 'fa-user'];
+                    let photo_index = Math.floor(Math.random() * (4 - 0 + 1)) + 0;
+
+                    connection.query(
+                      'INSERT INTO users_profiles (user_id, photo ) VALUES(?,?)',
+                      [result[0].id, photo[photo_index], ],
+                      function(error, result, fields) {
+                        if (error) throw error;
+                      }
+                    );
+
                     //use sendgrid to send email
                     let link = "http://localhost:3001/email-verify/" + userID + "/" + result[0].email_verification_token;
 
@@ -88,6 +99,9 @@ router.post('/register', function(req, res) {
                     };
                     sgMail.send(email_verification);
                   }
+
+                  
+                  
                 );
 
                 //insert selected cryptos into users_cryptos table
@@ -115,6 +129,8 @@ router.post('/register', function(req, res) {
                       function(error, user_cryptos, fields) {
                         if (error) throw error;
                       }
+
+  
                     );
 
                   }

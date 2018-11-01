@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import "./UserProfile.css";
-import FeedFriends from "../../Feed/MatchedFriends";
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import coinAddressValidator from "coin-address-validator";
 import ProfileCard from "../ProfileCard";
 import CryptoCard from "../CryptoCard";
 import CryptoAddress from "../CryptoAddress";
 import FriendCard from "../FriendCard";
 import ProfileFeed from "../ProfileFeed";
-import { _updateCryptoTable, _loadProfile } from "../../../services/UserProfileService";
+import { _updateCryptoTable, _loadProfile, _verifyUser } from "../../../services/UserProfileService";
 
 
 class UserProfile extends Component {
@@ -169,28 +168,33 @@ class UserProfile extends Component {
     let id = this.state.users_cryptos_id;
     let current_crypto_name = this.state.current_crypto_name.trim();
     let crypto_address = event.target.children[0].value;
-    let validAddress = false;
+    let validAddress;
+
+    // TO DO: FIX LITECOIN VALIATION ISSUE
 
     // coin-address-validator does not list Verge as a supported currency type to validate by currency name so will validate manually
     if (current_crypto_name === "Verge" && crypto_address.indexOf(" ") === -1 && crypto_address[0] === "D" && crypto_address.length === 34) {
       validAddress = true;
 
-    } else if (crypto_address > 20) {
+    } else if (crypto_address > 20 && coinAddressValidator.validate(crypto_address, current_crypto_name)) {
       // use coin-address-validator to validate the crypto address for the specific crypto selected
       validAddress = coinAddressValidator.validate(crypto_address, current_crypto_name)
+ 
+  
     } else {
       validAddress = false;
+      
     }
 
     if (validAddress) {
 
-      this.updateCryptoTable(id, crypto_address).then(res => {
+      this.updateCryptoTable(crypto_address, id).then(res => {
         // update users crypto wallet address in database
-
+      
         //update state
         let { user_info, user_crypto, crypto_view, add_address } = res;
         this.setState({ user_info, user_crypto, crypto_view, add_address });
-
+      
         //set toggle button checked = false
         document.querySelector("#togBtn").checked = false;
 
@@ -205,20 +209,35 @@ class UserProfile extends Component {
   }
 
   // update database with users new added wallet address
-  updateCryptoTable = (id, crypto_address) => {
-    return _updateCryptoTable(id, crypto_address);
+  updateCryptoTable = (crypto_address, id) => {
+    return _updateCryptoTable(crypto_address, id, localStorage.getItem('token'));
   }
 
 
   componentDidMount() {
+    // await _verifyUser(localStorage.getItem('token')).then((data) => this.setState({
+    //   temp_user: data.user
 
-    return _loadProfile()
-      .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
-        user_info,
-        user_crypto,
-        friends_array,
-        transactions
-      }));
+    // }));
+    return _loadProfile(localStorage.getItem('token')).then(res => {
+      // console.log(res);
+
+      let { user_info, user_crypto, friends_array, transactions } = res;
+      // console.log(user_info, user_crypto, friends_array, transactions);
+     
+      this.setState({ user_info, user_crypto, friends_array, transactions });
+      
+    });
+
+
+
+
+      // .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
+      //   user_info,
+      //   user_crypto,
+      //   friends_array,
+      //   transactions
+      // }));
 
   }
 
@@ -249,8 +268,7 @@ class UserProfile extends Component {
           <ProfileFeed transactions={this.state.transactions} />
         </div>
 
-        <div className="width-20 mr-3">
-
+        <div className="width-20 mr-3">       
           <FriendCard friends_array={this.state.friends_array} />
         </div>
 

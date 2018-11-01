@@ -5,6 +5,9 @@ var router = express.Router();
 var methodOverride = require('method-override');
 
 var bodyParser = require('body-parser');
+var jwt = require('jsonwebtoken');
+var keys = require("../key");
+var verifyToken =  require ("./utils/validation");
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,16 +37,57 @@ var connection = mysql.createConnection({
     password: 'password',
     database: 'crypto_db'
 });
-var id = 1;
 
-router.get('/profile', function (req, res) {
+
+
+// function verifyToken (req, res, next) {
+//     // check header or url parameters or post parameters for token
+//     var token = req.body.token || req.query.token || req.headers['x-access-token'];
+//     console.log(token);
+//     if (token) {
+//         jwt.verify(token, keys.JWT_SECRET, (err, decod) => {
+//             if (err) {
+//                 res.status(403).json({
+//                     message: "Wrong Token"
+//                 });
+//             } else {
+//                 req.decoded = decod;
+//                 next();
+//             }
+//         });
+//     } else {
+//         res.status(403).json({
+//             message: "No Token"
+//         });
+//         console.log(token);
+//     }
+//   }
+
+// router.post('/user', verifyToken, function(req, res){
+//     // var token = req.body.token || req.query.token;
+//     // if (!token) {
+//     //     return res.status(401).json({message: 'Must pass token'});
+//     // }
+//     // var dec = jwt.verify(token, keys.JWT_SECRET);
+//     // console.log("this is decoded:", dec);
+//     console.log('this is:',  req.decoded._id);
+    
+
+// });
+
+
+router.post('/profile', verifyToken, function (req, res) {
+    // var decoded = jwt.decode(token);
+    // console.log(decoded);
+    let id = req.decoded._id;
     connection.query('SELECT users.id, users.username, users.first_name, users.last_name, users.email, users_profiles.bio, users_profiles.photo, users_profiles.user_location, users_profiles.birthday  FROM users LEFT JOIN users_profiles ON users.id = users_profiles.user_id WHERE users.id = ?;', [id], function (error, results, fields) {
         if (error) throw error;
         res.json(results);
     });
 });
 
-router.get('/profile/crypto', function (req, res) {
+router.post('/profile/crypto', verifyToken, function (req, res) {
+    let id = req.decoded._id;
     connection.query('SELECT users_cryptos.id, users_cryptos.user_id, users_cryptos.crypto_id, users_cryptos.crypto_address, crypto_info.crypto_metadata_name, crypto_info.crypto_logo, crypto_info.crypto_link, crypto_metadata.crypto_symbol, crypto_metadata.crypto_price   FROM users_cryptos LEFT JOIN crypto_info ON users_cryptos.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name WHERE users_cryptos.user_id = ?;', [id], function (error, results, fields) {
         if (error) throw error;
         res.json(results);
@@ -51,21 +95,23 @@ router.get('/profile/crypto', function (req, res) {
 });
 
 
-router.put('/profile/addAddress', function (req, res) {
+router.put('/profile/addAddress', verifyToken, function (req, res) {
     let { id, crypto_address } = req.body
+    let user_id = req.decoded._id;
     console.log(id, crypto_address);
-    connection.query('UPDATE users_cryptos SET ? WHERE ?', [{ crypto_address }, { id }], function (error, results, fields) {
+    connection.query('UPDATE users_cryptos SET ? WHERE  ? AND ?', [{ crypto_address }, { id }, {user_id}], function (error, results, fields) {
         if (error) throw error;
 
         res.json(results);
     });
 });
 
-router.get('/profile/friends', function (req, res) {
+router.post('/profile/friends', verifyToken, function (req, res) {
+    let id = req.decoded._id;
     connection.query('SELECT users.id, users.username, users.first_name, users.last_name, users_profiles.photo, users_profiles.user_location FROM users LEFT JOIN users_profiles ON users.id = users_profiles.user_id WHERE users.id IN (SELECT matched_friend_id AS id FROM users_matched_friends WHERE user_id = ? AND both_accepted = 1)', [id], function (error, results, fields) {
-        var shuffledfriendsArray = shuffle(results);
+        let shuffledfriendsArray = shuffle(results);
 
-        var friendsArray = shuffledfriendsArray.slice(0,11);
+        let friendsArray = shuffledfriendsArray.slice(0,11);
 
         res.json(friendsArray);
 
@@ -73,9 +119,10 @@ router.get('/profile/friends', function (req, res) {
 
 });
 
-router.get("/profile/user/transactions", function(req, res) {
+router.post("/profile/user/transactions", verifyToken, function(req, res) {
+    let id = req.decoded._id;
     connection.query(
-      "SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE users.id =? AND payment_received = ?",
+      'SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE users.id =? AND payment_received = ? ORDER BY users_purchases.date_purchased DESC',
       [id, 1], //1 is true for payment received //community means any user on acceptmycrypto platform
       function(error, results, fields) {
         if (error) throw error;
@@ -84,8 +131,9 @@ router.get("/profile/user/transactions", function(req, res) {
     );
   });
 
+
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+  let currentIndex = array.length, temporaryValue, randomIndex;
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
