@@ -65,7 +65,7 @@ router.post("/checkout", function(req, res) {
           [req.body.crypto_name],
           function(error, cryptoID, fields) {
             if (error) console.log(error);
-            console.log("Crypto ID", cryptoID);
+
             connection.query(
               "INSERT INTO users_purchases SET ?",
               {

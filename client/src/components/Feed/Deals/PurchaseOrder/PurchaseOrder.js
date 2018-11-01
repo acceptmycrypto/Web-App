@@ -22,7 +22,7 @@ const PurchaseOrder = props => {
       </form>
 
       {props.paymentButtonClicked ?
-      <Checkout showTransaction={props.transactionInfo} showPaidIn={props.PaidIn}/> : null}
+      <Checkout showTimeout={props.timeout} showTransaction={props.transactionInfo} showPaidIn={props.cryptoSymbol}/> : null}
 
     </div>
   );

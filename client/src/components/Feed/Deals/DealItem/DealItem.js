@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { _loadDealItem } from "../../../../services/DealServices";
+import { _loadDealItem, _fetchTransactionInfo } from "../../../../services/DealServices";
 import "./DealItem.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -24,7 +24,7 @@ class DealItem extends Component {
       zipcode: null,
       shippingState: null,
       transactionInfo: null,
-      paidIn: "",
+      paidIn: null,
       purchasing: false
     };
   }
@@ -47,8 +47,6 @@ class DealItem extends Component {
 
   handleSelectedCrypto = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-    console.log("Deal Item: ", this.state.dealItem);
   }
 
   //set the options to delect crypto from
@@ -70,6 +68,21 @@ class DealItem extends Component {
 
   convertToPercentage = (priceInDollar, priceInCrypto) => {
     return parseInt(((priceInDollar - priceInCrypto) / priceInDollar) * 100)
+  }
+
+  convertSecondToMinute = (sec) => {
+
+      sec = Number(sec);
+      let h = Math.floor(sec / 3600); //1400
+      let m = Math.floor(sec % 3600 / 60); //0
+      let s = Math.floor(sec % 3600 % 60); //0
+
+      let hDisplay = h > 0 ? h + (":") : "00:";
+      let mDisplay = m > 0 ? m + (":") : "00:";
+      let sDisplay = s > 0 ? s : "00";
+
+      return hDisplay + mDisplay + sDisplay;
+
   }
 
   handleCustomizingSize = event => {
@@ -111,25 +124,14 @@ class DealItem extends Component {
     let crypto_symbol = this.state.selectedOption.value;
     let crypto_name = this.state.selectedOption.name;
 
-    console.log("called from create payment", deal_id, amount, user_id, crypto_symbol, crypto_name);
-
-    return fetch('http://localhost:3001/checkout', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ crypto_name, crypto_symbol, deal_id, user_id, amount })
-    })
-      .then(res => res.json())
-      .then(transactionInfo => {
-        this.setState(
-          { transactionInfo,
-            paidIn: crypto_symbol,
-            purchasing: true
-          });
-        console.log("Transaction Info: ", this.state.transactionInfo);
-      });
+    return _fetchTransactionInfo(crypto_name, crypto_symbol, deal_id, user_id, amount)
+    .then(transactionInfo => {
+      this.setState(
+        { transactionInfo,
+          paidIn: crypto_symbol,
+          purchasing: true
+        });
+    });
   };
 
   render() {
@@ -155,8 +157,9 @@ class DealItem extends Component {
         selectCrypto={this.handleSelectedCrypto}
         SubmitPayment={this.createPaymentHandler}
         transactionInfo={this.state.transactionInfo}
-        paidIn={this.state.paidIn}
-        paymentButtonClicked={this.state.purchasing}/> }
+        cryptoSymbol={this.state.paidIn}
+        paymentButtonClicked={this.state.purchasing}
+        timeout={this.state.transactionInfo && this.convertSecondToMinute(this.state.transactionInfo.timeout)}/> }
     ];
 
     return (

@@ -5,4 +5,13 @@
 .send-payment img {
   height: 100px;
   width: 100px;
+  margin: 0 10px;
 }
+
+.send-payment-header {
+  line-height: 1;
+}
+.payment-address {
+  line-height: .5;
+}
+
