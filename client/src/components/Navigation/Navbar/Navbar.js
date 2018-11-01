@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
+import { _loadPhoto } from "../../../services/NavbarService";
 
 class Navbar extends Component {
   constructor() {
@@ -14,11 +15,12 @@ class Navbar extends Component {
 
   componentDidMount() {
 
-    return fetch(`http://localhost:3001/navbar/photo`)
-      .then((res) => res.json())
-      .then(photo => this.setState({
-        photo: photo[0].photo
-      }));
+    return _loadPhoto (localStorage.getItem('token')).then(photo => {
+      this.setState({
+        photo
+      })
+
+    });
   }
   render() {
     console.log(this.state);
@@ -61,7 +63,8 @@ class Navbar extends Component {
         <li>
         <div className="dropdown show m-0 p-0">
             <div className="dropdown-toggle picture-toggle m-0 p-0"  id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className={'fas mt-1 pt-1 px-2 user-icon-navbar ' + this.state.photo}></i>
+              <i className={'fas mt-1 pt-1 px-2 user-icon-navbar ' + this.state.photo.photo}></i>
+              
             </div>
 
             <div className="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
