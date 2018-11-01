@@ -137,6 +137,7 @@ class SignUp extends Component {
                   name="username"
                   value={this.state.username}
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               <div className="FormField">
@@ -151,6 +152,7 @@ class SignUp extends Component {
                   name="email"
                   value={this.state.email}
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               <div className="FormField">
@@ -165,6 +167,7 @@ class SignUp extends Component {
                   name="password"
                   value={this.state.password}
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               {/* <div className="FormField">
@@ -184,12 +187,14 @@ class SignUp extends Component {
                   Your Cryptocurrency Portfolio
                 </label>
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
-                <Select
+                <Select 
+                  required
                   value={selectedOptions}
                   onChange={this.handleDropdownChange}
                   options={options}
                   isMulti={true}
                   autoBlur={false}
+                  
                 />
               </div>
 
