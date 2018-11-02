@@ -35,13 +35,21 @@ CREATE TABLE deals (
 	venue_id INT NOT NULL,
 	deal_name VARCHAR(255) NOT NULL,
 	deal_description VARCHAR(255) NOT NULL,
-	deal_image VARCHAR(255) NOT NULL,
+  featured_deal_image VARCHAR(255) NOT NULL,
 	pay_in_dollar DECIMAL(10,2) NOT NULL,
 	pay_in_crypto DECIMAL(10, 2) NOT NULL,
 	date_expired DATETIME NULL,
 	date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (venue_id) REFERENCES venues(id)
+);
+
+CREATE TABLE deal_images (
+	id INT NOT NULL AUTO_INCREMENT,
+  deal_id INT NOT NULL,
+  deal_image VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
 -- create a junction table for many-to-many association
@@ -126,7 +134,6 @@ CREATE TABLE users_purchases(
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
 	crypto_id INT NOT NULL,
-	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	amount DECIMAL(20, 8) NOT NULL,
 	txn_id VARCHAR(255) NOT NULL,

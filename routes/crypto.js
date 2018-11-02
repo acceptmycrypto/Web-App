@@ -29,36 +29,36 @@ router.get('/', function(req, res) {
   res.redirect('/cryptos');
 });
 
-// router.get('/cryptos', function(req, res) {
-//   connection.query(
-//     'SELECT crypto_id, count(venue_id) as total FROM cryptos_venues GROUP BY crypto_id',
-//     function(err, venues_count, fields) {
-//       for (var i in venues_count) {
-//         connection.query(
-//           'UPDATE crypto_metadata SET ? WHERE ?',
-//           [
-//             { venues_count: venues_count[i].total },
-//             { id: venues_count[i].crypto_id }
-//           ],
-//           function(err, res) {
-//             if (err) {
-//               console.log(err);
-//             }
-//           }
-//         );
-//       }
+router.get('/cryptos', function(req, res) {
+  connection.query(
+    'SELECT crypto_id, count(venue_id) as total FROM cryptos_venues GROUP BY crypto_id',
+    function(err, venues_count, fields) {
+      for (var i in venues_count) {
+        connection.query(
+          'UPDATE crypto_metadata SET ? WHERE ?',
+          [
+            { venues_count: venues_count[i].total },
+            { id: venues_count[i].crypto_id }
+          ],
+          function(err, res) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
+      }
 
-//       connection.query(
-//         'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
-//         function(err, data, fields) {
-//           res.render('pages/index', {
-//             cryptos: data
-//           });
-//         }
-//       );
-//     }
-//   );
-// });
+      connection.query(
+        'SELECT * FROM crypto_metadata LEFT JOIN crypto_info ON crypto_metadata.crypto_name = crypto_info.crypto_metadata_name ORDER by venues_count DESC',
+        function(err, data, fields) {
+          res.render('pages/index', {
+            cryptos: data
+          });
+        }
+      );
+    }
+  );
+});
 
 //crypto detail
 router.get('/cryptos/:crypto', function(req, res) {

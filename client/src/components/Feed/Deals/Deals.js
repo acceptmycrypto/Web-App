@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import Modal from '../../UI/Modal/Modal'
-import Checkout from '../../Checkout/Checkout'
 import CryptoRankings from '../../CryptosRanking';
 import { _loadDeals } from "../../../services/DealServices";
 import './Deals.css';
@@ -39,7 +37,7 @@ class Deals extends Component {
                 <Link to={`/feed/deals/${deal.deal_name}`} style={{ textDecoration: 'none', color: "black" }} >
 
                     <div className="deal-info">
-                      <img className="deal-image" src={deal.deal_image} alt="deal"/>
+                      <img className="deal-image" src={deal.featured_deal_image} alt="deal"/>
                       <div className="mt-1">{deal.deal_name}</div>
                       <small className="deal-description">{deal.deal_description}</small>
                       <div><small>Offered by: {deal.venue_name}</small></div>
@@ -49,7 +47,7 @@ class Deals extends Component {
                       <div className="price-differ">
                         <div>
                           <div className="purchase-method">Dollar</div>
-                          <strike>${deal.pay_in_dollar}</strike>
+                          <div>${deal.pay_in_dollar}</div>
                         </div>
                         <div>
                           <div className="purchase-method">Cryptocurrency</div>
