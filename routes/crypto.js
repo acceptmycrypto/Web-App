@@ -107,6 +107,7 @@ router.get('/community', function(req, res) {
 
 // this function joins crypto_comments to parents_children to users, gets relevant columns back, then feeds it all to assembleComments()
 getAllComments = (res, crypto_id) => {
+    let cryptoName = '';
     connection.query(
         `SELECT c.id AS id, c.user_id AS user_id, c.crypto_id AS crypto_id, c.body AS body, c.date_commented AS date_commented, c.comment_status AS comment_status, c.points AS points, p.comment_parent_id AS comment_parent_id, u.username AS username FROM crypto_comments c LEFT JOIN parents_children p ON c.id = p.comment_child_id LEFT JOIN users u ON c.user_id = u.id WHERE crypto_id=${crypto_id} ORDER BY date_commented`,
         (err, data) => {
@@ -115,10 +116,22 @@ getAllComments = (res, crypto_id) => {
             } else {
                 // console.log(data);
                 let assembledData = assembleComments(data);
-                // connection.query(
-                //     `SELECT * from crypto_info WHERE id=${crypto_id}`,
-                // )
-                res.json(assembledData);
+                connection.query(
+                    `SELECT * from crypto_info WHERE id=${crypto_id}`,
+                    (err2, data2) => {
+                        if (err2) {
+                            console.log(err2);
+                        } else {
+                            console.log(data2);
+                            cryptoName = data2[0].crypto_metadata_name;
+                            assembledData.cryptoName = cryptoName;
+                            console.log('assembledData');
+                            console.log(assembledData);
+                            res.json(assembledData);
+                        }
+                    }
+                )
+                
             }
         }
     )
@@ -153,8 +166,8 @@ assembleComments = (data) => {
             })
         }
     }
-    // console.log("allComments156");
-    // console.log(allComments);
+    console.log("allComments156");
+    console.log(allComments);
     return ({allComments});
     
 }
