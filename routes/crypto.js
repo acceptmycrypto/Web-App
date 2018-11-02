@@ -171,7 +171,8 @@ router.post('/crypto/submit-comment', verifyToken, function (req, res){
     let user_id, crypto_id, body, comment_parent_id;
     user_id = req.decoded._id;
     ({crypto_id, body, comment_parent_id} = req.body);
-    //---
+    //this next chunk of code will parse thru the submitted comment and turn it into html in string form
+    //if there is an url, the url will turn into an a tag in string form
     let arr = body.split('\n');
     let regExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
     //regular expression for validating urls
@@ -191,7 +192,7 @@ router.post('/crypto/submit-comment', verifyToken, function (req, res){
         return res2.join(' ')
     })
     body = body.join('<br/>');
-    //---
+    //this next chunk of code will, if there is a valid url, scrape the url for info, and append available info as html in string form before inserting into database
     request(url, function(error, response, html) {
         if (url==''){
             //do nothing
