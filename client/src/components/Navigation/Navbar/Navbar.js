@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
+import Notification from "../Notification";
 import { _loadPhoto } from "../../../services/NavbarService";
+
 
 class Navbar extends Component {
   constructor() {
@@ -58,12 +60,12 @@ class Navbar extends Component {
         </div>
       <div className="Nav">
         <li>
+          <Notification />
+        </li>
+        <li>
           <Link to="/community">
             <i className="fas fa-users" /> Community
           </Link>
-        </li>
-        <li>
-          <i className="fas fa-bell" /> Notification
         </li>
         <li>
         <div className="dropdown show m-0 p-0">
@@ -78,6 +80,7 @@ class Navbar extends Component {
               <Link onClick={this.logout} className="dropdown-item" to="/">Logout</Link>
             </div>
           </div>
+
         </li>
       </div>
     </header>
