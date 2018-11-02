@@ -52,6 +52,7 @@ li {
   /* font-size: 40px; */
   font-size: 2rem;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .picture-toggle::after {
