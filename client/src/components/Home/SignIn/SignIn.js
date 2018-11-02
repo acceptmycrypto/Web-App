@@ -32,6 +32,9 @@ class SignIn extends Component {
 
     handleLogin(e) {
       e.preventDefault();
+
+      const { history } = this.props;
+
       let email = e.target.children[0].children[1].value;
       let password = e.target.children[1].children[1].value;
 
@@ -42,7 +45,12 @@ class SignIn extends Component {
             if (res.token){
               localStorage.setItem('token', res.token);
               console.log(res.token);
-              alert("You're login");
+<<<<<<< HEAD
+              alert("You've successfully logged in");
+=======
+              //redirect user to the feed/deals
+              history.push('/feed/deals');
+>>>>>>> d0935188edd137b26df9d69198cc64fade681fa8
             }else{
               console.log("Login error: ", res);
               alert(res.err);
@@ -81,12 +89,12 @@ class SignIn extends Component {
             <form onSubmit={this.handleLogin} className="FormFields">
             <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
-                <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} />
+                <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} required />
               </div>
 
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="password">Password</label>
-                <input type="password" id="password" className="FormField__Input" placeholder="Enter your password" name="password" value={this.state.password} onChange={this.handleChange} />
+                <input type="password" id="password" className="FormField__Input" placeholder="Enter your password" name="password" value={this.state.password} onChange={this.handleChange} required />
               </div>
 
               <div className="FormField">

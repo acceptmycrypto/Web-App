@@ -46,11 +46,11 @@ router.get("/api/transactions/community/payment_received", function(req, res) {
 router.post("/checkout", function(req, res) {
   //Inserting to user_purchases table, this doens't mean purchase is successful
   //Need to listen to IPA when payment has recieved and then update payment_recieved to true
-
+  console.log(req.body);
   client.createTransaction(
     {
       currency1: "USD",
-      currency2: req.body.crypto_name, // The currency the buyer will be sending.
+      currency2: req.body.crypto_symbol, // The currency the buyer will be sending.
       amount: req.body.amount // Expected amount to pay, where the price is expressed in currency1
     },
     function(err, paymentInfo) {
@@ -61,25 +61,35 @@ router.post("/checkout", function(req, res) {
         res.json(paymentInfo);
 
         connection.query(
-          "INSERT INTO users_purchases SET ?",
-          {
-            user_id: req.body.user_id,
-            deal_id: req.body.deal_id,
-            crypto_name: req.body.crypto_name,
-            amount: paymentInfo.amount,
-            txn_id: paymentInfo.txn_id, //coinpayment transaction address
-            address: paymentInfo.address, //coinpayment temporary address
-            confirms_needed: paymentInfo.confirms_needed,
-            timeout: paymentInfo.timeout, //in seconds
-            status_url: paymentInfo.status_url,
-            qrcode_url: paymentInfo.qrcode_url
-          },
-          function(err, transactionInitiated) {
-            if (err) {
-              console.log(err);
-            }
+          'SELECT crypto_info.id FROM crypto_info LEFT JOIN crypto_metadata ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name WHERE crypto_name = ?',
+          [req.body.crypto_name],
+          function(error, cryptoID, fields) {
+            if (error) console.log(error);
+
+            connection.query(
+              "INSERT INTO users_purchases SET ?",
+              {
+                user_id: req.body.user_id,
+                deal_id: req.body.deal_id,
+                crypto_id: cryptoID[0].id,
+                amount: paymentInfo.amount,
+                txn_id: paymentInfo.txn_id, //coinpayment transaction address
+                address: paymentInfo.address, //coinpayment temporary address
+                confirms_needed: paymentInfo.confirms_needed,
+                timeout: paymentInfo.timeout, //in seconds
+                status_url: paymentInfo.status_url,
+                qrcode_url: paymentInfo.qrcode_url
+              },
+              function(err, transactionInitiated) {
+                if (err) {
+                  console.log(err);
+                }
+              }
+            );
+
           }
         );
+
       }
     }
   );

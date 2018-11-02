@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
+import Notification from "../Notification";
 import { _loadPhoto } from "../../../services/NavbarService";
+
 
 class Navbar extends Component {
   constructor() {
@@ -13,7 +15,7 @@ class Navbar extends Component {
 
   }
 
-  logOut = (event) =>{
+  logOut = () =>{
  
     localStorage.removeItem('token');
     this.props.history.push('/');
@@ -28,6 +30,8 @@ class Navbar extends Component {
 
     });
   }
+
+
   render() {
     console.log(this.state);
     return (
@@ -59,26 +63,28 @@ class Navbar extends Component {
         </div>
       <div className="Nav">
         <li>
+          <Notification />
+        </li>
+        <li>
           <Link to="/community">
             <i className="fas fa-users" /> Community
           </Link>
         </li>
         <li>
-          <i className="fas fa-bell" /> Notification
-        </li>
-        <li>
         <div className="dropdown show m-0 p-0">
             <div className="dropdown-toggle picture-toggle m-0 p-0"  id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i className={'fas mt-1 pt-1 px-2 user-icon-navbar ' + this.state.photo.photo}></i>
-              
+
             </div>
 
             <div className="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
               <Link className="dropdown-item" to="/profile">Profile</Link>
               <Link className="dropdown-item" to="/settings">Settings</Link>
               <Link className="dropdown-item" to="/" onClick={this.logOut} >Logout</Link>
+
             </div>
           </div>
+
         </li>
       </div>
     </header>
