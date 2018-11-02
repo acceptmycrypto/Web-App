@@ -12,10 +12,10 @@ class Layout extends Component {
 
   }
 
+
   componentDidMount (){
     
     return _isLoggedIn (localStorage.getItem('token')).then(user => {
-      debugger;
       if(user.message == "Right Token"){
   
         this.setState({
@@ -33,6 +33,7 @@ class Layout extends Component {
 
 
   render (){
+
   return (
     <div>
       {this.state.user && <Navbar /> }
