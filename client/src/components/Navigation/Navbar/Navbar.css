@@ -42,3 +42,18 @@ li {
 .nav-left .Search {
   width: 18%;
 }
+
+.user-icon-navbar{
+  display: flex;
+  justify-content: center;
+  color: white;
+  background-image: linear-gradient(-85deg, #49cdb7, #1ab7db); 
+  width: 100%;
+  /* font-size: 40px; */
+  font-size: 2rem;
+  border-radius: 5px;
+}
+
+.picture-toggle::after {
+  display:none;
+}

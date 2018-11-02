@@ -35,13 +35,21 @@ CREATE TABLE deals (
 	venue_id INT NOT NULL,
 	deal_name VARCHAR(255) NOT NULL,
 	deal_description VARCHAR(255) NOT NULL,
-	deal_image VARCHAR(255) NOT NULL,
+  featured_deal_image VARCHAR(255) NOT NULL,
 	pay_in_dollar DECIMAL(10,2) NOT NULL,
 	pay_in_crypto DECIMAL(10, 2) NOT NULL,
 	date_expired DATETIME NULL,
 	date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (venue_id) REFERENCES venues(id)
+);
+
+CREATE TABLE deal_images (
+	id INT NOT NULL AUTO_INCREMENT,
+  deal_id INT NOT NULL,
+  deal_image VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
 -- create a junction table for many-to-many association
@@ -71,7 +79,7 @@ CREATE TABLE userQueries (
 
 CREATE TABLE admin_users (
 	id INT NOT NULL AUTO_INCREMENT,
-	email VARCHAR(255) NOT NULL UNIQUE,
+	email VARCHAR(255) UNIQUE,
 	password VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
 );
@@ -83,11 +91,11 @@ CREATE TABLE users(
 	-- when inserting into users table the value for email_verification_token should be uuid()
 	email_verification_token VARCHAR(255) NOT NULL,
 	username VARCHAR(30) NOT NULL UNIQUE,
-	first_name VARCHAR(255) NOT NULL,
-	last_name VARCHAR (255) NOT NULL,
+	first_name VARCHAR(255) NULL,
+	last_name VARCHAR (255) NULL,
 	phone_number VARCHAR(100) NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
-	password VARCHAR(30) BINARY NOT NULL,
+	password VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
 );
@@ -126,7 +134,6 @@ CREATE TABLE users_purchases(
 	user_id INT NOT NULL,
 	deal_id INT NOT NULL,
 	crypto_id INT NOT NULL,
-	crypto_name VARCHAR(255) NOT NULL,
 	date_purchased TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	amount DECIMAL(20, 8) NOT NULL,
 	txn_id VARCHAR(255) NOT NULL,
@@ -136,6 +143,7 @@ CREATE TABLE users_purchases(
 	status_url VARCHAR(255) NULL,
 	qrcode_url VARCHAR(255) NOT NULL,
 	payment_received BOOLEAN NOT NULL DEFAULT FALSE,
+	permission VARCHAR(255) NOT NULL DEFAULT "community",
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (crypto_id) REFERENCES crypto_info(id),
@@ -148,6 +156,7 @@ CREATE TABLE users_matched_friends(
 	matched_friend_id INT NOT NULL,
 	date_matched TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	user_accepted BOOLEAN NOT NULL DEFAULT FALSE,
+	both_accepted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (matched_friend_id) REFERENCES users(id)

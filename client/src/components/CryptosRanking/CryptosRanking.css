@@ -18,6 +18,7 @@ thead {
   color: rgb(22, 190, 182);
 }
 
+/* Simon please add a class to your img tags so that it won't affect other pages */ 
 img {
   width: 12px;
 }

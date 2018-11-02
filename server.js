@@ -28,12 +28,14 @@ app.use(function(req, res, next) {
 });
 
 //routers
+var navbarRoutes = require("./routes/navbar.js");
 var adminRoutes = require("./routes/admin.js");
 var venueRoutes = require("./routes/venue.js");
 var cryptoRoutes = require("./routes/crypto.js");
 var apiRoutes = require("./routes/api.js");
 var supportRoutes = require("./routes/support.js");
 var userProfileRoutes = require("./routes/user_profile.js");
+var friendProfileRoutes = require("./routes/friend_profile.js");
 var matchedFriendsRoutes = require("./routes/matched_friends.js");
 var dealsRoutes = require("./routes/deals.js");
 var signUpRoutes = require('./routes/signup.js');
@@ -56,12 +58,14 @@ app.use(
 );
 app.use(flash());
 
+app.use("/", navbarRoutes);
 app.use("/", adminRoutes);
 app.use("/", venueRoutes);
 app.use("/", cryptoRoutes);
 app.use("/", apiRoutes);
 app.use("/", supportRoutes);
 app.use("/", userProfileRoutes);
+app.use("/", friendProfileRoutes);
 app.use("/", matchedFriendsRoutes);
 app.use("/", dealsRoutes);
 app.use('/', signUpRoutes);
