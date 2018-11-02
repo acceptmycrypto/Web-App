@@ -47,7 +47,7 @@ router.post('/api/deals', verifyToken, function(req, res) {
 
             //query the deals that offered by those venues
             connection.query(
-              'SELECT deals.id, deals.deal_name, deals.deal_description, deals.deal_image, deals.pay_in_dollar, deals.pay_in_crypto, venues.venue_name, venues.venue_link FROM deals LEFT JOIN venues ON deals.venue_id = venues.id WHERE ?',
+              'SELECT deals.id, deals.deal_name, deals.deal_description, deals.featured_deal_image, deals.pay_in_dollar, deals.pay_in_crypto, venues.venue_name, venues.venue_link FROM deals LEFT JOIN venues ON deals.venue_id = venues.id WHERE ?',
               venuesID,
               function(error, results, fields) {
                 if (error) console.log(error);
