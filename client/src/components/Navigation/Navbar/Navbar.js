@@ -13,6 +13,12 @@ class Navbar extends Component {
 
   }
 
+  logOut = (event) =>{
+ 
+    localStorage.removeItem('token');
+    this.props.history.push('/');
+  }
+
   componentDidMount() {
 
     return _loadPhoto (localStorage.getItem('token')).then(photo => {
@@ -70,6 +76,7 @@ class Navbar extends Component {
             <div className="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
               <Link className="dropdown-item" to="/profile">Profile</Link>
               <Link className="dropdown-item" to="/settings">Settings</Link>
+              <Link className="dropdown-item" to="/" onClick={this.logOut} >Logout</Link>
             </div>
           </div>
         </li>
