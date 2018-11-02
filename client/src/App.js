@@ -17,7 +17,7 @@ import FeedDeals from "./components/Feed/Deals";
 import DealItem from "./components/Feed/Deals/DealItem";
 import FeedFriends from "./components/Feed/MatchedFriends";
 import FeedTransactions from "./components/Feed/Transactions";
-import Layout from "./components/Layout";
+// import Layout from "./components/Layout";
 import "./App.css";
 
 class App extends Component {
