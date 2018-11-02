@@ -46,6 +46,10 @@ class App extends Component {
 
             <Route path="/feed/friends" component={FeedFriends} />
             <Route path="/feed/transactions" component={FeedTransactions} />
+
+            {/* this will redirect none of the matched above Routes to the root route (when not logged in root route is sign in page and when logged in root route is deals page)  */}
+            {/* additionally when not logged in this will not allow user to access any sites other than sign in or sign up */}
+            <Redirect to="/"/>
           {/* <Layout /> */}
         </div>
       </Switch>
