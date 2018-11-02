@@ -4,6 +4,9 @@ var router = express.Router();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var request = require("request");//backend version of ajax, gets entire html
+var cheerio = require("cheerio");//use jQuery-like syntax
+var verifyToken =  require ("./utils/validation");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -102,11 +105,6 @@ router.get('/community', function(req, res) {
 });
 
 
-
-
-
-
-
 // this function joins crypto_comments to parents_children to users, gets relevant columns back, then feeds it all to assembleComments()
 getAllComments = (res, crypto_id) => {
     connection.query(
@@ -115,8 +113,11 @@ getAllComments = (res, crypto_id) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log(data);
+                // console.log(data);
                 let assembledData = assembleComments(data);
+                // connection.query(
+                //     `SELECT * from crypto_info WHERE id=${crypto_id}`,
+                // )
                 res.json(assembledData);
             }
         }
@@ -152,29 +153,10 @@ assembleComments = (data) => {
             })
         }
     }
-    console.log("allComments156");
-    console.log(allComments);
+    // console.log("allComments156");
+    // console.log(allComments);
     return ({allComments});
     
-}
-
-//this function converts new lines from the fake text box into line breaks, and urls into a tags.
-convertURL = (str) => {
-    let res = '';
-    let res2 = '';
-    let arr = str.split('\n');
-    res = arr.map(x => {
-        let arr2 = x.split(' ');
-        res2 = arr2.map(y => {
-            if (y.includes('http')){
-                return `<a href='${y}' target='_blank'>${y}</a>`;
-            } else {
-                return y;
-            }
-        })
-        return res2.join(' ')
-    })
-    return res.join('<br/>');
 }
 
 router.get('/forum/:crypto_id', function (req,res) {
@@ -183,52 +165,168 @@ router.get('/forum/:crypto_id', function (req,res) {
     getAllComments(res, req.params.crypto_id)
 })
 
-router.post('/crypto/submit-comment', function (req, res){
+router.post('/crypto/submit-comment', verifyToken, function (req, res){
     console.log("req.body");
     console.log(req.body);
     let user_id, crypto_id, body, comment_parent_id;
-    ({user_id, crypto_id, body, comment_parent_id} = req.body);
-    body = convertURL(body);
-    connection.query(
-        'INSERT INTO crypto_comments SET ?',
-        [{user_id, crypto_id, body}],
-        function (err, insertData){
-            if (err){
-                console.log("error during submit query");
-                console.log(err);
+    user_id = req.decoded._id;
+    ({crypto_id, body, comment_parent_id} = req.body);
+    //---
+    let arr = body.split('\n');
+    let regExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
+    //regular expression for validating urls
+    let url = '';
+    body = arr.map(x => {
+        let arr2 = x.split(' ');
+        let res2 = arr2.map(y => {
+            if (regExp.test(y)){
+                if (url==''){//ideally the comment will only have one url in it, but in case there are multiple, store the first url
+                    url = y;
+                }
+                return `<a href='${y}' target='_blank'>${y}</a>`;
             } else {
-                console.log("data from submit query");
-                console.log(insertData);
-                if(comment_parent_id==0){//this means the submitted comment is a parent comment, can go straight to getAllComments
-                    getAllComments(res, crypto_id)
-                } else {//this means the submitted comment is a child comment, so must also update parents_children table
-                    connection.query(
-                        'INSERT INTO parents_children SET ?',
-                        [{comment_parent_id, comment_child_id:insertData.insertId}],//insertData contains the id of the comment newly added into crypto_comments
-                        function (err, insertData2){
-                            if (err){
-                                console.log("error during submit query 2");
-                                console.log(err);
-                            } else {
-                                console.log("data from submit query 2");
-                                console.log(insertData2);
-                                getAllComments(res, crypto_id)
+                return y;
+            }
+        })
+        return res2.join(' ')
+    })
+    body = body.join('<br/>');
+    //---
+    request(url, function(error, response, html) {
+        if (url==''){
+            //do nothing
+        } else {
+            let title = '';
+            let description = '';
+            let icon = '';
+            let image = '';
+            var $ = cheerio.load(html);
+            title = $('head title').text();
+            // console.log("title");
+            // console.log(title);
+            $("head meta").each(function(i, element){
+                // console.log("element2");
+                // console.log(element);
+                if (element.attribs.name!=undefined){
+                    if (element.attribs.name.includes('title')){
+                        title = element.attribs.content
+                    }
+                }
+                if (description == ''){
+                    if (element.attribs.property!=undefined){
+                        if (element.attribs.property.includes('description')){
+                            description = element.attribs.content
+                        }
+                    }
+                    if (element.attribs.name!=undefined){
+                        if (element.attribs.name.includes('description')){
+                            description = element.attribs.content
+                        }
+                    }
+                    
+                }
+                if (image == ''){
+                    if (element.attribs.property!=undefined){
+                        if (element.attribs.property.includes('image')){
+                            image = element.attribs.content
+                        }
+                    }
+                    if (element.attribs.name!=undefined){
+                        if (element.attribs.name.includes('image')){
+                            image = element.attribs.content
+                        }
+                    }
+                    if (image[0]=='/'){
+                        if (url[url.length-1]=='/'){
+                            image=image.slice(1);
+                        }
+                        image = url + image;
+                    }
+                }
+            })
+            console.log("---------");
+            $("head link").each(function(i, element){
+                // console.log("element3");
+                // console.log(element.attribs);
+                if (icon == ''){
+                    if (element.attribs.rel!=undefined){
+                        if (element.attribs.rel.includes('icon')){
+                            icon = element.attribs.href;
+                            if (icon[0]=='/'){
+                                if (url[url.length-1]=='/'){
+                                    icon=icon.slice(1);
+                                }
+                                icon = url + icon;
                             }
                         }
-                    )
+                    }
                 }
+            })
+            console.log(`title=${title}`);
+            console.log(`description=${description}`);
+            console.log(`icon=${icon}`);
+            console.log(`image=${image}`);
+            // <a href='https://learnredux.com/' target='_blank'>https://learnredux.com/</a>
+            //<div class="urlBox"><div class="urlHeader"><img class="urlIcon" src="https://learnredux.com//images/RDX/redux-logo-fav.png" alt="icon"><span class="urlTitle">Learn Redux — 20 video tutorials to help you learn how to build JavaScript apps with React.js and Redux.</span></div><div class="urlDescription">20 video tutorials to help you learn how to build JavaScript apps with React.js and Redux.</div><div><img class="urlImage" src="https://learnredux.com/images/RDX/share.png" alt="image"></div></div>
+            if(title){
+                body=body+`<div class="urlBox"><div class="urlHeader">`;
+                if(icon){
+                    body=body+`<img class="urlIcon" src="${icon}" alt="icon">`;
+                }
+                body=body+`<span class="urlTitle">${title}</span></div>`;
+                if(description){
+                    body=body+`<div class="urlDescription">${description}</div>`;
+                }
+                if(image){
+                    body=body+`<img class="urlImage" src="${image}" alt="image">`;
+                }
+                body=body+`</div>`;
             }
         }
-    )
+        console.log("body*************************");
+        console.log(body);
+        connection.query(
+            'INSERT INTO crypto_comments SET ?',
+            [{user_id, crypto_id, body}],
+            function (err, insertData){
+                if (err){
+                    console.log("error during submit query");
+                    console.log(err);
+                } else {
+                    console.log("data from submit query");
+                    console.log(insertData);
+                    if(comment_parent_id==0){//this means the submitted comment is a parent comment, can go straight to getAllComments
+                        getAllComments(res, crypto_id)
+                    } else {//this means the submitted comment is a child comment, so must also update parents_children table
+                        connection.query(
+                            'INSERT INTO parents_children SET ?',
+                            [{comment_parent_id, comment_child_id:insertData.insertId}],//insertData contains the id of the comment newly added into crypto_comments
+                            function (err, insertData2){
+                                if (err){
+                                    console.log("error during submit query 2");
+                                    console.log(err);
+                                } else {
+                                    console.log("data from submit query 2");
+                                    console.log(insertData2);
+                                    getAllComments(res, crypto_id)
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        )
+    })
 })
 
 router.post('/crypto/delete-comment', function (req, res){
     console.log("req.body");
     console.log(req.body);
+    ({id, crypto_id} = req.body);
     //does not actually delete comment, but changes the comment state to deleted
     connection.query(
         'UPDATE crypto_comments SET ? WHERE ?',
-        [{comment_status: "deleted", points:0},{id:req.body.id}],
+        [{comment_status: "deleted", points:0},{id:id}],
         function (err, delete1){
             if (err){
                 console.log("error during delete");

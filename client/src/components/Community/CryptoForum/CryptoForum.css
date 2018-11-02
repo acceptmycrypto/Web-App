@@ -1,0 +1,12 @@
+.urlBox {
+    width: 500px;
+    border: black solid 1px;
+}
+
+.urlIcon {
+    width: 30px;
+}
+
+.urlImage {
+    width: 100%;
+}
