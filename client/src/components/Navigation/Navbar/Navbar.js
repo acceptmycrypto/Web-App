@@ -15,6 +15,13 @@ class Navbar extends Component {
 
   }
 
+  logOut = () =>{
+ 
+    localStorage.removeItem('token');
+    this.props.history.push('/');
+  }
+
+
   componentDidMount() {
 
     return _loadPhoto (localStorage.getItem('token')).then(photo => {
@@ -25,16 +32,13 @@ class Navbar extends Component {
     });
   }
 
-  logout = () => {
-    localStorage.removeItem('token');
-  }
 
   render() {
     console.log(this.state);
     return (
       <header className="Toolbar">
         <div className="nav-left">
-          <Link to="/" className="Logo">
+          <Link to="/feed/deals" className="Logo">
             AcceptMyCrypto
         </Link>
           <div className="Search">
@@ -77,7 +81,7 @@ class Navbar extends Component {
             <div className="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
               <Link className="dropdown-item" to="/profile">Profile</Link>
               <Link className="dropdown-item" to="/settings">Settings</Link>
-              <Link onClick={this.logout} className="dropdown-item" to="/">Logout</Link>
+              <Link className="dropdown-item" to="/" onClick={this.logOut} >Logout</Link>
             </div>
           </div>
 

@@ -53,6 +53,7 @@ class SignIn extends Component {
               alert(res.err);
             }
           });
+
       }
     }
 
@@ -70,6 +71,10 @@ class SignIn extends Component {
 
 
     render() {
+
+      if(localStorage.getItem('token')){
+        this.props.history.push('/feed/deals');
+      }
         return (
             <div className="App">
             <div className="App__Aside"></div>

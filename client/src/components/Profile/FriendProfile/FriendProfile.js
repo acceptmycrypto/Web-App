@@ -6,7 +6,7 @@ import CryptoCard from "../CryptoCard";
 import FriendCard from "../FriendCard";
 import ProfileFeed from "../ProfileFeed";
 import { _loadFriendProfile } from "../../../services/FriendProfileService";
-
+import Layout from "../../Layout"
 
 class FriendProfile extends Component {
   constructor() {
@@ -169,28 +169,30 @@ class FriendProfile extends Component {
         return <Redirect to='/profile'/>
     }
     return (
-      
-      <div className="userProfile d-flex flex-row justify-content-between">
-        <div className="d-flex flex-column width-20">
+      <div>
+        <Layout/>
+        <div className="userProfile d-flex flex-row justify-content-between">
+          <div className="d-flex flex-column width-20">
 
-          <ProfileCard user_info={this.state.user_info} />
+            <ProfileCard user_info={this.state.user_info} />
 
-          <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
+            <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
 
 
-          </CryptoCard>
+            </CryptoCard>
 
+
+          </div>
+
+          <div className="width-60 mx-5">
+            <ProfileFeed transactions={this.state.transactions} />
+          </div>
+
+          <div className="width-20 mr-3">
+            <FriendCard friends_array={this.state.friends_array}/>
+          </div>
 
         </div>
-
-        <div className="width-60 mx-5">
-          <ProfileFeed transactions={this.state.transactions} />
-        </div>
-
-        <div className="width-20 mr-3">
-          <FriendCard friends_array={this.state.friends_array}/>
-        </div>
-
       </div>
     );
   }
