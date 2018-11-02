@@ -40,6 +40,7 @@ var signUpRoutes = require('./routes/signup.js');
 var signInRoutes = require('./routes/signin.js');
 var transactionsRoutes = require("./routes/transactions.js");
 var cryptosRankingRoutes = require("./routes/cryptos_ranking.js");
+var notificationRoutes = require("./routes/cryptos_ranking.js");
 
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -180,9 +180,10 @@ CREATE TABLE notifications (
 	matched_friend_id INT NOT NULL,
 	venue_id INT NOT NULL,
 	deal_id INT NOT NULL,
+  PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (matched_friend_id) REFERENCES users_matched_friends(id)
-	FOREIGN KEY (venue_id) REFERENCES venues(id)
+	FOREIGN KEY (matched_friend_id) REFERENCES users_matched_friends(id),
+	FOREIGN KEY (venue_id) REFERENCES venues(id),
 	FOREIGN KEY (deal_id) REFERENCES deals(id)
 );
 
