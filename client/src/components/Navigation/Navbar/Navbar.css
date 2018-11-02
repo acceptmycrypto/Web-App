@@ -15,6 +15,20 @@
   font-family: Verdana, sans-serif;
 }
 
+.Toolbar a {
+  color: #000;
+  text-decoration: none;
+}
+
+.Toolbar a:focus {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.search input:focus {
+  color: #000;
+}
+
 .nav-left {
   display: flex;
 }
@@ -33,6 +47,10 @@
   border: 1px solid gray;
 }
 
+.Search input:focus {
+  outline: gray;
+}
+
 li {
   display: inline-block;
   margin-left: 15px;
@@ -47,7 +65,7 @@ li {
   display: flex;
   justify-content: center;
   color: white;
-  background-image: linear-gradient(-85deg, #49cdb7, #1ab7db); 
+  background-image: linear-gradient(-85deg, #49cdb7, #1ab7db);
   width: 100%;
   /* font-size: 40px; */
   font-size: 2rem;
