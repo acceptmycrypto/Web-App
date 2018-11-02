@@ -19,7 +19,7 @@ const FriendCard = props => {
                             </div>
                         </Link>
                     )
-                    : <div>Make Purchases to get Matched with Friends</div>
+                    : <div>Make Purchases to get Matched with Friends who have bought items with the same Crypto</div>
                 }
             </div>
         </div>
