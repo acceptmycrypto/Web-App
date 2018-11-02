@@ -18,41 +18,44 @@ import DealItem from "./components/Feed/Deals/DealItem";
 import FeedFriends from "./components/Feed/MatchedFriends";
 import FeedTransactions from "./components/Feed/Transactions";
 // import Layout from "./components/Layout";
+
+
 import "./App.css";
 
 class App extends Component {
   render() {
     return (
-      <Switch>
-        <div>
-          {/* <Layout /> */}
-            <Route exact path="/" component={SignIn} />
-            <Route path="/SignUp" component={SignUp} />
+        <Switch>
+          <div>
+            {/* <Layout /> */}
+              <Route exact path="/" component={SignIn} />
+              <Route exact path="/SignUp" component={SignUp} />
 
 
-            <Route exact path="/profile" component={Profile} />
+              <Route exact path="/profile" component={Profile} />
 
-            <Route path="/profile/:id" component={ (props) => < Friend {...props}/>} />
+              <Route path="/profile/:id" component={ (props) => < Friend {...props}/>} />
 
-            
-            <Route path ="/settings" component={Settings} />
-            <Route path="/crypto" component={Crypto} />
+              
+              <Route exact path ="/settings" component={Settings} />
+              <Route exact path="/crypto" component={Crypto} />
 
-            <Route exact path="/community" component={Community} />
-            <Route path="/forum/:crypto_id" component={CryptoForum} />
-            {/* <Route path="/feed/venues" component={FeedVenues} /> */}
-            <Route exact path="/feed/deals" component={FeedDeals} /> 
-            <Route path='/feed/deals/:deal_name' component={DealItem}/>
+              <Route exact path="/community" component={Community} />
+              <Route path="/forum/:crypto_id" component={CryptoForum} />
+              {/* <Route path="/feed/venues" component={FeedVenues} /> */}
+              <Route exact path="/feed/deals" component={FeedDeals} /> 
+              <Route path='/feed/deals/:deal_name' component={DealItem}/>
 
-            <Route path="/feed/friends" component={FeedFriends} />
-            <Route path="/feed/transactions" component={FeedTransactions} />
+              <Route exact path="/feed/friends" component={FeedFriends} />
+              <Route exact path="/feed/transactions" component={FeedTransactions} />
 
-            {/* this will redirect none of the matched above Routes to the root route (when not logged in root route is sign in page and when logged in root route is deals page)  */}
-            {/* additionally when not logged in this will not allow user to access any sites other than sign in or sign up */}
-            <Redirect to="/"/>
-          {/* <Layout /> */}
-        </div>
-      </Switch>
+              {/* this will redirect none of the matched above Routes to the root route (when not logged in root route is sign in page and when logged in root route is deals page)  */}
+              {/* additionally when not logged in this will not allow user to access any sites other than sign in or sign up */}
+              <Redirect to="/"/>
+
+            {/* <Layout /> */}
+          </div>
+        </Switch>
     );
   }
 }
