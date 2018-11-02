@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import "./CryptoForum.css";
+import Layout from "../../Layout"
 
 
 class CryptoForum extends Component {
@@ -109,44 +110,47 @@ class CryptoForum extends Component {
     render() {
         return (
             <div>
-                <h1>{"CryptoId="+this.state.cryptoId}</h1>
-                {this.state.allComments.map(parent => 
-                    <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
-                        {(parent.comment_status==="deleted") && <div className="commentDeleted">
-                            <div>{parent.date_commented}</div>
-                            <div>comment deleted</div>
-                        </div>}
-                        {(parent.comment_status==="normal") && <div>
-                            <div>{parent.date_commented} - {parent.username}
-                                <button onClick={this.deleteComment}>Delete</button>
-                                <button onClick={this.displayReplyForm}>Reply</button>
-                            </div>
-                            <div>{ReactHtmlParser(parent.body)}</div>
-                        </div>}
-                        {parent.children.map(child => 
-                            <div className="childComment" id={"child"+child.id} key={"child"+child.id} data-id={child.id} data-parent={false}>
-                                {(child.comment_status==="deleted") && <div className="commentDeleted">
-                                    <div>{child.date_commented}</div>
-                                    <div>reply deleted</div>
-                                </div>}
-                                {(child.comment_status==="normal") && <div>
-                                    <div>{child.date_commented} - {child.username}
-                                        <button onClick={this.deleteComment}>Delete</button>
-                                    </div>
-                                    <div>{child.body}</div>
-                                </div>}
-                            </div>
-                        )}
-                        <form className="replyForm" onSubmit={this.addComment} id={"replyForm"+parent.id} data-id={parent.id}>
-                            <div className="replyArea" id={"replyArea"+parent.id} name="body" contentEditable="true"></div>
-                            <div className="buttonDiv"><button>Submit</button></div>
-                        </form>
-                    </div>
-                )}
-                <form onSubmit={this.addComment} id="commentForm">
-                    <div id="textarea" className={this.state.comment.color} name="body" contentEditable="true" onClick={this.removePlaceholder}>{this.state.comment.placeHolder}</div>
-                    <div className="buttonDiv"><button disabled={this.state.commentPlaceHolder==="Say something!"}>Submit</button></div>
-                </form>
+                <Layout/>
+                <div>
+                    <h1>{"CryptoId="+this.state.cryptoId}</h1>
+                    {this.state.allComments.map(parent => 
+                        <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
+                            {(parent.comment_status==="deleted") && <div className="commentDeleted">
+                                <div>{parent.date_commented}</div>
+                                <div>comment deleted</div>
+                            </div>}
+                            {(parent.comment_status==="normal") && <div>
+                                <div>{parent.date_commented} - {parent.username}
+                                    <button onClick={this.deleteComment}>Delete</button>
+                                    <button onClick={this.displayReplyForm}>Reply</button>
+                                </div>
+                                <div>{ReactHtmlParser(parent.body)}</div>
+                            </div>}
+                            {parent.children.map(child => 
+                                <div className="childComment" id={"child"+child.id} key={"child"+child.id} data-id={child.id} data-parent={false}>
+                                    {(child.comment_status==="deleted") && <div className="commentDeleted">
+                                        <div>{child.date_commented}</div>
+                                        <div>reply deleted</div>
+                                    </div>}
+                                    {(child.comment_status==="normal") && <div>
+                                        <div>{child.date_commented} - {child.username}
+                                            <button onClick={this.deleteComment}>Delete</button>
+                                        </div>
+                                        <div>{child.body}</div>
+                                    </div>}
+                                </div>
+                            )}
+                            <form className="replyForm" onSubmit={this.addComment} id={"replyForm"+parent.id} data-id={parent.id}>
+                                <div className="replyArea" id={"replyArea"+parent.id} name="body" contentEditable="true"></div>
+                                <div className="buttonDiv"><button>Submit</button></div>
+                            </form>
+                        </div>
+                    )}
+                    <form onSubmit={this.addComment} id="commentForm">
+                        <div id="textarea" className={this.state.comment.color} name="body" contentEditable="true" onClick={this.removePlaceholder}>{this.state.comment.placeHolder}</div>
+                        <div className="buttonDiv"><button disabled={this.state.commentPlaceHolder==="Say something!"}>Submit</button></div>
+                    </form>
+                </div>
             </div>
         );
     }

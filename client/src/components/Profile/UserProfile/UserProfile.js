@@ -7,6 +7,7 @@ import CryptoCard from "../CryptoCard";
 import CryptoAddress from "../CryptoAddress";
 import FriendCard from "../FriendCard";
 import ProfileFeed from "../ProfileFeed";
+import Layout from "../../Layout"
 import { _updateCryptoTable, _loadProfile, _verifyUser } from "../../../services/UserProfileService";
 
 
@@ -215,10 +216,7 @@ class UserProfile extends Component {
 
 
   componentDidMount() {
-    // await _verifyUser(localStorage.getItem('token')).then((data) => this.setState({
-    //   temp_user: data.user
-
-    // }));
+  
     return _loadProfile(localStorage.getItem('token')).then(res => {
       // console.log(res);
 
@@ -231,14 +229,6 @@ class UserProfile extends Component {
 
 
 
-
-      // .then(([user_info, user_crypto, friends_array, transactions]) => this.setState({
-      //   user_info,
-      //   user_crypto,
-      //   friends_array,
-      //   transactions
-      // }));
-
   }
 
 
@@ -248,30 +238,33 @@ class UserProfile extends Component {
     // console.log(this.props.match.params);
 
     return (
-      <div className="userProfile d-flex flex-row justify-content-between">
-        <div className="d-flex flex-column width-20">
+      <div>
+        <Layout/>
+        <div className="userProfile d-flex flex-row justify-content-between">
+          <div className="d-flex flex-column width-20">
 
-          <ProfileCard user_info={this.state.user_info} />
+            <ProfileCard user_info={this.state.user_info} />
 
-          <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
+            <CryptoCard handleToggleChange={this.handleToggleChange} handleAddressFormChange={this.handleAddressFormChange} handleQRChange={this.handleQRChange} crypto_view={this.state.crypto_view} user_crypto={this.state.user_crypto}>
 
-            {this.state.add_address &&
-              <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
-            }
+              {this.state.add_address &&
+                <CryptoAddress updateCryptos={this.updateCryptos} updateCryptoTable={this.updateCryptoTable} />
+              }
 
-          </CryptoCard>
+            </CryptoCard>
 
+
+          </div>
+
+          <div className="width-60 mx-5">
+            <ProfileFeed transactions={this.state.transactions} />
+          </div>
+
+          <div className="width-20 mr-3">       
+            <FriendCard friends_array={this.state.friends_array} />
+          </div>
 
         </div>
-
-        <div className="width-60 mx-5">
-          <ProfileFeed transactions={this.state.transactions} />
-        </div>
-
-        <div className="width-20 mr-3">       
-          <FriendCard friends_array={this.state.friends_array} />
-        </div>
-
       </div>
     );
   }
