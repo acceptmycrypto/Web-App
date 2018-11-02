@@ -45,8 +45,12 @@ class SignIn extends Component {
             if (res.token){
               localStorage.setItem('token', res.token);
               console.log(res.token);
+<<<<<<< HEAD
+              alert("You've successfully logged in");
+=======
               //redirect user to the feed/deals
               history.push('/feed/deals');
+>>>>>>> d0935188edd137b26df9d69198cc64fade681fa8
             }else{
               console.log("Login error: ", res);
               alert(res.err);
