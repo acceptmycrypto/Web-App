@@ -9,31 +9,16 @@ class Deals extends Component {
     super();
 
     this.state = {
-      deals: [],
-      cryptosAccepted: null
+      deals: []
     };
   }
 
   //Another way to fetch api with promise using es6 syntax so we can call multiple api routes
   componentDidMount() {
-    return _loadDeals()
+    return _loadDeals(localStorage.getItem('token'))
       .then(result => this.setState({
-        deals: result.deals,
-        cryptosAccepted: result.cryptosAccepted
+        deals: result.deals
       }))
-  }
-
-  showAcceptedCryptos = (venue) => {
-
-    let cryptocurrencies;
-    for (let venueKey in this.state.cryptosAccepted) {
-      if (venue === venueKey) {
-        cryptocurrencies = this.state.cryptosAccepted[venueKey]
-      }
-    }
-    console.log(cryptocurrencies);
-    return cryptocurrencies
-    //return two arrays. First array is the crypto full name. Second array is the crypto symbol
   }
 
   convertToPercentage = (priceInDollar, priceInCrypto) => {

@@ -1,11 +1,17 @@
-export async function _loadDeals() {
-  const dealsList = await fetch("http://localhost:3001/api/deals");
+export async function _loadDeals(token) {
+  const settings = {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({token})
+  };
+
+  const dealsList = await fetch("http://localhost:3001/api/deals", settings);
   const deals = await dealsList.json();
 
-  const venuesList = await fetch("http://localhost:3001/api/venues_cryptos");
-  const cryptosAccepted = await venuesList.json();
-
-  return {deals, cryptosAccepted}
+  return {deals}
 }
 
 export async function _loadDealItem (deal_name) {
