@@ -42,7 +42,7 @@ class SignIn extends Component {
             if (res.token){
               localStorage.setItem('token', res.token);
               console.log(res.token);
-              alert("You're login");
+              alert("You've successfully logged-in");
             }else{
               console.log("Login error: ", res);
               alert(res.err);
