@@ -21,6 +21,7 @@ class Navbar extends Component {
     this.props.history.push('/');
   }
 
+
   componentDidMount() {
 
     return _loadPhoto (localStorage.getItem('token')).then(photo => {
@@ -37,7 +38,7 @@ class Navbar extends Component {
     return (
       <header className="Toolbar">
         <div className="nav-left">
-          <Link to="/" className="Logo">
+          <Link to="/feed/deals" className="Logo">
             AcceptMyCrypto
         </Link>
           <div className="Search">
