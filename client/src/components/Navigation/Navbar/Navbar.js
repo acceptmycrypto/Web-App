@@ -22,6 +22,11 @@ class Navbar extends Component {
 
     });
   }
+
+  logout = () => {
+    localStorage.removeItem('token');
+  }
+
   render() {
     console.log(this.state);
     return (
@@ -64,12 +69,13 @@ class Navbar extends Component {
         <div className="dropdown show m-0 p-0">
             <div className="dropdown-toggle picture-toggle m-0 p-0"  id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i className={'fas mt-1 pt-1 px-2 user-icon-navbar ' + this.state.photo.photo}></i>
-              
+
             </div>
 
             <div className="dropdown-menu m-0" aria-labelledby="dropdownMenuLink">
               <Link className="dropdown-item" to="/profile">Profile</Link>
               <Link className="dropdown-item" to="/settings">Settings</Link>
+              <Link onClick={this.logout} className="dropdown-item" to="/">Logout</Link>
             </div>
           </div>
         </li>
