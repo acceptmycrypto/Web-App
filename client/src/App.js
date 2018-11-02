@@ -25,12 +25,10 @@ class App extends Component {
     return (
       <Switch>
         <div>
-          <Layout />
+          {/* <Layout /> */}
             <Route exact path="/" component={SignIn} />
             <Route path="/SignUp" component={SignUp} />
 
-            {/* Redirects to profile page when id matches user id, hard coded user id 1 for now */}
-            {/* <Redirect exact from='profile/1' exact to='profile' /> */}
 
             <Route exact path="/profile" component={Profile} />
 
@@ -48,7 +46,7 @@ class App extends Component {
 
             <Route path="/feed/friends" component={FeedFriends} />
             <Route path="/feed/transactions" component={FeedTransactions} />
-          <Layout />
+          {/* <Layout /> */}
         </div>
       </Switch>
     );
