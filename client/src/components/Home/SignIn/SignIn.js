@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './SignIn.css';
-import { BrowserRouter as Redirect, Router, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter as Link, NavLink } from 'react-router-dom';
 import { _login } from '../../../services/AuthService';
+import Modal from 'react-awesome-modal';
+
 
 class SignIn extends Component {
     constructor() {
@@ -11,15 +13,13 @@ class SignIn extends Component {
             email: '',
             password: '',
             SignUp: false,
-            redirect: false
+            redirect: false,
+            visable: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
-    }
-    // getToken = () => {
-    //     return localStorage.getItem('token');
-    //   }
-
+      }
+  
     handleChange(e) {
         let target = e.target;
         let value = target.type === 'checkbox' ? target.checked : target.value;
@@ -33,7 +33,7 @@ class SignIn extends Component {
     handleLogin(e) {
       e.preventDefault();
 
-      const { history } = this.props;
+      
 
       let email = e.target.children[0].children[1].value;
       let password = e.target.children[1].children[1].value;
@@ -45,9 +45,9 @@ class SignIn extends Component {
             if (res.token){
               localStorage.setItem('token', res.token);
               console.log(res.token);
-              alert("You've successfully logged in");
+              // alert("You've successfully logged in");
               //redirect user to the feed/deals
-              history.push('/feed/deals');
+              
             }else{
               console.log("Login error: ", res);
               alert(res.err);
@@ -56,19 +56,18 @@ class SignIn extends Component {
 
       }
     }
-
-    //     logout = (event) => {
-    //       event.preventDefault();
-
-    //       this.setState({logged_in: false}, function(){
-    //         localStorage.removeItem('token');
-    //       });
-
-    //     console.log('The form was submitted with the following data:');
-    //     console.log(this.state);
-
-    // };
-
+    openModal() {
+      this.setState({
+          visible : true
+      });
+  }
+    closeModal() {
+      const { history } = this.props;
+        this.setState({
+            visible : false
+      });
+        history.push('/feed/deals');
+    }
 
     render() {
 
@@ -84,11 +83,9 @@ class SignIn extends Component {
                   <NavLink exact to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
 
-                {/* <div className="FormTitle">
-                    <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
-                </div> */}
             <div className="FormCenter">
-            <form onSubmit={this.handleLogin} className="FormFields">
+            <form onSubmit = {this.handleLogin} className="FormFields">
+            
             <div className="FormField">
                 <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
                 <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} required />
@@ -100,14 +97,24 @@ class SignIn extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
+                  <button className="FormField__Button mr-20" onClick={() => this.openModal()}
+                  >Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
+              <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
+                <div className="Modal">
+                  <h4>You have successfully logged in</h4>
+                  <p>From the team at Accept My Crypto, welcome back!</p>
+                  <a className="a-link" href="javascript:void(0);" onClick={() => this.closeModal()}>Ok</a>
+                </div>
+              </Modal>
             </form>
           </div>
             </div>
           </div>
+          
+          
         );
     }
-}
+  }
 
 export default SignIn;
