@@ -77,7 +77,26 @@ class SignIn extends Component {
       }
         return (
             <div className="App">
-            <div className="App__Aside"></div>
+            <div className="App__Aside">
+              <img className="crypto-img img-fluid mb-5 d-block mx-auto" src="../../../assets/images/minimal_garage_sale_6-512.png" alt=""></img>
+              <h2 className="text-uppercase mb-0">Accept My Crypto</h2>
+              <hr className="star-light"></hr>
+              <h3 className="font-weight-light mb-0">
+                <ul>
+                  <li>
+                    Grab Deals for Purchase with Cryptocurrency
+                  </li>
+                  <br></br>
+                  <li>
+                    Find Friends with Matching Currencies
+                  </li>
+                  <br></br>
+                  <li>
+                    Engage with Your Crypto Community
+                  </li>
+                </ul>
+              </h3>
+            </div>
             <div className="App__Form">
             <div className="PageSwitcher">
                   <NavLink to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>

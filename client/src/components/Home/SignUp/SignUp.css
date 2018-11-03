@@ -163,3 +163,51 @@ body {
     padding-bottom: 2px;
     margin-left: 5px;
   }
+
+.crypto-img {
+  width: 100px;
+}
+
+ul {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+h2,
+h3 {
+  color: #445366;
+  text-align: center;
+  font-weight: 500;
+}
+
+hr.star-light {
+  max-width: 15rem;
+  padding: 0;
+  text-align: center;
+  border: none;
+  border-top: solid 0.25rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  hr.star-light:after {
+    position: relative;
+    top: -.8em;
+    display: inline-block;
+    padding: 0 0.25em;
+    content: '\f005';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 2em;
+  }
+  
+  hr.star-light {
+    border-color: #445366;
+  }
+  
+  hr.star-light:after {
+    color: #445366;
+    background-color: #66DAC7;
+  }
