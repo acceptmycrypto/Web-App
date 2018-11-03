@@ -165,7 +165,7 @@ body {
   }
 
 .crypto-img {
-  width: 100px;
+  width: 150px;
 }
 
 ul {
@@ -175,7 +175,7 @@ ul {
 
 h1,
 h2 {
-  color: #ffffff;
+  color: #616e7f;
   text-align: center;
   font-weight: 700;
 }
@@ -202,11 +202,11 @@ hr.star-light {
     font-weight: 900;
     font-size: 2em;
   }
-  
+
   hr.star-light {
     border-color: #445366;
   }
-  
+
   hr.star-light:after {
     color: #445366;
     background-color: #66DAC7;
