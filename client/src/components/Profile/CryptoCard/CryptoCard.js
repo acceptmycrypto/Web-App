@@ -21,6 +21,7 @@ const CryptoCard = props => {
                                             <a className="blueText cryptoText link" href={crypto.crypto_link} target="_blank">{crypto.crypto_metadata_name}</a>
                                             <br></br>
                                             <img className="cryptoImage" data-name={crypto.crypto_metadata_name} src={crypto.crypto_logo} data-id={crypto.id} onClick={props.handleAddressFormChange}></img>
+                                            <br></br>
                                         </div>
                                         : null
                                 }
@@ -36,6 +37,7 @@ const CryptoCard = props => {
                                             <a className="blueText cryptoText link" href={crypto.crypto_link} target="_blank">{crypto.crypto_metadata_name}</a>
                                             <br></br>
                                             <img className="cryptoImage" data-name={crypto.crypto_metadata_name} data-address={crypto.crypto_address} data-id={crypto.id} src={crypto.crypto_logo} onClick={props.handleQRChange}></img>
+                                            <br></br>
                                         </div>
                                         : null
                                 }

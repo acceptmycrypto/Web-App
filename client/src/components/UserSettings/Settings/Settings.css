@@ -1,124 +1,20 @@
-
-
-.form {
-  position: relative;
-  margin-top: 10%;
-}
-.form .nodes {
-  display: flex;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  justify-content: space-between;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.form .node {
-  display: flex;
-  position: relative;
-  height: 60px;
-  width: 20%;
-  list-style: none;
-  padding: 0;
-  text-align: center;
-  align-items: center;
-}
-.form .node:after {
-  display: block;
-  position: absolute;
-  z-index: -1;
-  left: 60%;
-  right: 0;
-  bottom: 0;
-  top: 50%;
-  content: " ";
-  height: 6px;
-  width: 100%;
-  background-color: #49cdb7;
-}
-.form .node:last-child::after {
-  display: none;
-}
-.form .indicator {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  margin: auto;
-  z-index: 3;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  color: #1ab7db;
-  font-size: 30px;
-  line-height: 60px;
-  transition: 0.5s;
-}
-.form .indicator:hover, .form .indicator:focus {
-  transform: scale(1.5);
-}
-.form__radio {
-  display: inline-block;
+.settingsDIV{
   margin: 0 auto;
-}
-.form__label {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  cursor: pointer;
-  transition: 0.5s;
-}
-.form__label:hover, .form__label:focus {
-  transform: scale(1.2);
-}
-.form__label:before {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  margin: auto;
-  z-index: 1;
-  width: 60px;
-  height: 60px;
-  content: " ";
-  border-radius: 50%;
-  background-color: #1ab7db;
-}
-.form__label:after {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  margin: auto;
-  z-index: 2;
-  width: 50px;
-  height: 50px;
-  content: " ";
-  border-radius: 50%;
-  background-color: #cc22b2;
+  width: 50%;
 }
 
-.form__radio:checked + .form__label::after {
-  background-color: white;
-  transform: scale(1.1);
+.lightBlueText{
+  color: #44a8be
 }
 
-.form__radio:checked + .form__label::before {
-  transform: scale(1.1);
+.ui.vertical.menu {
+  width: 19rem;
 }
 
-.form__radio:checked + .form__label > .indicator {
-  color: #a01b8c;
-  transform: scale(1.5);
+.ui.menu {
+  font-size: 1.1rem;
 }
 
+/* .left-margin-20{
+  margin-left: 20%;
+} */

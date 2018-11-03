@@ -2,21 +2,7 @@ import "./SignUp.css";
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import Select from "react-select";
-import { _signUp } from "../../../services/AuthService";
-
-const options = [
-  { value: "Bitcoin", label: "Bitcoin (BTC)" },
-  { value: "Bitcoin Cash", label: "Bitcoin Cash (BCH)" },
-  { value: "Litecoin", label: "Litecoin (LTC)" },
-  { value: "Ethereum", label: "Ethereum (ETH)" },
-  { value: "Ethereum Classic", label: "Ethereum Classic (ETC)" },
-  { value: "Litecoin", label: "Litecoin (LTC)" },
-  { value: "Dogecoin", label: "Dogecoin (LTC)" },
-  { value: "Dash", label: "Dash" },
-  { value: "Monero", label: "Monero (XMR)" },
-  { value: "Verge", label: "Verge (XVG)" },
-  { value: "Ripple", label: "Ripple (XRP)" }
-];
+import { _signUp, _loadCryptocurrencies } from "../../../services/AuthService";
 
 class SignUp extends Component {
   constructor() {
@@ -26,6 +12,7 @@ class SignUp extends Component {
       username: "",
       email: "",
       password: "",
+      cryptoOptions: [],
       cryptoProfile: [],
       hasAgreed: false,
       redirect: false
@@ -35,6 +22,26 @@ class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    return _loadCryptocurrencies().then(cryptos => {
+
+      let cryptoOptions = [];
+
+      cryptos.map(crypto => {
+
+        let optionObj = {};
+        optionObj.value = crypto.crypto_metadata_name;
+        optionObj.label = crypto.crypto_metadata_name + " " + "(" + crypto.crypto_symbol + ")";
+
+        cryptoOptions.push(optionObj);
+      })
+
+      this.setState({cryptoOptions});
+    });
+  }
+
+
+
   //this function handles the change of crypto option user selects everytime
   //selectedOptions is an array of object
   //we need to map through the array and get the value of each object
@@ -43,6 +50,8 @@ class SignUp extends Component {
     selectedOptions.map(crypto => {
       SelectedCryptos.push(crypto.value);
     })
+    console.log(SelectedCryptos);
+
     this.setState({
       cryptoProfile: SelectedCryptos //this is what we get [Bitcoin, Litecoin, ...] as user select the option
     });
@@ -81,6 +90,7 @@ class SignUp extends Component {
     });
     console.log(name);
   }
+
   state = {
     selectedOptions: null
   };
@@ -92,7 +102,28 @@ class SignUp extends Component {
     }
     return (
       <div className="App">
-        <div className="App__Aside" />
+        <div className="App__Aside">
+            <img className="crypto-img img-fluid mb-5 d-block mx-auto" src="../../../assets/images/logo.png" alt=""></img>
+            <h1 className="text-uppercase mb-0">Accept My Crypto</h1>
+            <hr className="star-light"></hr>
+            <h2 className="font-weight-light mb-0">
+            <ul>
+              <br></br>
+              <li><i class="homepage-icons fas fa-dollar-sign"></i>
+                  Grab Deals for Purchase with Cryptocurrency
+                </li>
+              <br></br>
+
+              <li><i class="homepage-icons fa fa-user" aria-hidden="true"></i>
+               Find Friends with Matching Currencies
+              </li>
+              <br></br>
+              <li><i class="homepage-icons fa fa-users" aria-hidden="true"></i>
+                Engage with Your Crypto Community
+              </li>
+            </ul>
+            </h2>
+          </div>
         <div className="App__Form">
           <div className="PageSwitcher">
             <NavLink
@@ -163,14 +194,17 @@ class SignUp extends Component {
                 <label className="FormField__Label" htmlFor="cryptoProfile">
                   Your Cryptocurrency Portfolio
                 </label>
-                <Select 
+
+                {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
+                <Select
+
                   required
                   value={selectedOptions}
                   onChange={this.handleDropdownChange}
-                  options={options}
+                  options={this.state.cryptoOptions}
                   isMulti={true}
                   autoBlur={false}
-                  
+
                 />
               </div>
 
@@ -191,9 +225,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                <button
-                  className="FormField__Button mr-20"
-                >
+                <button className="FormField__Button mr-10">
                   Sign Up
                 </button>
                 <Link to="/" className="FormField__Link">

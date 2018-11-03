@@ -2,63 +2,79 @@ import React, { Component } from "react";
 import "./Settings.css";
 import { Link } from "react-router-dom";
 import Layout from "../../Layout";
-
+import { Menu } from "semantic-ui-react"
+import ProfileSettings from "../ProfileSettings";
+import PrivacySettings from "../PrivacySettings";
+import FriendsSettings from "../FriendsSettings";
+import CryptocurrencySettings from "../CryptocurrencySettings";
+import TransactionsSettings from "../TransactionsSettings";
 
 
 class Settings extends Component {
 
-    componentDidMount() {
+    constructor() {
+        super();
 
-
-
+        this.state = {
+            activeItem: "Profile Settings",
+            color: "teal"
+        };
     }
+
+    handleItemClick = (e, { name }) => {
+        this.setState({ activeItem: name })
+    }
+    
 
 
     render() {
-        console.log(this.state);
-        // console.log(this.props.location.pathname);
-        console.log(this.props.match.params.id);
+        const { color } = this.state
+        const { activeItem } = this.state
 
         return (
-            // <div className="d-flex flex-row text-center justify-content-center">
-            //     <label className="radio-label d-flex flex-column px-4"><br /><div className="radio-div"><input className="radio" type="radio" name="selection" value="settings" /></div> Settings</label>
-            //     <label className="radio-label d-flex flex-column px-4"><br /><div className="radio-div"><input className="radio" type="radio" name="selection" value="privacy" /></div> Privacy</label>
-            //     <label className="radio-label d-flex flex-column px-4"><br /><div className="radio-div"><input className="radio" type="radio" name="selection" value="cryptocurrency" /></div> Cryptocurrency</label>
-            //     <label className="radio-label d-flex flex-column px-4"><br /><div className="radio-div"><input className="radio" type="radio" name="selection" value="transactions" /></div> Transactions</label>
-            //     <label className="radio-label d-flex flex-column px-4"><br /><div className="radio-div"><input className="radio" type="radio" name="selection" value="friends" /></div> Friends</label>
 
-            // </div>
-        <div>
-            <Layout/>
 
-            <form className="form">
-                <ol className="nodes">
-                    <li className="node">
-                        <input className="form__radio" type="radio" id="r1" name="radio-set" checked/>
-                        <label className="form__label" for="r1"><span className="indicator">1</span></label>
-                    </li>
-                    <li className="node">
-                        <input className="form__radio" type="radio" id="r2" name="radio-set" />
-                        <label className="form__label" for="r2"><span className="indicator">2</span></label>
-                    </li>
-                    <li className="node">
-                        <input className="form__radio" type="radio" id="r3" name="radio-set"/>
-                        <label className="form__label" for="r3"><span className="indicator">3</span></label>
-                    </li>
-                    <li className="node">
-                        <input className="form__radio" type="radio" id="r4" name="radio-set"/>
-                        <label className="form__label" for="r4"><span className="indicator">4</span></label>
-                    </li>
-                    <li className="node">
-                        <input className="form__radio" type="radio" id="r5" name="radio-set"/>
-                        <label className="form__label" for="r5"><span className="indicator">5</span></label>
-                    </li>
-                </ol>
-            </form>
-        </div>
+            <div>
+                <Layout />
+                <div className="mr-4 ml-4">
+                    <Menu color={color} inverted widths={5}>
+                        <Menu.Item name="Profile Settings" active={activeItem === "Profile Settings"} onClick={this.handleItemClick} />
+                        <Menu.Item
+                            name="Privacy Settings"
+                            active={activeItem === "Privacy Settings"}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name="Matched Friends"
+                            active={activeItem === "Matched Friends"}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name="Cryptocurrency"
+                            active={activeItem === "Cryptocurrency"}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name="Transactions"
+                            active={activeItem === "Transactions"}
+                            onClick={this.handleItemClick}
+                        />
+                    </Menu>
+                    <div>
+                        { this.state.activeItem == "Profile Settings" && <ProfileSettings/>}
+                        { this.state.activeItem == "Privacy Settings" && <PrivacySettings/>}
+                        { this.state.activeItem == "Cryptocurrency" && <CryptocurrencySettings/>}
+                        { this.state.activeItem == "Matched Friends" && <FriendsSettings/>}
+                        { this.state.activeItem == "Transactions" && <TransactionsSettings/>}
+
+
+                    </div>
+                </div>
+
+            </div>
 
         );
     }
 }
-                        
+
 export default Settings;

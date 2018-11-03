@@ -2,6 +2,7 @@ import React from "react";
 import "./PurchaseOrder.css";
 import Select from "react-select";
 import Checkout from "../../../Checkout";
+import LoadingSpinner from "../../../UI/LoadingSpinner/LoadingSpinner";
 
 const PurchaseOrder = props => {
   return (
@@ -16,13 +17,19 @@ const PurchaseOrder = props => {
         options={props.cryptos}
       />
         </div>
+
+        {!props.paymentButtonClicked ?
         <div id="submit_payment">
           <button>Send Your Payment</button>
-        </div>
+        </div> : null}
+
       </form>
+
 
       {props.paymentButtonClicked ?
       <Checkout showTimeout={props.timeout} showTransaction={props.transactionInfo} showPaidIn={props.cryptoSymbol}/> : null}
+
+      {props.showLoadingSpinner ? <LoadingSpinner /> : null}
 
     </div>
   );

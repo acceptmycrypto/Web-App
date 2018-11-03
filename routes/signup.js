@@ -100,8 +100,8 @@ router.post('/register', function(req, res) {
                     sgMail.send(email_verification);
                   }
 
-                  
-                  
+
+
                 );
 
                 //insert selected cryptos into users_cryptos table
@@ -130,7 +130,7 @@ router.post('/register', function(req, res) {
                         if (error) throw error;
                       }
 
-  
+
                     );
 
                   }
@@ -173,6 +173,21 @@ router.get('/email-verify/:user_id/:email_verification_token', function(req, res
 
       }
 
+    }
+  );
+});
+
+//Anyone can access this route
+//grab the cryptos list for user to select
+router.get('/cryptocurrencies', function(req, res) {
+
+  connection.query(
+    'SELECT crypto_metadata_name, crypto_symbol FROM crypto_info LEFT JOIN crypto_metadata ON crypto_info.crypto_metadata_name = crypto_metadata.crypto_name',
+    function(error, results, fields) {
+
+      if (error) throw error;
+
+      res.json(results);
     }
   );
 });

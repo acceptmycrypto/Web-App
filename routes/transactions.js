@@ -9,6 +9,8 @@ var Coinpayments = require("coinpayments");
 var keys = require("../key");
 var client = new Coinpayments(keys.coinpayment);
 
+var verifyToken =  require ("./utils/validation");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
@@ -33,7 +35,7 @@ var connection = mysql.createConnection({
 //info we need to send to the client: the deal name, the user name, the crypto symbol, the venue name, date purchased
 router.get("/api/transactions/community/payment_received", function(req, res) {
   connection.query(
-    "SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE permission = ? AND payment_received = ?",
+    "SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE permission = ? AND payment_received = ? ORDER BY users_purchases.date_purchased DESC",
     ["community", 1], //1 is true for payment received //community means any user on acceptmycrypto platform
     function(error, results, fields) {
       if (error) throw error;
@@ -43,10 +45,16 @@ router.get("/api/transactions/community/payment_received", function(req, res) {
 });
 
 //coinpayment
-router.post("/checkout", function(req, res) {
+router.post("/checkout", verifyToken, function(req, res) {
   //Inserting to user_purchases table, this doens't mean purchase is successful
   //Need to listen to IPA when payment has recieved and then update payment_recieved to true
   console.log(req.body);
+
+  let user_id = req.decoded._id; 
+  let crypto_name = req.body.crypto_name;
+
+  createMatchedFriends(user_id, crypto_name);
+
   client.createTransaction(
     {
       currency1: "USD",
@@ -69,7 +77,7 @@ router.post("/checkout", function(req, res) {
             connection.query(
               "INSERT INTO users_purchases SET ?",
               {
-                user_id: req.body.user_id,
+                user_id: user_id,
                 deal_id: req.body.deal_id,
                 crypto_id: cryptoID[0].id,
                 amount: paymentInfo.amount,
@@ -93,6 +101,57 @@ router.post("/checkout", function(req, res) {
       }
     }
   );
+  
 });
 
+
+function createMatchedFriends(user_id, crypto_name){
+  connection.query(
+    "SELECT id FROM crypto_metadata WHERE ?", [{crypto_name}], function(error, results, fields) {
+      if (error) throw error;
+      let crypto_id = results[0].id;
+
+      connection.query(
+        "SELECT DISTINCT user_id, date_purchased FROM users_purchases WHERE ? AND payment_received = 1 AND user_id NOT IN (SELECT matched_friend_id FROM users_matched_friends WHERE user_id = ?) AND NOT ? ORDER BY users_purchases.date_purchased DESC",
+         [{crypto_id}, {user_id}, {user_id}], 
+         function(error, results, fields) {
+          if (error) throw error;
+
+          else if(results.length > 0){
+            let matches = [];
+
+            let limitedIDArray = results.slice(0,3);
+
+            console.log(JSON.stringify(limitedIDArray));
+
+            
+            for (let j = 0; j< limitedIDArray.length; j++){
+                matches.push([user_id, limitedIDArray[j].user_id]);
+                matches.push([limitedIDArray[j].user_id, user_id]);              
+            }
+            
+            let sql =  "INSERT INTO users_matched_friends (user_id, matched_friend_id) VALUES ?"
+
+            connection.query( sql, [matches], function(error, results, fields) {
+                if (error) throw error;
+                console.log("Number of records inserted: " + results.affectedRows);          
+      
+              }
+            );
+
+          }
+          else{
+            console.log('No Matches');
+          }
+
+          
+        }
+      );
+
+      
+    }
+  );
+}
+
 module.exports = router;
+

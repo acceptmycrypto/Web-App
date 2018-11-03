@@ -169,23 +169,25 @@ class UserProfile extends Component {
     let id = this.state.users_cryptos_id;
     let current_crypto_name = this.state.current_crypto_name.trim();
     let crypto_address = event.target.children[0].value;
-    let validAddress;
+    let validAddress = true;
 
     // TO DO: FIX LITECOIN VALIATION ISSUE
 
+    // commented out for now because is not working
+    
     // coin-address-validator does not list Verge as a supported currency type to validate by currency name so will validate manually
-    if (current_crypto_name === "Verge" && crypto_address.indexOf(" ") === -1 && crypto_address[0] === "D" && crypto_address.length === 34) {
-      validAddress = true;
+    // if (current_crypto_name === "Verge" && crypto_address.indexOf(" ") === -1 && crypto_address[0] === "D" && crypto_address.length === 34) {
+    //   validAddress = true;
 
-    } else if (crypto_address > 20 && coinAddressValidator.validate(crypto_address, current_crypto_name)) {
-      // use coin-address-validator to validate the crypto address for the specific crypto selected
-      validAddress = coinAddressValidator.validate(crypto_address, current_crypto_name)
+    // } else if (crypto_address > 20 && coinAddressValidator.validate(crypto_address, current_crypto_name)) {
+    //   // use coin-address-validator to validate the crypto address for the specific crypto selected
+    //   validAddress = coinAddressValidator.validate(crypto_address, current_crypto_name)
  
   
-    } else {
-      validAddress = false;
+    // } else {
+    //   validAddress = false;
       
-    }
+    // }
 
     if (validAddress) {
 

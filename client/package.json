@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "add": "^2.0.6",
     "coin-address-validator": "^1.0.4-1",
     "react": "^16.5.2",
     "react-awesome-modal": "^2.0.5",
@@ -15,7 +16,10 @@
     "react-select": "^2.1.0",
     "react-stepzilla": "^4.7.3",
     "react-timestamp": "^4.4.0",
-    "select": "^1.1.2"
+    "select": "^1.1.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.83.0",
+    "yarn": "^1.12.1"
   },
   "scripts": {
     "start": "react-scripts start",
