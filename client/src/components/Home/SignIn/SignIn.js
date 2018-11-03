@@ -78,7 +78,7 @@ class SignIn extends Component {
         return (
             <div className="App">
             <div className="App__Aside">
-              <img className="crypto-img img-fluid mb-5 d-block mx-auto" src="../../../assets/images/minimal_garage_sale_6-512.png" alt=""></img>
+              <img className="crypto-img img-fluid mb-5 d-block mx-auto" src="../../../assets/images/pricetag.png" alt=""></img>
               <h2 className="text-uppercase mb-0">Accept My Crypto</h2>
               <hr className="star-light"></hr>
               <h3 className="font-weight-light mb-0">
