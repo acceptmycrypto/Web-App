@@ -5,6 +5,7 @@
   "dependencies": {
     "coin-address-validator": "^1.0.4-1",
     "react": "^16.5.2",
+    "react-awesome-modal": "^2.0.5",
     "react-dom": "^16.5.2",
     "react-html-parser": "^2.0.2",
     "react-popup": "^0.9.3",
