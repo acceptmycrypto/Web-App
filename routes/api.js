@@ -42,4 +42,15 @@ router.get('/api/cryptos_venues', function(req, res) {
   );
 });
 
+router.get("/signup/crypto", function(req, res) {
+  connection.query(
+    "SELECT crypto_name, crypto_symbol FROM crypto_metadata",
+    function(error, results) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
+
 module.exports = router;

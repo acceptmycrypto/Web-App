@@ -161,4 +161,14 @@ router.get('/email-verify/:user_id/:email_verification_token', function(req, res
   );
 });
 
+router.get("/signup/crypto", function(req, res) {
+  connection.query(
+    "SELECT crypto_name, crypto_symbol FROM crypto_metadata",
+    function(error, results) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
 module.exports = router;

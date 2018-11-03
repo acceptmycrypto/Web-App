@@ -5,19 +5,21 @@ import {BrowserRouter as Redirect, Router, Route, Link, NavLink} from "react-rou
 import Select from "react-select";
 import { _signUp } from "../../../services/AuthService";
 
-const options = [
-  { value: "Bitcoin", label: "Bitcoin (BTC)" },
-  { value: "Bitcoin Cash", label: "Bitcoin Cash (BCH)" },
-  { value: "Litecoin", label: "Litecoin (LTC)" },
-  { value: "Ethereum", label: "Ethereum (ETH)" },
-  { value: "Ethereum Classic", label: "Ethereum Classic (ETC)" },
-  { value: "Litecoin", label: "Litecoin (LTC)" },
-  { value: "Dogecoin", label: "Dogecoin (LTC)" },
-  { value: "Dash", label: "Dash" },
-  { value: "Monero", label: "Monero (XMR)" },
-  { value: "Verge", label: "Verge (XVG)" },
-  { value: "Ripple", label: "Ripple (XRP)" }
-];
+const options = [];
+
+// const options = [
+//   { value: "Bitcoin", label: "Bitcoin (BTC)" },
+//   { value: "Bitcoin Cash", label: "Bitcoin Cash (BCH)" },
+//   { value: "Litecoin", label: "Litecoin (LTC)" },
+//   { value: "Ethereum", label: "Ethereum (ETH)" },
+//   { value: "Ethereum Classic", label: "Ethereum Classic (ETC)" },
+//   { value: "Litecoin", label: "Litecoin (LTC)" },
+//   { value: "Dogecoin", label: "Dogecoin (LTC)" },
+//   { value: "Dash", label: "Dash" },
+//   { value: "Monero", label: "Monero (XMR)" },
+//   { value: "Verge", label: "Verge (XVG)" },
+//   { value: "Ripple", label: "Ripple (XRP)" }
+// ];
 
 class SignUp extends Component {
   constructor() {
@@ -99,6 +101,14 @@ class SignUp extends Component {
   state = {
     selectedOptions: null
   };
+
+  async componentDidMount() {
+
+    const crypto_data = await fetch("http://localhost:3001/signup/crypto");
+    const options = await crypto_data.json(); //convert to JSON format
+
+    this.setState({ options });
+  }
 
   render() {
     const { selectedOptions } = this.state;
