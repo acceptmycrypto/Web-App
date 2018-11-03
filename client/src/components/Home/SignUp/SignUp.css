@@ -169,15 +169,15 @@ body {
 }
 
 ul {
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 25px;
+  font-weight: 500;
 }
 
-h2,
-h3 {
-  color: #445366;
+h1,
+h2 {
+  color: #ffffff;
   text-align: center;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 hr.star-light {
@@ -210,4 +210,9 @@ hr.star-light {
   hr.star-light:after {
     color: #445366;
     background-color: #66DAC7;
+  }
+
+  .homepage-icons {
+    color: #445366;
+    padding: 10px;
   }
