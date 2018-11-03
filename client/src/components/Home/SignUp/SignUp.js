@@ -55,7 +55,7 @@ class SignUp extends Component {
 
     let username = e.target.children[0].children[1].value;
     let email = e.target.children[1].children[1].value;
-    let password = e.target.children[2].children[1].value;
+    let password = e.target.children[1].children[1].value;
     let cryptoProfile = this.state.cryptoProfile;
 
     //we add validation on the front end so that user has to enter in the required field before clicking submit
@@ -92,7 +92,27 @@ class SignUp extends Component {
     }
     return (
       <div className="App">
-        <div className="App__Aside" />
+        <div className="App__Aside">
+            <img className="crypto-img img-fluid mb-5 d-block mx-auto" src="../../../assets/images/pricetag.png" alt=""></img>
+            <h1 className="text-uppercase mb-0">Accept My Crypto</h1>
+            <hr className="star-light"></hr>
+            <h2 className="font-weight-light mb-0">
+            <ul>
+              <br></br>
+              <li><i class="homepage-icons fa fa-money" aria-hidden="true"></i>
+                Grab Deals for Purchase with Cryptocurrency
+              </li>
+              <br></br>
+              <li><i class="homepage-icons fa fa-user" aria-hidden="true"></i>
+                Find Friends with Matching Currencies
+              </li>
+              <br></br>
+              <li><i class="homepage-icons fa fa-users" aria-hidden="true"></i>
+                Engage with Your Crypto Community
+              </li>
+            </ul>
+            </h2>
+          </div>
         <div className="App__Form">
           <div className="PageSwitcher">
             <NavLink
@@ -191,9 +211,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                <button
-                  className="FormField__Button mr-20"
-                >
+                <button className="FormField__Button mr-10">
                   Sign Up
                 </button>
                 <Link to="/" className="FormField__Link">
