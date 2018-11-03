@@ -82,17 +82,33 @@ router.post('/profile/friends', verifyToken, function (req, res) {
 
 });
 
+router.post('/profile/matched/friends', verifyToken, function (req, res) {
+    let id = req.decoded._id;
+    connection.query('SELECT users.id, users.username, users_profiles.photo FROM users LEFT JOIN users_profiles ON users.id = users_profiles.user_id WHERE users.id IN (SELECT matched_friend_id AS id FROM users_matched_friends WHERE user_id = ? AND user_accepted = 0 AND both_accepted = 0)', [id], function (error, results, fields) {
+        // let shuffledfriendsArray = shuffle(results);
+
+        // let friendsArray = shuffledfriendsArray.slice(0,11);
+
+        res.json(results);
+
+    });
+
+});
+
 router.post("/profile/user/transactions", verifyToken, function(req, res) {
     let id = req.decoded._id;
     connection.query(
       'SELECT users_purchases.date_purchased, users_purchases.amount, deals.deal_name, users.username, users_profiles.photo, venues.venue_name, crypto_metadata.crypto_symbol AS crypto_symbol FROM users_purchases LEFT JOIN deals ON users_purchases.deal_id = deals.id LEFT JOIN users ON users_purchases.user_id = users.id LEFT JOIN crypto_info ON users_purchases.crypto_id = crypto_info.id LEFT JOIN crypto_metadata ON crypto_metadata_name = crypto_metadata.crypto_name LEFT JOIN venues ON venue_id = venues.id LEFT JOIN users_profiles ON users_profiles.user_id = users.id WHERE users.id =? AND payment_received = ? ORDER BY users_purchases.date_purchased DESC',
-      [id, 1], //1 is true for payment received //community means any user on acceptmycrypto platform
+      [id, 1], //1 is true for payment received 
       function(error, results, fields) {
         if (error) throw error;
         res.json(results);
       }
     );
   });
+
+
+ 
 
 
 function shuffle(array) {

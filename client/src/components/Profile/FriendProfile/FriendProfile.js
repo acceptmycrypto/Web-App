@@ -166,6 +166,7 @@ class FriendProfile extends Component {
     // console.log(this.props.location.pathname);
     // console.log(this.props.match.params.id);
     if(this.state.redirect){
+      // issue: redirects to deals feed not profile route
         return <Redirect to='/profile'/>
     }
     return (
