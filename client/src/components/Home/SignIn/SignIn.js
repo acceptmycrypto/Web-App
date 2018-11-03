@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './SignIn.css';
-import { BrowserRouter as Redirect, Router, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter as Link, NavLink } from 'react-router-dom';
 import { _login } from '../../../services/AuthService';
 import Modal from 'react-awesome-modal';
 
@@ -19,12 +19,7 @@ class SignIn extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
       }
-    // getToken = () => {
-    //     return localStorage.getItem('token');
-    //   }
-
-    
-
+  
     handleChange(e) {
         let target = e.target;
         let value = target.type === 'checkbox' ? target.checked : target.value;
@@ -66,26 +61,13 @@ class SignIn extends Component {
           visible : true
       });
   }
-  closeModal() {
-    const { history } = this.props;
-      this.setState({
-          visible : false
+    closeModal() {
+      const { history } = this.props;
+        this.setState({
+            visible : false
       });
-      history.push('/feed/deals');
+        history.push('/feed/deals');
     }
-
-    //     logout = (event) => {
-    //       event.preventDefault();
-
-    //       this.setState({logged_in: false}, function(){
-    //         localStorage.removeItem('token');
-    //       });
-
-    //     console.log('The form was submitted with the following data:');
-    //     console.log(this.state);
-
-    // };
-
 
     render() {
 
@@ -101,9 +83,6 @@ class SignIn extends Component {
                   <NavLink exact to="/SignUp" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
                 </div>
 
-                {/* <div className="FormTitle">
-                    <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/SignUp" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
-                </div> */}
             <div className="FormCenter">
             <form onSubmit = {this.handleLogin} className="FormFields">
             
