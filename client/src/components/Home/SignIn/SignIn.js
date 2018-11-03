@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './SignIn.css';
-import { BrowserRouter as Link, NavLink } from 'react-router-dom';
+// Router and Route is never being called, but at the same time must not be deleted. If deleted, it thows an error.
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import { _login } from '../../../services/AuthService';
 import Modal from 'react-awesome-modal';
 
@@ -98,7 +99,7 @@ class SignIn extends Component {
 
               <div className="FormField">
                   <button className="FormField__Button mr-20" onClick={() => this.openModal()}>Sign In</button> 
-                  <Link to="/" className="FormField__Link"><span>Create an account</span></Link>
+                  <Link to="/" className="FormField__Link">Create an account</Link>
               </div>
               <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
                 <div className="Modal">

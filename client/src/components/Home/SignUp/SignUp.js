@@ -1,6 +1,6 @@
 import "./SignUp.css";
 import React, { Component } from "react";
-import { BrowserRouter as Link, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import Select from "react-select";
 import { _signUp } from "../../../services/AuthService";
 
