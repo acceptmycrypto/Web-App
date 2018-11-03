@@ -5,8 +5,7 @@ var router = express.Router();
 var methodOverride = require('method-override');
 
 var bodyParser = require('body-parser');
-var jwt = require('jsonwebtoken');
-var keys = require("../key");
+
 var verifyToken =  require ("./utils/validation");
 
 
@@ -38,42 +37,6 @@ var connection = mysql.createConnection({
     database: 'crypto_db'
 });
 
-
-
-// function verifyToken (req, res, next) {
-//     // check header or url parameters or post parameters for token
-//     var token = req.body.token || req.query.token || req.headers['x-access-token'];
-//     console.log(token);
-//     if (token) {
-//         jwt.verify(token, keys.JWT_SECRET, (err, decod) => {
-//             if (err) {
-//                 res.status(403).json({
-//                     message: "Wrong Token"
-//                 });
-//             } else {
-//                 req.decoded = decod;
-//                 next();
-//             }
-//         });
-//     } else {
-//         res.status(403).json({
-//             message: "No Token"
-//         });
-//         console.log(token);
-//     }
-//   }
-
-// router.post('/user', verifyToken, function(req, res){
-//     // var token = req.body.token || req.query.token;
-//     // if (!token) {
-//     //     return res.status(401).json({message: 'Must pass token'});
-//     // }
-//     // var dec = jwt.verify(token, keys.JWT_SECRET);
-//     // console.log("this is decoded:", dec);
-//     console.log('this is:',  req.decoded._id);
-    
-
-// });
 
 
 router.post('/profile', verifyToken, function (req, res) {

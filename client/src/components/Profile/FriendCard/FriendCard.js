@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./FriendCard.css";
 
+
 const FriendCard = props => {
     return (
         <div className="matchedFriends p-1 text-center w-100 white-bg">
@@ -19,7 +20,7 @@ const FriendCard = props => {
                             </div>
                         </Link>
                     )
-                    : <div>Make Purchases to get Matched with Friends</div>
+                    : <div><Link to={`/feed/deals`} style={{ textDecoration: 'none'}}>Make Purchases to get Matched with Friends who have bought items with the same Crypto</Link></div>
                 }
             </div>
         </div>

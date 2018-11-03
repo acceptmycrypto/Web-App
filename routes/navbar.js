@@ -47,6 +47,14 @@ router.post('/navbar/photo',verifyToken, function (req, res) {
     });
 });
 
+router.post('/loggedIn', verifyToken, function (req, res){
+    if(req.decoded._id){
+        res.json({"message": "Right Token"});
+    }else{
+        res.status(403).json({"message": "No Token"});
+    }
+})
+
 
 
 module.exports = router;

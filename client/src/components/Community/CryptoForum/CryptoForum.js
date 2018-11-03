@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import "./CryptoForum.css";
+import Layout from "../../Layout"
 
 
 class CryptoForum extends Component {
@@ -111,6 +112,7 @@ class CryptoForum extends Component {
     render() {
         return (
             <div>
+                <Layout/>
                 <h1>{this.state.cryptoName}</h1>
                 {this.state.allComments.map(parent => 
                     <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
