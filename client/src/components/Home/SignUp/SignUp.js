@@ -55,33 +55,16 @@ class SignUp extends Component {
     });
   }
 
-  //set the options to select crypto from
-  cryptoOptions() {
-    let options = [];
-    this.state.acceptedCryptos.map(crypto => {
-
-      let optionObj = {};
-      optionObj.value = crypto.crypto_symbol;
-      optionObj.label = crypto.crypto_name + " " + "(" + crypto.crypto_symbol + ")";
-      optionObj.logo = crypto.crypto_logo;
-      optionObj.name = crypto.crypto_name;
-
-      options.push(optionObj);
-    })
-
-    return options
-  }
-
   //this function handles the change of crypto option user selects everytime
   //selectedOptions is an array of object
   //we need to map through the array and get the value of each object
   handleDropdownChange = selectedOptions => {
-    let SelectedCryptos = [];
+    let SelectedCryptos = this.state.cryptoOptions;
     selectedOptions.map(crypto => {
       SelectedCryptos.push(crypto.value);
     })
-    console.log(SelectedCryptos);
-    
+    console.log("Selected Crypto: ", SelectedCryptos);
+
     this.setState({
       cryptoProfile: SelectedCryptos //this is what we get [Bitcoin, Litecoin, ...] as user select the option
     });
