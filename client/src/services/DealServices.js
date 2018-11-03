@@ -21,7 +21,7 @@ export async function _loadDealItem (deal_name) {
   return dealItem
 }
 
-export async function _fetchTransactionInfo (crypto_name, crypto_symbol, deal_id, user_id, amount) {
+export async function _fetchTransactionInfo (crypto_name, crypto_symbol, deal_id, amount, token) {
 
 	return fetch('http://localhost:3001/checkout', {
 	    method: 'POST',
@@ -29,7 +29,7 @@ export async function _fetchTransactionInfo (crypto_name, crypto_symbol, deal_id
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
 	    },
-	    body: JSON.stringify({crypto_name, crypto_symbol, deal_id, user_id, amount})
+	    body: JSON.stringify({crypto_name, crypto_symbol, deal_id, amount, token})
     }).then(res => res.json())
     
 }
