@@ -104,7 +104,7 @@ class SignUp extends Component {
 
   async componentDidMount() {
 
-    const crypto_data = await fetch("http://localhost:3001/signup/crypto");
+    const crypto_data = await fetch("http://localhost:3001/api/crypto");
     const options = await crypto_data.json(); //convert to JSON format
 
     this.setState({ options });
