@@ -17,9 +17,12 @@ const PurchaseOrder = props => {
         options={props.cryptos}
       />
         </div>
+
+        {!props.paymentButtonClicked ?
         <div id="submit_payment">
           <button>Send Your Payment</button>
-        </div>
+        </div> : null}
+
       </form>
 
 
