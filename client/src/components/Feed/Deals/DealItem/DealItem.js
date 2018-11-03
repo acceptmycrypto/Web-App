@@ -26,7 +26,8 @@ class DealItem extends Component {
       shippingState: null,
       transactionInfo: null,
       paidIn: null,
-      purchasing: false
+      purchasing: false,
+      loading: false
     };
   }
 
@@ -121,18 +122,22 @@ class DealItem extends Component {
     //deal_id, crypto_name, amount, and user_id
     let deal_id = this.state.dealItem.deal_id;
     let amount = this.state.dealItem.pay_in_crypto;
-    let user_id = '4' //hardcoded user_id for now. Need to grab user_id dynamically
+    // let user_id = '4' //hardcoded user_id for now. Need to grab user_id dynamically
     let crypto_symbol = this.state.selectedOption.value;
     let crypto_name = this.state.selectedOption.name;
+    let token = localStorage.getItem('token');
 
-    return _fetchTransactionInfo(crypto_name, crypto_symbol, deal_id, user_id, amount)
-    .then(transactionInfo => {
-      this.setState(
-        { transactionInfo,
-          paidIn: crypto_symbol,
-          purchasing: true
-        });
-    });
+    this.setState({loading: true}, () => {
+      return _fetchTransactionInfo(crypto_name, crypto_symbol, deal_id, amount, token)
+      .then(transactionInfo => {
+        this.setState(
+          { loading: false,
+            transactionInfo,
+            paidIn: crypto_symbol,
+            purchasing: true
+          });
+      });
+    })
   };
 
   render() {
@@ -160,6 +165,7 @@ class DealItem extends Component {
         transactionInfo={this.state.transactionInfo}
         cryptoSymbol={this.state.paidIn}
         paymentButtonClicked={this.state.purchasing}
+        showLoadingSpinner={this.state.loading}
         timeout={this.state.transactionInfo && this.convertSecondToMinute(this.state.transactionInfo.timeout)}/> }
     ];
 

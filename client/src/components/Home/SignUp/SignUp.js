@@ -1,23 +1,8 @@
-// import React from "react";
 import "./SignUp.css";
 import React, { Component } from "react";
-import {BrowserRouter as Redirect, Router, Route, Link, NavLink} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import Select from "react-select";
-import { _signUp } from "../../../services/AuthService";
-
-const options = [
-  { value: "Bitcoin", label: "Bitcoin (BTC)" },
-  { value: "Bitcoin Cash", label: "Bitcoin Cash (BCH)" },
-  { value: "Litecoin", label: "Litecoin (LTC)" },
-  { value: "Ethereum", label: "Ethereum (ETH)" },
-  { value: "Ethereum Classic", label: "Ethereum Classic (ETC)" },
-  { value: "Litecoin", label: "Litecoin (LTC)" },
-  { value: "Dogecoin", label: "Dogecoin (LTC)" },
-  { value: "Dash", label: "Dash" },
-  { value: "Monero", label: "Monero (XMR)" },
-  { value: "Verge", label: "Verge (XVG)" },
-  { value: "Ripple", label: "Ripple (XRP)" }
-];
+import { _signUp, _loadCryptocurrencies } from "../../../services/AuthService";
 
 class SignUp extends Component {
   constructor() {
@@ -27,28 +12,35 @@ class SignUp extends Component {
       username: "",
       email: "",
       password: "",
+      cryptoOptions: [],
       cryptoProfile: [],
       hasAgreed: false,
       redirect: false
-      // name: '',
-       // phoneNum: '',
-      // location: '',
-      // birthday: '',
     };
-    // setRedirect = () => {
-    //   this.setState({
-    //     redirect: true
-    //   })
-    // }
-    // renderRedirect = () => {
-    //   if (this.state.redirect) {
-    //     return <Redirect to='/feed/venues'>
-    //   }
-    // }
-
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  componentDidMount() {
+    return _loadCryptocurrencies().then(cryptos => {
+
+      let cryptoOptions = [];
+
+      cryptos.map(crypto => {
+
+        let optionObj = {};
+        optionObj.value = crypto.crypto_metadata_name;
+        optionObj.label = crypto.crypto_metadata_name + " " + "(" + crypto.crypto_symbol + ")";
+
+        cryptoOptions.push(optionObj);
+      })
+
+      this.setState({cryptoOptions});
+    });
+  }
+
+
 
   //this function handles the change of crypto option user selects everytime
   //selectedOptions is an array of object
@@ -58,6 +50,8 @@ class SignUp extends Component {
     selectedOptions.map(crypto => {
       SelectedCryptos.push(crypto.value);
     })
+    console.log(SelectedCryptos);
+
     this.setState({
       cryptoProfile: SelectedCryptos //this is what we get [Bitcoin, Litecoin, ...] as user select the option
     });
@@ -96,6 +90,7 @@ class SignUp extends Component {
     });
     console.log(name);
   }
+
   state = {
     selectedOptions: null
   };
@@ -194,28 +189,19 @@ class SignUp extends Component {
                   required
                 />
               </div>
-              {/* <div className="FormField">
-                <label className="FormField__Label" htmlFor="phoneNum">Phone Number</label>
-                <input type="text" id="phoneNum" className="FormField__Input" placeholder="Enter your Phone Number" name="phoneNum" value={this.state.phoneNum} onChange={this.handleChange} />
-              </div> */}
-              {/* <div className="FormField">
-                <label className="FormField__Label" htmlFor="email">Location</label>
-                <input type="text" id="location" className="FormField__Input" placeholder="Enter your address" name="location" value={this.state.location} onChange={this.handleChange} />
-              </div>
-              <div className="FormField">
-                <label className="FormField__Label" htmlFor="birthday">Birthday</label>
-                <input type="text" id="birthday" className="FormField__Input" placeholder="Enter your date of birth" name="birthday" value={this.state.birthday} onChange={this.handleChange} />
-              </div> */}
+
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">
                   Your Cryptocurrency Portfolio
                 </label>
+
                 {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
                 <Select
+
                   required
                   value={selectedOptions}
                   onChange={this.handleDropdownChange}
-                  options={options}
+                  options={this.state.cryptoOptions}
                   isMulti={true}
                   autoBlur={false}
 
@@ -239,11 +225,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                {/* {this.renderRedirect()} */}
-                <button
-                  className="FormField__Button mr-10"
-
-                >
+                <button className="FormField__Button mr-10">
                   Sign Up
                 </button>
                 <Link to="/" className="FormField__Link">
