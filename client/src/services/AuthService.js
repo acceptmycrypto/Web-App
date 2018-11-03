@@ -19,4 +19,10 @@ export const _login = (email, password) => {
 			body: JSON.stringify({email, password})
 		}).then(res => res.json())
   }
-  
+
+export async function _loadCryptocurrencies () {
+  const cryptocurrencies = await fetch('http://localhost:3001/cryptocurrencies');
+  const cryptos = await cryptocurrencies.json();
+
+  return cryptos
+}
