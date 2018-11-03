@@ -1,7 +1,6 @@
-// import React from "react";
 import "./SignUp.css";
 import React, { Component } from "react";
-import {BrowserRouter as Redirect, Router, Route, Link, NavLink} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import Select from "react-select";
 import { _signUp } from "../../../services/AuthService";
 
@@ -30,22 +29,8 @@ class SignUp extends Component {
       cryptoProfile: [],
       hasAgreed: false,
       redirect: false
-      // name: '',
-       // phoneNum: '',
-      // location: '',
-      // birthday: '',
     };
-    // setRedirect = () => {
-    //   this.setState({
-    //     redirect: true
-    //   })
-    // }
-    // renderRedirect = () => {
-    //   if (this.state.redirect) {
-    //     return <Redirect to='/feed/venues'>
-    //   }
-    // }
-
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -193,23 +178,11 @@ class SignUp extends Component {
                   required
                 />
               </div>
-              {/* <div className="FormField">
-                <label className="FormField__Label" htmlFor="phoneNum">Phone Number</label>
-                <input type="text" id="phoneNum" className="FormField__Input" placeholder="Enter your Phone Number" name="phoneNum" value={this.state.phoneNum} onChange={this.handleChange} />
-              </div> */}
-              {/* <div className="FormField">
-                <label className="FormField__Label" htmlFor="email">Location</label>
-                <input type="text" id="location" className="FormField__Input" placeholder="Enter your address" name="location" value={this.state.location} onChange={this.handleChange} />
-              </div>
-              <div className="FormField">
-                <label className="FormField__Label" htmlFor="birthday">Birthday</label>
-                <input type="text" id="birthday" className="FormField__Input" placeholder="Enter your date of birth" name="birthday" value={this.state.birthday} onChange={this.handleChange} />
-              </div> */}
+
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="cryptoProfile">
                   Your Cryptocurrency Portfolio
                 </label>
-                {/* <input type="text" id="cryptoProfile" className="FormField__Input" placeholder="Your Crypto Profile" name="email" value={this.state.cryptoProfile} onChange={this.handleChange} /> */}
                 <Select 
                   required
                   value={selectedOptions}
@@ -238,11 +211,7 @@ class SignUp extends Component {
               </div>
 
               <div className="FormField">
-                {/* {this.renderRedirect()} */}
-                <button
-                  className="FormField__Button mr-10"
-
-                >
+                <button className="FormField__Button mr-10">
                   Sign Up
                 </button>
                 <Link to="/" className="FormField__Link">
