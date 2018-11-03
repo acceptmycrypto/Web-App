@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import "./CryptoForum.css";
+import Layout from "../../Layout"
 
 
 class CryptoForum extends Component {
@@ -20,26 +21,27 @@ class CryptoForum extends Component {
     //this function sends new comment information to backend, resets the comment form, then sets returned json into state
     addComment = (event) => {
         event.preventDefault();
-        let id, user_id, crypto_id, body, comment_parent_id;//prep all the data to send into fetch body
+        let id, user_id, crypto_id, body, comment_parent_id, token;//prep all the data to send into fetch body
         id = event.target.getAttribute("id");//this id distinguishes commentForm on the bottom with replyForms when you click reply.  this id has nothing to do with ids in the db tables
         if (id==="commentForm"){//if this is commentForm
             comment_parent_id = 0;
         } else {//if this is a replyForm
             comment_parent_id = event.target.getAttribute("data-id");
         }
-        user_id = 1; //hardcoding user for now
+        // user_id = 1; //hardcoding user for now
         crypto_id = this.state.cryptoId;
         body = event.target.children[0].innerText;//save the comment text into body
         console.log("body");
         console.log(body);
         event.target.children[0].innerText = "";//comment text has to be cleared regardless of commentForm or replyForm
+        token = localStorage.getItem('token');
         return fetch("http://localhost:3001/crypto/submit-comment", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({user_id, crypto_id, body, comment_parent_id})
+            body: JSON.stringify({crypto_id, body, comment_parent_id, token})
         }).then(res => res.json()).then(allComments => {
             console.log(allComments);
             
@@ -59,7 +61,8 @@ class CryptoForum extends Component {
 
     //this function sends id of comment to delete, then sets returned json into state
     deleteComment = (event) => {
-        let id;//prep all the data to send into fetch body
+        let id, crypto_id;//prep all the data to send into fetch body
+        crypto_id = this.state.cryptoId;
         id = event.target.parentElement.parentElement.parentElement.getAttribute("data-id");
         // this id IS same as the id from the crypto_comments table
         return fetch("http://localhost:3001/crypto/delete-comment", {
@@ -68,7 +71,7 @@ class CryptoForum extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({id})
+            body: JSON.stringify({id, crypto_id})
         }).then(res => res.json())
         .then(allComments => {
             console.log(allComments);
@@ -109,7 +112,8 @@ class CryptoForum extends Component {
     render() {
         return (
             <div>
-                <h1>{"CryptoId="+this.state.cryptoId}</h1>
+                <Layout/>
+                <h1>{this.state.cryptoName}</h1>
                 {this.state.allComments.map(parent => 
                     <div className="parentComment" id={"parent"+parent.id} key={"parent"+parent.id} data-id={parent.id} data-parent={true}>
                         {(parent.comment_status==="deleted") && <div className="commentDeleted">
@@ -133,7 +137,7 @@ class CryptoForum extends Component {
                                     <div>{child.date_commented} - {child.username}
                                         <button onClick={this.deleteComment}>Delete</button>
                                     </div>
-                                    <div>{child.body}</div>
+                                    <div>{ReactHtmlParser(child.body)}</div>
                                 </div>}
                             </div>
                         )}

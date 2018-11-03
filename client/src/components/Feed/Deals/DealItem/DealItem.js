@@ -7,6 +7,7 @@ import StepZilla from "react-stepzilla";
 import CustomizeOrder from "../CustomizeOrder";
 import ShipOrder from "../ShipOrder";
 import PurchaseOrder from "../PurchaseOrder";
+import Layout from "../../../Layout";
 
 class DealItem extends Component {
   constructor() {
@@ -164,77 +165,80 @@ class DealItem extends Component {
 
     return (
       <div>
-        {/* {this.state.dealItem.map(item => (
-        <ul key={item.id}>
-          <li>{item.deal_name}</li>
-          <li>{item.deal_description}</li>
-          <li>{item.deal_image}</li>
-          <li>{item.pay_in_dollar}</li>
-          <li>{item.pay_in_crypto}</li>
-          <li>{item.venue_name}</li>
-          <li>{item.venue_link}</li>
-        </ul>
-       ))} */}
-        <div className="deal-container">
-          <div className="deal-header">
+        <Layout/>
+        <div>
+          {/* {this.state.dealItem.map(item => (
+          <ul key={item.id}>
+            <li>{item.deal_name}</li>
+            <li>{item.deal_description}</li>
+            <li>{item.deal_image}</li>
+            <li>{item.pay_in_dollar}</li>
+            <li>{item.pay_in_crypto}</li>
+            <li>{item.venue_name}</li>
+            <li>{item.venue_link}</li>
+          </ul>
+        ))} */}
+          <div className="deal-container">
+            <div className="deal-header">
 
-            <div className="deal-item-header">
-              <div className="deal-item-name">
-                <strong>{this.state.dealItem && this.state.dealItem.deal_name}</strong> <br/>
-                <small> Offered By: {this.state.dealItem && this.state.dealItem.venue_name}</small>
+              <div className="deal-item-header">
+                <div className="deal-item-name">
+                  <strong>{this.state.dealItem && this.state.dealItem.deal_name}</strong> <br/>
+                  <small> Offered By: {this.state.dealItem && this.state.dealItem.venue_name}</small>
+                </div>
+                <div className="deal-item-cost">
+                  <strong>Pay in Crypto:  ${this.state.dealItem && this.state.dealItem.pay_in_crypto}</strong>  <small className="deal-item-discount">
+                  {this.state.dealItem && this.convertToPercentage(this.state.dealItem.pay_in_dollar, this.state.dealItem.pay_in_crypto)}% OFF</small> <br/>
+                  <small>Pay in Dollar:  ${this.state.dealItem && this.state.dealItem.pay_in_dollar} <br/></small>
+                </div>
               </div>
-              <div className="deal-item-cost">
-                <strong>Pay in Crypto:  ${this.state.dealItem && this.state.dealItem.pay_in_crypto}</strong>  <small className="deal-item-discount">
-                {this.state.dealItem && this.convertToPercentage(this.state.dealItem.pay_in_dollar, this.state.dealItem.pay_in_crypto)}% OFF</small> <br/>
-                <small>Pay in Dollar:  ${this.state.dealItem && this.state.dealItem.pay_in_dollar} <br/></small>
+
+              <div className="deal-item-summary">
+                  <div className="customize-item-summary">
+                    <strong>Customizing</strong> <br/>
+                    <small>{this.state.selectedSize}</small> <br/>
+                    <small>{this.state.selectedColor}</small> <br/>
+                  </div>
+
+                  <div className="customize-item-shipping">
+                    <strong>Shipping</strong> <br/>
+                    <small>{this.state.fullName}</small> <br/>
+                    <small>{this.state.address}</small> <br/>
+                    <small>{this.state.city} </small>
+                    <small>{this.state.zipcode} </small>
+                    <small>{this.state.shippingState}</small>
+                  </div>
+
+                  <div className="customize-item-payment">
+                    <div className="crypto_logo">
+                      <strong>Payment</strong> <br/>
+                      <img src={this.state.selectedOption.logo} alt="cryptoLogo" />
+                    </div>
+                  </div>
               </div>
             </div>
 
-            <div className="deal-item-summary">
-                <div className="customize-item-summary">
-                  <strong>Customizing</strong> <br/>
-                  <small>{this.state.selectedSize}</small> <br/>
-                  <small>{this.state.selectedColor}</small> <br/>
+            <div className="deal-main-info">
+              <div className="deal-images-container">
+                <Carousel
+                  className="react-carousel"
+                  width={"55%"}
+                  showStatus={false}>
+
+                  {this.state.dealItem &&
+                  this.state.dealItem.deal_image.map(img => (
+                    <div className="deal-item-image">
+                      <img src={img} />
+                    </div>
+                  ))}
+
+                </Carousel>
+              </div>
+
+              <div className="deal-checkout-container">
+                <div className="step-progress">
+                  <StepZilla steps={steps}/>
                 </div>
-
-                <div className="customize-item-shipping">
-                  <strong>Shipping</strong> <br/>
-                  <small>{this.state.fullName}</small> <br/>
-                  <small>{this.state.address}</small> <br/>
-                  <small>{this.state.city} </small>
-                  <small>{this.state.zipcode} </small>
-                  <small>{this.state.shippingState}</small>
-                </div>
-
-                <div className="customize-item-payment">
-                  <div className="crypto_logo">
-                    <strong>Payment</strong> <br/>
-                    <img src={this.state.selectedOption.logo} alt="cryptoLogo" />
-                  </div>
-                </div>
-            </div>
-          </div>
-
-          <div className="deal-main-info">
-            <div className="deal-images-container">
-              <Carousel
-                className="react-carousel"
-                width={"55%"}
-                showStatus={false}>
-
-                {this.state.dealItem &&
-                this.state.dealItem.deal_image.map(img => (
-                  <div className="deal-item-image">
-                    <img src={img} />
-                  </div>
-                ))}
-
-              </Carousel>
-            </div>
-
-            <div className="deal-checkout-container">
-              <div className="step-progress">
-                <StepZilla steps={steps}/>
               </div>
             </div>
           </div>

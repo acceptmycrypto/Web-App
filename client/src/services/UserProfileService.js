@@ -39,21 +39,6 @@ export async function _updateCryptoTable (crypto_address,id, token){
           return { user_info, user_crypto, crypto_view, add_address };
 }
 
-// export async function _verifyUser (token){
-//     const settings = {
-//       method: "POST",
-//       headers: {
-//         "Accept": "application/json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({token})
-//     };
- 
-//   const user = await fetch("http://localhost:3001/user", settings)
-//   const userID = await user.json();
-
-//   return{userID};
-// }
 
 
 
@@ -82,13 +67,7 @@ export async function _loadProfile (token) {
 
   
   return({user_info, user_crypto, friends_array, transactions});
-  // return Promise.all([
-  //   fetch("http://localhost:3001/profile"),
-  //   fetch("http://localhost:3001/profile/crypto"),
-  //   fetch("http://localhost:3001/profile/friends"), 
-  //   fetch("http://localhost:3001/profile/user/transactions")
-  // ])
-  //   .then(([res1, res2, res3, res4]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json()]));
+
 }
 
 

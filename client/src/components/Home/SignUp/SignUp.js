@@ -102,6 +102,9 @@ class SignUp extends Component {
 
   render() {
     const { selectedOptions } = this.state;
+    if(localStorage.getItem('token')){
+      this.props.history.push('/feed/deals');
+    }
     return (
       <div className="App">
         <div className="App__Aside" />

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Settings.css";
 import { Link } from "react-router-dom";
+import Layout from "../../Layout";
 
 
 
@@ -27,6 +28,8 @@ class Settings extends Component {
             //     <label className="radio-label d-flex flex-column px-4"><br /><div className="radio-div"><input className="radio" type="radio" name="selection" value="friends" /></div> Friends</label>
 
             // </div>
+        <div>
+            <Layout/>
 
             <form className="form">
                 <ol className="nodes">
@@ -52,6 +55,7 @@ class Settings extends Component {
                     </li>
                 </ol>
             </form>
+        </div>
 
         );
     }

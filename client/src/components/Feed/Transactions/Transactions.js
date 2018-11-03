@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Transactions.css";
 import CryptoRankings from "../../CryptosRanking";
 import FeedCard from "../FeedCard";
+import Layout from "../../Layout";
 
 class Transactions extends Component {
   constructor() {
@@ -25,10 +26,13 @@ class Transactions extends Component {
 
   render() {
     return (
-      <div className="transactions-content">
-        <CryptoRankings />
-        <div className="w-50">
-          <FeedCard transactions={this.state.transactions} />
+      <div>
+        <Layout/>
+        <div className="transactions-content">
+          <CryptoRankings />
+          <div className="w-50">
+            <FeedCard transactions={this.state.transactions} />
+          </div>
         </div>
       </div>
     );

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CryptoRankings from '../../CryptosRanking';
 import { _loadDeals } from "../../../services/DealServices";
 import './Deals.css';
+import Layout from "../../Layout"
 
 class Deals extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class Deals extends Component {
       deals: []
     };
   }
+
 
   //Another way to fetch api with promise using es6 syntax so we can call multiple api routes
   componentDidMount() {
@@ -28,6 +30,7 @@ class Deals extends Component {
   render() {
     return (
       <div>
+        <Layout/>
         <div className="venues-content">
           <CryptoRankings />
 

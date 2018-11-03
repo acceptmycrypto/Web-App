@@ -20,7 +20,7 @@ class CryptosRankings extends Component {
   render() {
     return (
       <div id="left" className="column cryptosRanking">
-        <table class="table table-hover">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -31,7 +31,7 @@ class CryptosRankings extends Component {
           </thead>
           <tbody>
             {this.state.cryptosRanking.map((crypto, i) => (
-              <tr>
+              <tr key={crypto+i}>
                 <th scope="row">{i + 1}</th>
                 <td><img src={crypto.crypto_logo} alt="crypto-logo"/> {crypto.crypto_symbol}</td>
                 <td>{crypto.venues_count}</td>
