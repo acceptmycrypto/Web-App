@@ -97,8 +97,8 @@ class SignIn extends Component {
               </div>
 
               <div className="FormField">
-                  <button className="FormField__Button mr-20" onClick={() => this.openModal()}
-                  >Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
+                  <button className="FormField__Button mr-20" onClick={() => this.openModal()}>Sign In</button> 
+                  <Link to="/" className="FormField__Link"><span>Create an account</span></Link>
               </div>
               <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
                 <div className="Modal">
