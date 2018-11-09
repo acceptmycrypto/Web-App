@@ -28,42 +28,29 @@ var connection = mysql.createConnection({
 // api
 router.post('/api/deals', verifyToken, function(req, res) {
   let id = req.decoded._id;
+  // let id = 3;
 
   if (id) { //if login
 
-    //1) query the users_cryptos table to get the crypto_id that the user is interested/owned
-    connection.query(
-      'SELECT crypto_id FROM users_cryptos WHERE user_id = ?',
-      [id],
-      function(error, cryptosID, fields) {
-        if (error) console.log(error);
+    // Create a multi nested SQL query
+    
+                  //1) query the users_cryptos table to get the crypto_id that the user is interested/owned
+    
+            //2) query the venues that accept those cryptos
 
-        //2) query the venues that accept those cryptos
+      // 3) query the deals that offered by those venues
         connection.query(
-          'SELECT venue_id FROM cryptos_venues WHERE ?',
-          cryptosID,
-          function(error, venuesID, fields) {
+          'SELECT deals.id, deals.deal_name, deals.deal_description, deals.featured_deal_image, deals.pay_in_dollar, deals.pay_in_crypto, venues.venue_name, venues.venue_link FROM deals LEFT JOIN venues ON deals.venue_id = venues.id WHERE venue_id IN (SELECT DISTINCT venue_id FROM cryptos_venues WHERE crypto_id IN (SELECT DISTINCT crypto_id FROM users_cryptos WHERE user_id = ?))',
+          [id],
+          function(error, results, fields) {
             if (error) console.log(error);
 
-            //query the deals that offered by those venues
-            connection.query(
-              'SELECT deals.id, deals.deal_name, deals.deal_description, deals.featured_deal_image, deals.pay_in_dollar, deals.pay_in_crypto, venues.venue_name, venues.venue_link FROM deals LEFT JOIN venues ON deals.venue_id = venues.id WHERE ?',
-              venuesID,
-              function(error, results, fields) {
-                if (error) console.log(error);
-
-                res.json(results);
-              }
-            );
+            console.log(JSON.stringify(results));
+            res.json(results);
 
           }
         );
-
-      }
-    );
-
   }
-
 });
 
 //get a deal_item api
