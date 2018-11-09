@@ -28,7 +28,6 @@ var connection = mysql.createConnection({
 // api
 router.post('/api/deals', verifyToken, function(req, res) {
   let id = req.decoded._id;
-  // let id = 3;
 
   if (id) { //if login
 
