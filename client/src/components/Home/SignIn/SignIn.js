@@ -14,8 +14,8 @@ class SignIn extends Component {
             email: '',
             password: '',
             SignUp: false,
-            redirect: false,
-            visible: false
+            visible: false,
+            
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -36,36 +36,42 @@ class SignIn extends Component {
       let email = e.target.children[0].children[1].value;
       let password = e.target.children[1].children[1].value;
 
-      if (!email || !password) {
-        alert("please enter in the required fields");
-      } else {
+      if (email && password) {
+        this.openModal();
         return _login(email, password).then(res => {
+          
             if (res.token){
               localStorage.setItem('token', res.token);
-              console.log(res.token);
-              // alert("You've successfully logged in");
-              //redirect user to the feed/deals
               
+              console.log(res.token);
             }else{
               console.log("Login error: ", res);
-              alert(res.err);
+              
             }
           });
-
+          
+      }else{
+        alert("Your Email or Password is invalid");
       }
-    }
+
+    };
+
     openModal() {
       this.setState({
           visible : true
       });
   }
+
     closeModal() {
       const { history } = this.props;
         this.setState({
             visible : false 
       });
         history.push('/feed/deals');
-    }
+    };
+
+    
+  
 
     render() {
 
@@ -116,10 +122,11 @@ class SignIn extends Component {
 
               <div className="FormField">
 
-                  <button className="FormField__Button mr-10" onClick={() => this.openModal()}>Sign In</button> 
+                  <button className="FormField__Button mr-10">Sign In</button> 
                   <Link to="/" className="FormField__Link">Create an account</Link>
 
               </div>
+              
               <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
                 <div className="Modal">
                   <h4>You have successfully logged in</h4>
@@ -127,6 +134,14 @@ class SignIn extends Component {
                   <a className="a-link" href="javascript:void(0);" onClick={() => this.closeModal()}>Ok</a>
                 </div>
               </Modal>
+             
+              {/* <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
+                <div className="Modal">
+                  <h4>Your email or password was invalid</h4>
+                  <a className="a-link" href="javascript:void(0);" onClick={() => this.closeModal()}>Ok</a>
+                </div>
+              </Modal> */}
+              
             </form>
           </div>
             </div>
