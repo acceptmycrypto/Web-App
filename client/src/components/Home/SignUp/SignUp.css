@@ -164,6 +164,30 @@ body {
     margin-left: 5px;
   }
 
+  /* .Modal{
+    text-align: center;
+    width: 600px;
+    height: 250px;
+    background-color: #2E4158;
+    border: solid #199087 .5em;
+    padding: 50px 70px;
+    display: block;
+    text-transform: uppercase;
+    color: white;
+    position: fixed;
+  }
+  p{
+    text-align: center;
+    padding-top: 30px;
+    font-size: .6em;
+  }
+  .a-link{
+    color: white;
+    font-size: 20px;
+    margin-left: 90%;
+  } */
+
+
 .crypto-img {
   width: 150px;
 }
@@ -216,3 +240,4 @@ hr.star-light {
     color: #445366;
     padding: 10px;
   }
+

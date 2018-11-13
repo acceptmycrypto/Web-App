@@ -15,7 +15,7 @@ class SignIn extends Component {
             password: '',
             SignUp: false,
             redirect: false,
-            visable: false
+            visible: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -33,9 +33,6 @@ class SignIn extends Component {
 
     handleLogin(e) {
       e.preventDefault();
-
-      
-
       let email = e.target.children[0].children[1].value;
       let password = e.target.children[1].children[1].value;
 
@@ -65,7 +62,7 @@ class SignIn extends Component {
     closeModal() {
       const { history } = this.props;
         this.setState({
-            visible : false
+            visible : false 
       });
         history.push('/feed/deals');
     }
