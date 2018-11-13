@@ -37,25 +37,31 @@ class SignIn extends Component {
       let password = e.target.children[1].children[1].value;
 
       if (email && password) {
+
         this.openModal();
         return _login(email, password).then(res => {
+          
             if (res.token){
               localStorage.setItem('token', res.token);
+
               console.log(res.token);
             }else{
               console.log("Login error: ", res);
               
             }
           });
+
       // }else{
       //   alert("Your Email or Password is invalid");
       }
     };
+
     openModal() {
       this.setState({
           visible : true
       });
   }
+
     closeModal() {
       const { history } = this.props;
         this.setState({
@@ -63,6 +69,7 @@ class SignIn extends Component {
       });
         history.push('/feed/deals');
     };
+
 
 
     render() {
