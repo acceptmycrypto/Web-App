@@ -36,23 +36,21 @@ class SignIn extends Component {
       let email = e.target.children[0].children[1].value;
       let password = e.target.children[1].children[1].value;
 
-      if (email && password) {
+      const { history } = this.props;
 
-        this.openModal();
+      if (email && password) {
         return _login(email, password).then(res => {
           
             if (res.token){
               localStorage.setItem('token', res.token);
-
+              history.push('/feed/deals');
               console.log(res.token);
             }else{
+              this.openModal();
               console.log("Login error: ", res);
               
             }
-          });
-
-      // }else{
-      //   alert("Your Email or Password is invalid");
+          })
       }
     };
 
@@ -61,13 +59,10 @@ class SignIn extends Component {
           visible : true
       });
   }
-
     closeModal() {
-      const { history } = this.props;
         this.setState({
             visible : false 
       });
-        history.push('/feed/deals');
     };
 
 
@@ -128,19 +123,11 @@ class SignIn extends Component {
               
               <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
                 <div className="Modal">
-                  <h4>You have successfully logged in</h4>
-                  <p>From the team at Accept My Crypto, welcome back!</p>
+                  <h4>Your Email or Password was Invalid</h4>
                   <a className="a-link" href="javascript:void(0);" onClick={() => this.closeModal()}>Ok</a>
                 </div>
               </Modal>
-             
-              {/* <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
-                <div className="Modal">
-                  <h4>Your email or password was invalid</h4>
-                  <a className="a-link" href="javascript:void(0);" onClick={() => this.closeModal()}>Ok</a>
-                </div>
-              </Modal> */}
-              
+
             </form>
           </div>
             </div>
