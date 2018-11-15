@@ -3,10 +3,12 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import Select from "react-select";
 import { _signUp, _loadCryptocurrencies } from "../../../services/AuthService";
+import Modal from 'react-awesome-modal';
 
 class SignUp extends Component {
   constructor() {
     super();
+    
 
     this.state = {
       username: "",
@@ -15,7 +17,8 @@ class SignUp extends Component {
       cryptoOptions: [],
       cryptoProfile: [],
       hasAgreed: false,
-      redirect: false
+      redirect: false,
+      visible: false
     };
     
     this.handleChange = this.handleChange.bind(this);
@@ -67,6 +70,8 @@ class SignUp extends Component {
     let password = e.target.children[2].children[1].value;
     let cryptoProfile = this.state.cryptoProfile;
 
+    
+
     //we add validation on the front end so that user has to enter in the required field before clicking submit
     //TODO
     if (!username || !email || !password) {
@@ -74,6 +79,7 @@ class SignUp extends Component {
     } else {
       return _signUp(username, email, password, cryptoProfile).then(res => {
         console.log("message sent from server if success: ", res);
+        this.openModal();
         //TODO
         //prompt users to check their email
       });
@@ -93,6 +99,20 @@ class SignUp extends Component {
 
   state = {
     selectedOptions: null
+  };
+  
+
+  openModal() {
+    this.setState({
+        visible : true
+    });
+}
+  closeModal() {
+    const { history } = this.props;
+      this.setState({
+          visible : false 
+    });
+    history.push('/');
   };
 
   render() {
@@ -233,6 +253,15 @@ class SignUp extends Component {
                   I'm already member
                 </Link>
               </div>
+
+              <Modal visible={this.state.visible} effect="fadeInLeft" onClickAway={() => this.closeModal()}>
+                <div className="Modal">
+                  <h4>You have successfully registered! </h4>
+                  <h4>Please check your Email and follow the instructions for Email verification.</h4>
+                  <a className="a-link" href="javascript:void(0);" onClick={() => this.closeModal()}>Ok</a>
+                </div>
+              </Modal>
+
             </form>
           </div>
         </div>
